@@ -79,10 +79,8 @@ def add_words(ex):
     val = create_dict(word, definition)
     ex[val] = definition
     for x in ex.keys():
-        print("}{x + ex[x], end ="")
-    
-    
-    
+        pass
+        #print("}{x + ex[x], end ="")
     answer = input("\nWould you like to enter another word? (Y/N) ").lower()
     
     if answer == "y":
@@ -90,8 +88,6 @@ def add_words(ex):
     else:
         return ex
         
-    
-
 def quiz():
     
     print("Prepare for your quiz!")

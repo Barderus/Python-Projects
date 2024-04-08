@@ -2,26 +2,28 @@
     Car Maintenance price 
 '''
 import matplotlib as plt
+import seaborn
+import pandas as pd
 
 title = "2015 Volkswagen Tiguan (Red)"
 
 '''
-12/31/2021 -> $1925.00 -> 103,981 miles
-02/28/2022 -> $238.72 -> 106,908
-05/23/2022 -> $1884.29 -> 111,447
-06/29/2022 -> $226.67 -> 112.816
-07/19/2022 -> $129.59 -> 113,639
-09/01/2022 -> $120.84 -> 115,386
-09/02/2022 -> $1338.00 -> 115,400
-09/16/2022 -> $257.80 -> 116.164
-11/09/2022 -> $37.78 -> 117,500
-11/28/2022 -> $1063.60 -> 119.299
-01/11/2023 -> $101.40 -> 120.279
-03/09/2023 -> $1709.66 -> 123.011
-06/27/2023 -> $1582.20 -> 128,619
-08/31/2023 -> $1003.75 -> 131,963
-10/24/2023 -> $101.40 -> 135,066
-12/19/2023 -> $1856.20 -> 137,356
+ ->  ->  miles
+-> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ -> $ -> 
+ ->  -> 
+ -> $ ->
 
 I want to know:
     * How many miles driven total from 2021 to 2023
@@ -29,30 +31,84 @@ I want to know:
     * Know how often a service was done to the car (?)
     * Services by season (?)
 '''
+def data():
+    print("You are in data()")
+    data = {
+        "Date":["12/31/2021", "02/28/2022", "05/23/2022", "06/29/2022", "07/19/2022", "09/01/2022", "09/02/2022", "09/16/2022",
+                "11/09/2022", "11/28/2022", "01/11/2023",  "03/09/2023", "06/27/2023", "08/31/2023", "10/24/2023", "12/19/2023"],
+
+        "Price":[1925.00, 238.72, 1884.29, 226.67, 129.59, 120.84, 1338.00, 257.80, 
+                 37.78, 1063.60, 101.40, 1709.66, 1582.20, 1003.75, 101.40],
+
+        "Miles":[103981, 106908, 111447, 112816, 113639, 115386, 115400, 116164, 
+                 117500, 119299, 120279, 123011, 128619, 131963, 135066, 137356]    # 16 values
+    }
+
+    '''
+        Season:
+            Spring {March, April, May}
+                If the datetime obj starts with 03, 04, or 05 -> Spring
+            Summer {June, July, August}
+                If the datetime obj starts with 06, 07, 08 -> Summer
+            Fall {September, October, November}
+                If the datetime obj starts with 09, 10, 11 -> Fall
+            Winter {December, January, February}
+                If the datetime obj starts with 12, 01, 02 -> Winter
+    '''
+
+    data["Date"] = pd.to_datetime(data["Date"]) # Converts the data in that column to datetime format and replacing the original data with the converted datetime values.
+    print(data)
+    df = pd.DataFrame(data)
+    print(df)
+    
 
 def menu():
-    pass
+    ''' Menu '''
+    print("""Would you like to...
+          \n1. Miles total driven from 2021 to 2023
+          \n2. Money spent
+          \n3. Service rate
+          \n4. Services per season
+          \n0 to quit
+          """)
+    user_choice = int(input("Choose your option: "))
+
+    match user_choice:
+        case 0:
+            exit()
+        case 1:
+            get_total_miles()
+        case 2:
+            get_total()
+        case 3:
+            how_often()
+        case 4:
+            get_per_season()           
 
 def get_total_miles():
-    pass
+    print("You are in the get_total_miles function.")
 
 def get_total():
-    pass
+    print("You are in the get_total function.")
+
+    get_highest()
+    get_lowest
+    
 
 def get_highest():
-    pass
+    print("You are in the get_highest function.")
 
 def get_lowest():
-    pass
+    print("You are in the get_lowest function.")
 
 def how_often():
-    pass
+    print("You are in the how_often funcion.")
 
 def get_per_season():
-    pass
+    print("You are in the get_per_season function.")
 
 def main():
-    pass
+    data()
 
-if "__name__" == "___main__":
+if __name__ == "___main__":
     main()
