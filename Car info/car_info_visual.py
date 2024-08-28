@@ -1,114 +1,140 @@
-'''
-    Car Maintenance price 
-'''
-import matplotlib as plt
-import seaborn
-import pandas as pd
-
-title = "2015 Volkswagen Tiguan (Red)"
-
-'''
- ->  ->  miles
--> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- -> $ -> 
- ->  -> 
- -> $ ->
+"""
+    Car Maintenance price
 
 I want to know:
     * How many miles driven total from 2021 to 2023
     * How much it was spent on each year, the highest price, the lowest price
-    * Know how often a service was done to the car (?)
-    * Services by season (?)
-'''
+    * Know how often a service was done to the car
+    * Services by season
+"""
+
+import matplotlib as plt
+import pandas as pd
+from collections import Counter
+
 def data():
-    print("You are in data()")
-    data = {
-        "Date":["12/31/2021", "02/28/2022", "05/23/2022", "06/29/2022", "07/19/2022", "09/01/2022", "09/02/2022", "09/16/2022",
-                "11/09/2022", "11/28/2022", "01/11/2023",  "03/09/2023", "06/27/2023", "08/31/2023", "10/24/2023", "12/19/2023"],
+    car_data = {
+        "date": ["12/31/2021", "02/28/2022", "05/26/2022", "06/30/2022", "07/20/2022", "09/01/2022", "09/03/2022",
+                 "09/16/2022",
+                 "11/09/2022", "11/28/2022", "01/11/2023", "03/10/2023", "06/27/2023", "08/31/2023", "10/24/2023",
+                 "12/22/2023"],
 
-        "Price":[1925.00, 238.72, 1884.29, 226.67, 129.59, 120.84, 1338.00, 257.80, 
-                 37.78, 1063.60, 101.40, 1709.66, 1582.20, 1003.75, 101.40],
+        "price": [1925.00, 238.72, 1884.29, 226.67, 129.59, 120.84, 1338.00, 257.80,
+                  37.78, 1063.60, 101.40, 1709.66, 1582.20, 1003.75, 101.40, 1856.20],
 
-        "Miles":[103981, 106908, 111447, 112816, 113639, 115386, 115400, 116164, 
-                 117500, 119299, 120279, 123011, 128619, 131963, 135066, 137356]    # 16 values
+        "miles": [103981, 106908, 111447, 112816, 113639, 115386, 115400, 116164,
+                  117500, 119299, 120279, 123011, 128619, 131963, 135066, 137356]  # 16 values
     }
 
-    '''
-        Season:
-            Spring {March, April, May}
-                If the datetime obj starts with 03, 04, or 05 -> Spring
-            Summer {June, July, August}
-                If the datetime obj starts with 06, 07, 08 -> Summer
-            Fall {September, October, November}
-                If the datetime obj starts with 09, 10, 11 -> Fall
-            Winter {December, January, February}
-                If the datetime obj starts with 12, 01, 02 -> Winter
-    '''
+    df = pd.DataFrame(car_data)
 
-    data["Date"] = pd.to_datetime(data["Date"]) # Converts the data in that column to datetime format and replacing the original data with the converted datetime values.
-    print(data)
-    df = pd.DataFrame(data)
-    print(df)
-    
+    # Transform the date object from string to datetime
+    df["date"] = pd.to_datetime(df["date"])
 
-def menu():
-    ''' Menu '''
-    print("""Would you like to...
-          \n1. Miles total driven from 2021 to 2023
-          \n2. Money spent
-          \n3. Service rate
-          \n4. Services per season
-          \n0 to quit
-          """)
-    user_choice = int(input("Choose your option: "))
+    return df
 
-    match user_choice:
-        case 0:
-            exit()
-        case 1:
-            get_total_miles()
-        case 2:
-            get_total()
-        case 3:
-            how_often()
-        case 4:
-            get_per_season()           
+def get_total_miles(df):
+    """
+        This function returns the total amount of miles driven from 2021 to 2023
+    """
+    total_driven = df["miles"][15] - df["miles"][0]
+    return total_driven
 
-def get_total_miles():
-    print("You are in the get_total_miles function.")
 
-def get_total():
-    print("You are in the get_total function.")
+def get_total(df):
+    """
+        This function returns the total amount of money spent with repairs from 2021 to 2023
+    """
+    total_spent = df["price"].sum()
+    return total_spent
 
-    get_highest()
-    get_lowest
-    
 
-def get_highest():
-    print("You are in the get_highest function.")
+def get_highest(df):
+    """
+        This function returns the highest repair price from 2021 to 2023
+    """
+    highest_val = df["price"].idxmax()
+    return highest_val
 
-def get_lowest():
-    print("You are in the get_lowest function.")
 
-def how_often():
-    print("You are in the how_often funcion.")
+def get_lowest(df):
+    """
+        This function returns the highest repair price from 2021 to 2023
+    """
+    lowest_val = df["price"].idxmin()
+    return lowest_val
 
-def get_per_season():
-    print("You are in the get_per_season function.")
+
+def how_often(df, elapsed_time):
+    repairs = len(df.index)
+    print(repairs)
+    avg = elapsed_time / repairs
+
+    return avg
+
+
+def get_per_season(df):
+    seasons = []  # Initialize an empty list to store seasons
+
+    for date in df["date"]:  # Iterate over each date in the DataFrame
+        if date.month in [12, 1, 2]:
+            seasons.append("Winter")
+        elif date.month in [3, 4, 5]:
+            seasons.append("Spring")
+        elif date.month in [6, 7, 8]:
+            seasons.append("Summer")
+        elif date.month in [9, 10, 11]:
+            seasons.append("Fall")
+
+    return seasons # Return the list of seasons
+
+
 
 def main():
-    data()
+    df = data()
+    elapsed_time = df["date"][15] - df["date"][0]
 
-if __name__ == "___main__":
-    main()
+    while True:
+         """ Menu """
+         print("""\nWould you like to see...
+               1. Miles total driven from 2021 to 2023
+               2. Money spent
+               3. Service rate
+               4. Services per season
+               5. Some visualizations
+               0. to quit
+               """)
+         user_choice = int(input("Choose your option: "))
+
+         match user_choice:
+             case 0:
+                 exit()
+             case 1:
+                 total_miles = get_total_miles(df)
+                 print(f"\nTotal miles:\n\tGabriel drove for {total_miles:,} miles in the span of {elapsed_time.days} days." )
+             case 2:
+                 total = get_total(df)
+                 max_index = get_highest(df)
+                 max_date = df.iloc[max_index]["date"]
+                 max_price = df.iloc[max_index]["price"]
+
+                 min_index = get_lowest(df)
+                 min_price = df.iloc[min_index]["price"]
+                 min_date = df.iloc[min_index]["date"]
+                 print(f"\nIn the total of {len(df.index)} trips to the shop, it was spent ${total:,.2f} in repairs")
+                 print(f"\nThe highest repair cost was on {max_date.strftime('%b %d %Y')}.\n\tThe repair cost was ${max_price:,.2f}.")
+                 print(f"\nThe lowest repair cost was on {min_date.strftime('%b %d %Y')}.\n\tThe repair cost was ${min_price:,.2f}.")
+             case 3:
+                 often = how_often(df, elapsed_time)
+                 print(f"The car was serviced in average every {often.days} days.")
+             case 4:
+                 seasons = get_per_season(df)
+                 season_count = Counter(seasons)
+                 # Nicely formatted output
+                 print("\nSeason Counts:")
+                 for season, count in season_count.items():
+                     print(f"\t{season}: {count} times")
+             case 5:
+                 print("\nComing soon!")
+
+main()
