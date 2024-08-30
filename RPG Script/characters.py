@@ -45,9 +45,10 @@ avatars= {
         mgk_atk=50,
         mgk_def=100,
         items=[],
-        spells=[]
+        spells=[],
+        descri = "A fearless and stalwart protector, the Warrior excels in close combat and defense."
     ),
-    "dwarf": Person(
+    "bruiser": Person(
         name="Gimli",
         health=1800,
         mp=100,
@@ -56,7 +57,8 @@ avatars= {
         mgk_atk=30,
         mgk_def=150,
         items=[],
-        spells=[]
+        spells=[],
+        descri = "A stout and resilient fighter, known for his unwavering strength and indomitable spirit"
     ),
     "barbarian": Person(
         name="Conan",
@@ -67,7 +69,8 @@ avatars= {
         mgk_atk=40,
         mgk_def=120,
         items=[],
-        spells=[]
+        spells=[],
+        descri = "A fierce and untamed warrior, the Barbarian relies on raw power and savage attacks to overwhelm foes."
     ),
     "healer": Person(
         name="Aerith",
@@ -78,9 +81,10 @@ avatars= {
         mgk_atk=150,
         mgk_def=120,
         items=[],
-        spells=[cura, curaga, revive, flare]
+        spells=[cura, curaga, revive, flare],
+        descri = "A compassionate and wise protector, the Healer specializes in restoring health and safeguarding allies."
     ),
-    "gandalf": Person(
+    "green mage": Person(
         name="Gandalf",
         health=1400,
         mp=400,
@@ -89,10 +93,11 @@ avatars= {
         mgk_atk=100,
         mgk_def=140,
         items=[],
-        spells=[cure, protect, shell, holy]
+        spells=[cure, protect, shell, holy],
+        descri = "A versatile caster, the Green Mage blends healing magic with elemental attacks, balancing support and offense."
     ),
-    "snape": Person(
-        name="Severus Snape",
+    "wizard": Person(
+        name="Snape",
         health=1100,
         mp=600,
         atk=40,
@@ -100,9 +105,10 @@ avatars= {
         mgk_atk=200,
         mgk_def=100,
         items=[],
-        spells=[thunder, ultima, quake, tornado]
+        spells=[thunder, ultima, quake, tornado],
+        descri = "A master of destructive magic, the Black Mage wields powerful spells to annihilate enemies from afar."
     ),
-    "vivi": Person(
+    "sorcerer": Person(
         name="Vivi",
         health=1100,
         mp=600,
@@ -111,7 +117,20 @@ avatars= {
         mgk_atk=200,
         mgk_def=100,
         items=[],
-        spells=[fire, blizzard, ultima, meteor]
+        spells=[fire, blizzard, ultima, meteor],
+        descri = "A dark and enigmatic sorcerer, this Black Mage conjures arcane forces to devastate foes with precision."
+    ),
+    "you": Person(
+        name= "Yourself",
+        health=1500,
+        mp=500,
+        atk=50,
+        df=50,
+        mgk_atk=50,
+        mgk_def=50,
+        items=[],
+        spells=[],
+        descri = "The destined champion, the Hero embodies the player's choices, leading the charge against evil with courage and valor."
     )
 }
 
@@ -127,7 +146,8 @@ enemies = {
         mgk_atk=10,
         mgk_def=20,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "orc": Person(
         name="Orc",
@@ -138,7 +158,8 @@ enemies = {
         mgk_atk=20,
         mgk_def=30,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "kobold": Person(
         name="Kobold",
@@ -149,7 +170,8 @@ enemies = {
         mgk_atk=15,
         mgk_def=25,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "skeleton": Person(
         name="Skeleton Warrior",
@@ -160,7 +182,8 @@ enemies = {
         mgk_atk=10,
         mgk_def=35,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "knight": Person(
         name="Dark Knight",
@@ -171,7 +194,8 @@ enemies = {
         mgk_atk=25,
         mgk_def=40,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "ghoul": Person(
         name="Ghoul",
@@ -182,7 +206,8 @@ enemies = {
         mgk_atk=30,
         mgk_def=45,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "slime": Person(
         name="Slime",
@@ -193,7 +218,8 @@ enemies = {
         mgk_atk=20,
         mgk_def = 30,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "necro": Person(
         name="Necromancer",
@@ -204,7 +230,8 @@ enemies = {
         mgk_atk=150,
         mgk_def=70,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "ghost": Person(
         name="Wraith",
@@ -215,7 +242,8 @@ enemies = {
         mgk_atk=130,
         mgk_def=60,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "troll": Person(
         name="Troll",
@@ -226,7 +254,8 @@ enemies = {
         mgk_atk=15,
         mgk_def=50,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
 }
 # Bosses
@@ -240,7 +269,8 @@ bosses = {
         mgk_atk=250,
         mgk_def=100,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "lich": Person(
         name="Lich",
@@ -251,7 +281,8 @@ bosses = {
         mgk_atk=300,
         mgk_def=90,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     ),
     "demon": Person(
         name="Orcus",
@@ -262,6 +293,7 @@ bosses = {
         mgk_atk=350,
         mgk_def=80,
         items=[],
-        spells=[]
+        spells=[],
+        descri = ""
     )
 }

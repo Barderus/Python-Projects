@@ -1,6 +1,6 @@
 
 class Person:
-    def __init__(self, name, health, mp, atk, df, mgk_atk, mgk_def, items, spells):
+    def __init__(self, name, health, mp, atk, df, mgk_atk, mgk_def, items, spells, descri):
         self.name = name
         self.health = health
         self.mp = mp
@@ -10,6 +10,7 @@ class Person:
         self.mgk_def = mgk_def
         self.items = items
         self.spells = spells
+        self.descri = descri
 
     def damage(self, atk):
         pass
