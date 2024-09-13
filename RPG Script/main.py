@@ -3,7 +3,6 @@ from person import Person
 from characters import *
 import os
 import random
-import pprint
 
 def prompt():
     """
@@ -39,6 +38,7 @@ def prompt():
         else:
             print(f"{hero_choice} is not a playable characters!")
 
+    # Returns the name of the hero
     return hero_choice
 
 def gen_enemies():
@@ -70,8 +70,10 @@ def gen_allies():
     """
     allies_list = []
 
-    #for i in range(1, 3):
-        #allies_list.append(random.choice(allies_options))
+    for i in range(1, 3):
+        allies_list.append(random.choice(allies_options))
+
+    return allies_list
 
 
 def clear():
