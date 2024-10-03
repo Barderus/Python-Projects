@@ -5,6 +5,9 @@ import os
 import random
 import time
 
+def battle_screen():
+    pass
+
 def prompt():
     """
         This function displays a welcoming message and prompts the user for their characters.
@@ -43,25 +46,23 @@ def gen_enemies():
     """
         This function generates a random list of enemies for the player to fight
     """
-    enemy_names = [enemies["goblin"].name, enemies["orc"].name, enemies["kobold"].name,
-                   enemies["skeleton"].name, enemies["ghoul"].name, enemies["slime"].name,
-                   enemies["necro"].name, enemies["troll"].name]
+    enemy_list = list(enemies.values())
+    boss_list = list(bosses.values())
 
-    boss_names = [bosses["dragon"].name, bosses["lich"].name, bosses["demon"].name]
+    enemy_fight_set= set()
+    boss_fight_set= set()
 
-    enemies_fight = []
-    boss_fight = []
+    #  Select the enemies
+    while len(enemy_fight_set) < random.randint(1, 6):
+        enemy_fight_set.add(random.choice(enemy_list))
 
-    # Get the enemies for a fight
-    for i in range(1, 4):
-        enemies_fight.append(random.choice(enemy_names))
+    # Select the enemies for the boss fight
+    for x in range(1, 3):
+        boss_fight_set.add(random.choice(enemy_list))
+    boss_fight_set.add(random.choice(boss_list))
 
-    # Get the enemies for boss fight
-    for i in range(1, 3):
-        boss_fight.append(random.choice(enemy_names))
-    boss_fight.append(random.choice(boss_names))
 
-    return enemies_fight, boss_fight
+    return list(enemy_fight_set), list(boss_fight_set)
 
 def gen_allies():
     """
@@ -79,11 +80,12 @@ def clear():
         This function clears the screen
             os.system('cls' if os.name == 'nt' else 'clear') << Not working
     """
-    time.sleep(10)
+    time.sleep(5)
     print("\n" * 100)
 
-def battle():
-    pass
+def battle(ally_team, enemies_team):
+    ally_team[0].attacks(enemies_team[0])
+
 def main():
 
     # Generate allies and enemies
@@ -102,6 +104,6 @@ def main():
         print(f"\t{ally.name}\n\t\t{ally.descri}")
     clear()
 
-    battle()
+    battle(allies_team, enemies_fight)
 
 main()
