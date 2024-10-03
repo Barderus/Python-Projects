@@ -11,25 +11,34 @@ class Person:
         self.spells = spells
         self.descri = descri
 
-    def damage(self, target):
-        dmg = self.atk - target.df
-        if dmg < 0:
-            dmg = 0
-        target.health -= dmg
-        print(f"{self.name} attacks {target.name} for {dmg} points of damage")
+    def attacks(self, target):
+        if target.health <= 0:
+            print("Enemy is already dead. Choose another adversary.")
+        else:
+            dmg = self.atk - target.df
+            if dmg < 0:
+                dmg = 0
+            target.health -= dmg
+            print(f"{self.name} attacks {target.name} for {dmg} points of damage")
 
     def cast_magic(self, target, magic):
-        mp_cost = self.mp - magic.mp
-        dmg = self.mgk_atk - target.mgk_def
-        if dmg < 0:
-            dmg = 0
-        target.health -= dmg
-        print(f"{self.name} casts [spell name] on {target.name} dealing {dmg} points of damage")
+        if magic.mp < self.mp:
+            print("You don't have enough mana points!")
+        else:
+            self.mp = self.mp - magic.mp
+            dmg = self.mgk_atk - target.mgk_def
+            if dmg < 0:
+                dmg = 0
+            target.health -= dmg
+            print(f"{self.name} casts [spell name] on {target.name} dealing {dmg} points of damage")
 
     def cast_heal(self, target, magic):
-        mp_cost = self.mp - magic.mp
-        target.health += magic.heal
-        print(f"{self.name} healed {target.name} for {magic.heal} health points")
+        if magic.mp < self.mp:
+            print("You don't have enough mana points!")
+        else:
+            self.mp = self.mp - magic.mp
+            target.health += magic.heal
+            print(f"{self.name} healed {target.name} for {magic.heal} health points")
 
     def choose_magic(self):
         pass
@@ -40,5 +49,13 @@ class Person:
     def choose_target(self):
         pass
 
-    def get_stats(self):
-        pass
+    def __str__(self):
+        return (f"Name: {self.name}"
+                f"\nHealth: {self.health}"
+                f"\tAtk: {self.atk}"
+                f"\tDef: {self.df}"
+                f"\nMP: {self.mp}"
+                f"\tMagic Attack: {self.mgk_atk}"
+                f"\tMagic Defence: {self.mgk_def}"
+                f"\nItems: {self.items}"
+                f"\nSpells: {self.spells}")
