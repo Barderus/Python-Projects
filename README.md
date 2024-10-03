@@ -1,20 +1,21 @@
 # Projects
 ## Projects ideas that I want to complete before the end of my school year.
 I separated them into two categories: Computer Science and Data Science since I will be graduating with a minor in DS,
-I thought it would be a good idea to do at least one or two projects.
+Doing at least one or two projects would be a good idea.
 
 - **Computer Science:** 
     - Wordle solver
     - Sudoku solver
     - Pokemon battle
       - Final battle between Red vs Blue
-    - Banking app
+    - Banking app ( ** In Progress ** )
     - Tarantulas and isopods Management App
     - App to find where movies are streaming
     - App that calculates the time vs money to get somewhere (look at trains, gas price, airplane, bike, etc.)
-    - Something related to birding?
-    - Enrichment tracker (?)
+    - Something related to birding? ( For Fun )
+    - Enrichment tracker (?) ( For Fun )
       - For Willowbrook
+    - RPG Script (** In Progress ** )
 
 - **Data Science:**
    - Picture identifier
