@@ -3,6 +3,7 @@ from person import Person
 from characters import *
 import os
 import random
+import time
 
 def prompt():
     """
@@ -14,32 +15,29 @@ def prompt():
      \tand become a legendary hero?\n\n")
     input("\t\t\t\tEnter any button to begin...\n >")
     print("\t\t\t\t\t\tLet the quest begin!")
-    print("\n\t\t\t\t\t\tChoose your hero: ")
+    print("\n\t\tChoose your hero: ")
 
     # List of all the character names to be chosen from
-    avatar_names = [avatars["fighter"].name, avatars["bruiser"].name, avatars["barbarian"].name,
-                    avatars["healer"].name, avatars["green mage"].name, avatars["wizard"].name,
-                    avatars["sorcerer"].name, avatars["you"].name]
+    avatar_names = [avatar.name for avatar in avatars.values()]
 
     # Display the names in a list format. Also including the hero's description.
     for index, name in enumerate(avatar_names):
-        print(f"\t\t\t\t\t\t{index+1}. {name}")
+        print(f"\t\t{index+1}. {name}")
         avatar_obj = next(avatar for avatar in avatars.values() if avatar.name == name)
-        print(f"\t\t\t\t\t {avatar_obj.descri}\n")
+        print(f"\t\t {avatar_obj.descri}\n")
 
     # Control loop to check if the name entered by the user is valid
     while True:
         hero_choice = input("Enter the hero's name: ").capitalize()
         if hero_choice in avatar_names:
             name_to_avatar = {avatar.name: avatar for avatar in avatars.values()}
-            selected_hero = name_to_avatar[hero_choice]
-            print(f"You have selected: {selected_hero.name}")
+            selected_hero = name_to_avatar[hero_choice]  # Now this is the object
             break
         else:
-            print(f"{hero_choice} is not a playable characters!")
+            print(f"{hero_choice} is not a playable character!")
 
     # Returns the name of the hero
-    return hero_choice
+    return selected_hero
 
 def gen_enemies():
     """
@@ -63,33 +61,47 @@ def gen_enemies():
         boss_fight.append(random.choice(enemy_names))
     boss_fight.append(random.choice(boss_names))
 
+    return enemies_fight, boss_fight
 
 def gen_allies():
     """
         This function generates a random list of allies to join the player to fight
     """
-    allies_list = []
+    allies_list = list(allies.values())
 
-    for i in range(1, 3):
-        allies_list.append(random.choice(allies_options))
-
-    return allies_list
-
+    allies_team = set()
+    while len(allies_team) < 3:
+        allies_team.add(random.choice(allies_list))
+    return list(allies_team)
 
 def clear():
     """
         This function clears the screen
+            os.system('cls' if os.name == 'nt' else 'clear') << Not working
     """
-    os.system('cls' if os.name == 'nt' else 'clear')
+    time.sleep(10)
+    print("\n" * 100)
 
-
+def battle():
+    pass
 def main():
 
-    # Prompt ally for their hero
-    hero = prompt()
+    # Generate allies and enemies
+    allies_team = gen_allies()
+    enemies_fight, boss_fight = gen_enemies()
 
-    # Checking the hero name
-    print(hero)
+    # Prompt the user for their hero
+    selected_hero = prompt()
+
+    # Create the main team
+    main_team = [selected_hero] + allies_team
+
+    # Display the team roster with access to object attributes
+    print("Your team roster: ")
+    for ally in main_team:
+        print(f"\t{ally.name}\n\t\t{ally.descri}")
     clear()
+
+    battle()
 
 main()
