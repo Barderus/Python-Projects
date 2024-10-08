@@ -1,8 +1,10 @@
 class Person:
-    def __init__(self, name, health, mp, atk, df, mgk_atk, mgk_def, items, spells, descri):
+    def __init__(self, name, hp, mp, atk, df, mgk_atk, mgk_def, items, spells, descri):
         self.name = name
-        self.health = health
+        self.hp = hp
+        self.maxhp = hp
         self.mp = mp
+        self.maxmp = mp
         self.atk = atk
         self.df = df
         self.mgk_atk = mgk_atk
@@ -11,15 +13,28 @@ class Person:
         self.spells = spells
         self.descri = descri
 
+
+    def get_hp(self):
+        return self.hp
+
+    def get_max_hp(self):
+        return self.maxhp
+
+    def get_mp(self):
+        return self.mp
+
+    def get_max_mp(self):
+        return self.maxmp
+
     def attacks(self, target):
-        if target.health <= 0:
-            print("Enemy is already dead. Choose another adversary.")
+        dmg = self.atk - target.df
+        if dmg < 0:
+            dmg = 0
+        elif target.hp - dmg < 0:
+            target.hp = 0
         else:
-            dmg = self.atk - target.df
-            if dmg < 0:
-                dmg = 0
-            target.health -= dmg
-            print(f"{self.name} attacks {target.name} for {dmg} points of damage")
+            target.hp -= dmg
+        print(f"{self.name} attacks {target.name} for {dmg} points of damage")
 
     def cast_magic(self, target, magic):
         if magic.mp < self.mp:
@@ -29,7 +44,7 @@ class Person:
             dmg = self.mgk_atk - target.mgk_def
             if dmg < 0:
                 dmg = 0
-            target.health -= dmg
+            target.hp -= dmg
             print(f"{self.name} casts [spell name] on {target.name} dealing {dmg} points of damage")
 
     def cast_heal(self, target, magic):
@@ -37,21 +52,16 @@ class Person:
             print("You don't have enough mana points!")
         else:
             self.mp = self.mp - magic.mp
-            target.health += magic.heal
-            print(f"{self.name} healed {target.name} for {magic.heal} health points")
+            if target.hp == target.maxhp:
+                target.hp = self.maxhp
+            else:
+                target.hp += magic.heal
+                print(f"{self.name} healed {target.name} for {magic.heal} hit points")
 
-    def choose_magic(self):
-        pass
-
-    def choose_item(self):
-        pass
-
-    def choose_target(self):
-        pass
 
     def __str__(self):
         return (f"Name: {self.name}"
-                f"\nHealth: {self.health}"
+                f"\nHealth: {self.hp}"
                 f"\tAtk: {self.atk}"
                 f"\tDef: {self.df}"
                 f"\nMP: {self.mp}"
