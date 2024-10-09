@@ -28,6 +28,8 @@ def attack(ally, enemies):
             print(f"{enemies[choose_target-1].name} is already dead. Choose another target")
         else:
             ally.attacks(enemies[choose_target-1])
+            if enemies[choose_target - 1].hp == 0:
+                print(f"{enemies[choose_target-1].name} is dead.")
             break
 
 def cast_magic(ally, enemy):
@@ -56,6 +58,8 @@ def enemy_attack(ally_team, enemy):
         print(f"{enemy.name} slips and isn't able to attack.")
     else:
         enemy.attacks(random_ally)
+        if random_ally.hp == 0:
+            print(f"{random_ally.name} is dead.")
 
 def prompt():
     """
@@ -140,6 +144,7 @@ def battle(ally_team, enemies_team):
         enemy = random.choice(enemies_team)
         actions(ally, enemies_team)
         enemy_attack(ally_team, enemy)
+
 
 
 def main():
