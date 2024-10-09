@@ -30,11 +30,12 @@ class Person:
         dmg = self.atk - target.df
         if dmg < 0:
             dmg = 0
+            print(f"{self.name} attacks, but {target.name} dodged the attack before it lands.")
         elif target.hp - dmg < 0:
             target.hp = 0
         else:
             target.hp -= dmg
-        print(f"{self.name} attacks {target.name} for {dmg} points of damage")
+            print(f"{self.name} attacks {target.name} for {dmg} points of damage\n")
 
     def cast_magic(self, target, magic):
         if magic.mp < self.mp:
@@ -45,18 +46,18 @@ class Person:
             if dmg < 0:
                 dmg = 0
             target.hp -= dmg
-            print(f"{self.name} casts [spell name] on {target.name} dealing {dmg} points of damage")
+            print(f"{self.name} casts [spell name] on {target.name} dealing {dmg} points of damage\n")
 
     def cast_heal(self, target, magic):
         if magic.mp < self.mp:
-            print("You don't have enough mana points!")
+            print("You don't have enough mana points!\n")
         else:
             self.mp = self.mp - magic.mp
             if target.hp == target.maxhp:
                 target.hp = self.maxhp
             else:
                 target.hp += magic.heal
-                print(f"{self.name} healed {target.name} for {magic.heal} hit points")
+                print(f"{self.name} healed {target.name} for {magic.heal} hit points\n")
 
 
     def __str__(self):
