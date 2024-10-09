@@ -4,29 +4,30 @@ import time
 
 def battle_screen(allies, enemies):
     """ Display each character health points and their names """
-    print(f"{allies[0].name:^10}\t\t{allies[1].name:^10}\t\t{allies[2].name:^10}\t\t{allies[3].name:^10}")
-    print(f"HP: {allies[0].get_hp()} /{allies[0].maxhp:^10}\t\t"
-          f"HP: {allies[1].get_hp()} /{allies[1].maxhp:^10}\t\t"
-          f"HP: {allies[2].get_hp()} /{allies[2].maxhp:^10}\t\t"
-          f"HP: {allies[3].get_hp()} /{allies[3].maxhp:^10}")
+    print(f"\n{allies[0].name:^20}\t\t{allies[1].name:^20}\t\t{allies[2].name:^20}\t\t{allies[3].name:210}")
+    print(f"HP: {allies[0].get_hp()} / {allies[0].maxhp:<10}\t\t"
+          f"HP: {allies[1].get_hp()} / {allies[1].maxhp:<10}\t\t"
+          f"HP: {allies[2].get_hp()} / {allies[2].maxhp:<15}\t\t"
+          f"HP: {allies[3].get_hp()} / {allies[3].maxhp:<10}")
     print()
-    print(f"{enemies[0].name:^15}\t\t{enemies[1].name:^15}\t\t{enemies[2].name:^15}\t\t{enemies[3].name:^15}")
-    print(f"HP: {enemies[0].get_hp()} /{enemies[0].maxhp:^10} \t\t"
-          f"HP: {enemies[1].get_hp()} /{enemies[1].maxhp:^10}\t\t"
-          f"HP: {enemies[2].get_hp()} /{enemies[2].maxhp:^10}\t\t"
-          f"HP: {enemies[3].get_hp()} /{enemies[3].maxhp:^10}")
+    print(f"{enemies[0].name:^20}\t\t{enemies[1].name:^20}\t\t{enemies[2].name:^20}\t\t{enemies[3].name:^20}")
+    print(f"HP: {enemies[0].get_hp()} / {enemies[0].maxhp:<10} \t\t"
+          f"HP: {enemies[1].get_hp()} / {enemies[1].maxhp:<10}\t\t"
+          f"HP: {enemies[2].get_hp()} / {enemies[2].maxhp:<15}\t\t"
+          f"HP: {enemies[3].get_hp()} / {enemies[3].maxhp:<10}\n")
 
 def attack(ally, enemies):
     while True:
-        choose_target = int(input("Choose a target: "
-                                  f"1. {enemies[0].name:^10}\n "
-                                  f"2. {enemies[1].name:^10}\n"
-                                  f"3. {enemies[2].name:^10}\n "
-                                  f"4. {enemies[3].name:^10}\n "))
-        if enemies[choose_target].hp <= 0:
-            print(f"{enemies[choose_target].name} is already dead. Choose another target")
+        choose_target = int(input("\n\tChoose a target: "
+                                  f"\n\t1. {enemies[0].name:^10}\n "
+                                  f"\n\t2. {enemies[1].name:^10}\n"
+                                  f"\n\t3. {enemies[2].name:^10}\n "
+                                  f"\n\t4. {enemies[3].name:^10}\n "
+                                  "\n\t Target: "))
+        if enemies[choose_target-1].hp <= 0:
+            print(f"{enemies[choose_target-1].name} is already dead. Choose another target")
         else:
-            ally.attacks(enemies[choose_target])
+            ally.attacks(enemies[choose_target-1])
             break
 
 def cast_magic(ally, enemy):
@@ -35,18 +36,26 @@ def cast_magic(ally, enemy):
 def items(ally, enemy):
     pass
 
-def actions(allies, enemies):
-    action = input("ACTIONS:"
-                   "1. Attack"
-                   "2. Magic"
-                   "3. Items"
-                   "Choose Action: ")
+def actions(ally, enemies):
+    action = input(f"\n{ally.name}'s action: "
+                   "\t\nACTIONS:"
+                   "\t\n1. Attack"
+                   "\t\n2. Magic"
+                   "\t\n3. Items"
+                   "\t\nChoose Action: ")
     if action == "1":
-        attack(allies, enemies)
+        attack(ally, enemies)
     elif action == "2":
-        cast_magic(allies, enemies)
+        cast_magic(ally, enemies)
     elif action == "3":
-        items(allies, enemies)
+        items(ally, enemies)
+
+def enemy_attack(ally_team, enemy):
+    random_ally = random.choice(ally_team)
+    if random_ally.hp <= 0:
+        print(f"{enemy.name} slips and isn't able to attack.")
+    else:
+        enemy.attacks(random_ally)
 
 def prompt():
     """
@@ -120,18 +129,18 @@ def clear():
         This function clears the screen
             os.system('cls' if os.name == 'nt' else 'clear') << Not working
     """
-    time.sleep(5)
+    time.sleep(2)
     print("\n" * 100)
 
 def battle(ally_team, enemies_team):
-
-    for x in range(10):
+    running = True
+    while running:
         battle_screen(ally_team, enemies_team)
-        for k in range(2):
-            random_ally = random.choice(ally_team)
-            random_enemy = random.choice(enemies_team)
-            random_ally.attacks(random_enemy)
-            random_enemy.attacks(random_ally)
+        ally = random.choice(ally_team)
+        enemy = random.choice(enemies_team)
+        actions(ally, enemies_team)
+        enemy_attack(ally_team, enemy)
+
 
 def main():
 
@@ -153,4 +162,5 @@ def main():
 
     battle(main_team, enemies_fight)
 
-main()
+if "__main__" == __name__:
+    main()
