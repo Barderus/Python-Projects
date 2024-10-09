@@ -164,7 +164,7 @@ enemies = {
         descri = ""
     ),
     "skeleton": Person(
-        name="Skeleton Warrior", hp=400, mp=50, atk=70, df=30, mgk_atk=10, mgk_def=20,
+        name="Skeleton Warrior", hp=400, mp=70, atk=70, df=30, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri = ""
@@ -188,7 +188,7 @@ enemies = {
         descri = ""
     ),
     "necro": Person(
-        name="Necromancer", hp=400, mp=50, atk=70, df=30, mgk_atk=10, mgk_def=20,
+        name="Necromancer", hp=400, mp=50, atk=40, df=30, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri = ""
