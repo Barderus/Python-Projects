@@ -11,43 +11,68 @@ import random
 import time
 from collections import deque
 
-def battle_screen(allies, enemies):
-    """ Display each character health points and their names """
-    print(f"{allies[0].name:^20}\t\t{allies[1].name:^20}\t\t{allies[2].name:^20}\t\t{allies[3].name:210}")
-    print(f"HP: {allies[0].get_hp()} / {allies[0].maxhp:<10}\t\t"
-          f"HP: {allies[1].get_hp()} / {allies[1].maxhp:<10}\t\t"
-          f"HP: {allies[2].get_hp()} / {allies[2].maxhp:<15}\t\t"
-          f"HP: {allies[3].get_hp()} / {allies[3].maxhp:<10}")
-    print()
-    print(f"{enemies[0].name:^20}\t\t{enemies[1].name:^20}\t\t{enemies[2].name:^20}\t\t{enemies[3].name:^20}")
-    print(f"HP: {enemies[0].get_hp()} / {enemies[0].maxhp:<10} \t\t"
-          f"HP: {enemies[1].get_hp()} / {enemies[1].maxhp:<10}\t\t"
-          f"HP: {enemies[2].get_hp()} / {enemies[2].maxhp:<15}\t\t"
-          f"HP: {enemies[3].get_hp()} / {enemies[3].maxhp:<10}\n")
 
-def attack(ally, enemies):
+def battle_screen(ally_team, enemy_team):
+    """ Display each character health points and their names """
+    print(f"{ally_team[0].name:^20}\t\t{ally_team[1].name:^20}\t\t{ally_team[2].name:^20}\t\t{ally_team[3].name:210}")
+    print(f"HP: {ally_team[0].get_hp()} / {ally_team[0].maxhp:<10}\t\t"
+          f"HP: {ally_team[1].get_hp()} / {ally_team[1].maxhp:<10}\t\t"
+          f"HP: {ally_team[2].get_hp()} / {ally_team[2].maxhp:<15}\t\t"
+          f"HP: {ally_team[3].get_hp()} / {ally_team[3].maxhp:<10}")
+    print()
+    print(f"{enemy_team[0].name:^20}\t\t{enemy_team[1].name:^20}\t\t{enemy_team[2].name:^20}\t\t{enemy_team[3].name:^20}")
+    print(f"HP: {enemy_team[0].get_hp()} / {enemy_team[0].maxhp:<10} \t\t"
+          f"HP: {enemy_team[1].get_hp()} / {enemy_team[1].maxhp:<10}\t\t"
+          f"HP: {enemy_team[2].get_hp()} / {enemy_team[2].maxhp:<15}\t\t"
+          f"HP: {enemy_team[3].get_hp()} / {enemy_team[3].maxhp:<10}\n")
+
+
+def attack(ally, enemy_team):
     while True:
         choose_target = int(input("\n\tChoose a target: "
-                                  f"\n\t1. {enemies[0].name:^10}\n "
-                                  f"\n\t2. {enemies[1].name:^10}\n"
-                                  f"\n\t3. {enemies[2].name:^10}\n "
-                                  f"\n\t4. {enemies[3].name:^10}\n "
+                                  f"\n\t1. {enemy_team[0].name:^10}\n "
+                                  f"\n\t2. {enemy_team[1].name:^10}\n"
+                                  f"\n\t3. {enemy_team[2].name:^10}\n "
+                                  f"\n\t4. {enemy_team[3].name:^10}\n "
                                   "\n\t Target: "))
-        if enemies[choose_target-1].hp <= 0:
-            print(f"{enemies[choose_target-1].name} is already dead. Choose another target")
+        if enemy_team[choose_target - 1].hp <= 0:
+            print(f"{enemy_team[choose_target - 1].name} is already dead. Choose another target")
         else:
-            ally.attacks(enemies[choose_target-1])
-            if enemies[choose_target - 1].hp == 0:
-                print(f"{enemies[choose_target-1].name} is dead.")
+            ally.attacks(enemy_team[choose_target - 1])
+            if enemy_team[choose_target - 1].hp == 0:
+                print(f"{enemy_team[choose_target - 1].name} is dead.")
             break
 
-def cast_magic(ally, enemy):
+
+def cast_spell(ally, enemy_team, ally_team):
+    spell_list = []
+    chosen_spell = None
+
+    if not ally.spells:
+        print("No spells to display")
+        return
+
+    for spell in ally.spells:
+        spell_list.append(spell)
+        print(f"\nSpell Name: {spell.name} MP cost: {spell.mp} Damage: {spell.dmg} \nDescription: {spell.descri}")
+
+    choose_spell = input("\n\tChoose a spell: ")
+    for spells in spell_list:
+        if spells.name.lower() == choose_spell.lower():
+            chosen_spell = spells
+            break
+    if not chosen_spell:
+        print("Spell not found.")
+        return
+
+    target = input("\n\tChoose a target: ")
+    ally.cast_magic(target, chosen_spell)
+
+def items(ally, enemy, ally_team):
     pass
 
-def items(ally, enemy):
-    pass
 
-def actions(ally, enemies):
+def actions(ally, enemy_team, ally_team):
     while True:
         action = input(f"\n{ally.name}'s action: "
                        "\t\nACTIONS:"
@@ -56,16 +81,18 @@ def actions(ally, enemies):
                        "\t\n3. Items"
                        "\t\nChoose Action: ")
         if action == "1":
-            attack(ally, enemies)
+            attack(ally, enemy_team)
             break
         elif action == "2":
-            cast_magic(ally, enemies)
+            print(type(ally))
+            cast_spell(ally, enemy_team, ally_team)
             break
         elif action == "3":
-            items(ally, enemies)
+            items(ally, enemy_team, ally_team)
             break
         else:
             print("Invalid action. Please try again.")
+
 
 def enemy_attack(ally_team, enemy):
     random_ally = random.choice(ally_team)
@@ -75,6 +102,7 @@ def enemy_attack(ally_team, enemy):
         enemy.attacks(random_ally)
         if random_ally.hp == 0:
             print(f"{random_ally.name} is dead.")
+
 
 def prompt():
     """
@@ -93,7 +121,7 @@ def prompt():
 
     # Display the names in a list format. Also including the hero's description.
     for index, name in enumerate(avatar_names):
-        print(f"\t\t{index+1}. {name}")
+        print(f"\t\t{index + 1}. {name}")
         avatar_obj = next(avatar for avatar in avatars.values() if avatar.name == name)
         print(f"\t\t {avatar_obj.descri}\n")
 
@@ -110,6 +138,7 @@ def prompt():
     # Returns the name of the hero
     return selected_hero
 
+
 def gen_enemies():
     """
         This function generates a random list of enemies for the player to fight
@@ -117,8 +146,8 @@ def gen_enemies():
     enemy_list = list(enemies.values())
     boss_list = list(bosses.values())
 
-    enemy_fight_set= set()
-    boss_fight_set= set()
+    enemy_fight_set = set()
+    boss_fight_set = set()
 
     #  Select the enemies
     while len(enemy_fight_set) < 4:
@@ -129,8 +158,8 @@ def gen_enemies():
         boss_fight_set.add(random.choice(enemy_list))
     boss_fight_set.add(random.choice(boss_list))
 
-
     return list(enemy_fight_set), list(boss_fight_set)
+
 
 def gen_allies():
     """
@@ -143,6 +172,7 @@ def gen_allies():
         allies_team.add(random.choice(allies_list))
     return list(allies_team)
 
+
 def clear():
     """
         This function clears the screen
@@ -150,6 +180,7 @@ def clear():
     """
     time.sleep(2)
     print("\n" * 100)
+
 
 def battle(ally_team, enemies_team):
     running = True
@@ -166,7 +197,7 @@ def battle(ally_team, enemies_team):
 
         if current_char.hp > 0:
             if current_char in ally_team:
-                actions(current_char, enemies_team)
+                actions(current_char, enemies_team, ally_team)
             elif current_char in enemies_team:
                 enemy_attack(ally_team, current_char)
 
@@ -189,6 +220,7 @@ def battle(ally_team, enemies_team):
                 print("Battle is over!")
                 running = False
 
+
 def main():
 
     # Generate allies and enemies
@@ -208,6 +240,7 @@ def main():
     clear()
 
     battle(main_team, enemies_fight)
+
 
 if "__main__" == __name__:
     main()
