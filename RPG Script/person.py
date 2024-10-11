@@ -1,5 +1,5 @@
 class Person:
-    def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, items, spells, descri, slain = False):
+    def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, items, spells, descri,):
         self.name = name
         self.hp = hp
         self.maxhp = hp
@@ -13,7 +13,6 @@ class Person:
         self.items = items
         self.spells = spells
         self.descri = descri
-        self.slain = slain
 
 
     def get_hp(self):
