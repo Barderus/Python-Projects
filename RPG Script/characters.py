@@ -15,6 +15,13 @@ tornado = Magic("Tornado", "black", 1600, 0, 45,
                 "A fierce whirlwind surrounds the enemy, slashing at them with violent winds")
 ultima = Magic("Ultima", "black", 3000, 0, 100,
                "The ultimate destructive spell, causing catastrophic damage to all enemies")
+dark = Magic("Dark", "black", 800, 0, 30,
+             "A shadowy force strikes the enemy, dealing damage and shrouding them in darkness.")
+bio = Magic("Bio", "black", 500, 0, 25,
+            "A poisonous wind that deals damage over time to the target.")
+drain = Magic("Drain", "black", 400, 200, 20,
+              "A sinister spell that drains the target's life force, restoring a portion of health to the caster.")
+
 
 # Creating White spells
 cure = Magic("Cure", "white", 0, 400, 20,
@@ -29,6 +36,8 @@ shell = Magic("Shell", "white", 0, 0, 35,
               "A shimmering shield surrounds the target, reducing magical damage taken")
 flare = Magic("Flare", "black", 1800, 0, 75,
               "A concentrated burst of descends from the sky, engulfing the enemy in holy flames")
+speed = Magic("Speed", "white", 0, 0, 30,
+              "A spell that enhances the speed of all allies, allowing them to act more quickly in battle.")
 holy = Magic("Holy", "white", 2000, 0, 80,
              "A blinding light descends from above, purging the enemy with divine power")
 revive = Magic("Revive", "white", 0, 0, 50,
@@ -91,13 +100,13 @@ allies = {
     "liora": Person(
         name="Liora the Healer", hp=600, mp=600, atk=55, df=50, speed = 35, mgk_atk=180, mgk_def=100,
         items=[],
-        spells=["Cure", "Raise", "Regen"],
+        spells=[cure, cura, curaga, revive],
         descri="A compassionate healer from the White Lotus Order. Liora is known for her ability to mend even the most grievous wounds."
     ),
     "zarek": Person(
         name="Zarek the Black Mage", hp=500, mp=650, atk=50, df=65, speed = 65, mgk_atk=220, mgk_def=75,
         items=[],
-        spells=["Fire", "Thunder", "Blizzard"],
+        spells=[fire, thunder, blizzard],
         descri="A powerful black mage with mastery over the elements. Zarek's spells bring destruction to his foes."
     ),
     "eldric": Person(
@@ -109,19 +118,19 @@ allies = {
     "sylphra": Person(
         name="Sylphra the White Mage", hp=450, mp=500, atk=40, df=50, speed = 50, mgk_atk=150, mgk_def=110,
         items=[],
-        spells=["Cura", "Protect", "Esuna"],
+        spells=[cura, protect, shell],
         descri="A gentle white mage with a deep connection to the divine. Sylphra uses her magic to protect and heal her allies."
     ),
     "thorn": Person(
         name="Thorne the Dark Blade", hp=620, mp=245, atk=90, df=65, speed = 55, mgk_atk=100, mgk_def=55,
         items=[],
-        spells=["Dark", "Drain"],
+        spells=[dark, drain],
         descri="A warrior with a mastery of dark magic, Thorne strikes fear into the hearts of his enemies with his cursed blade."
     ),
     "faye": Person(
         name="Faye the Mystic", hp=430, mp=760, atk=50, df=50, speed = 75, mgk_atk=220, mgk_def=75,
         items=[],
-        spells=["Bio", "Comet", "Silence"],
+        spells=[bio, meteor, speed],
         descri="A mysterious mage who wields unconventional magic. Faye uses forbidden spells to outsmart and debilitate her foes."
     ),
     "garrick": Person(
@@ -133,7 +142,7 @@ allies = {
     "talia": Person(
         name="Talia the Battle Cleric", hp=520, mp=350, atk=85, df=65, speed = 45, mgk_atk=90, mgk_def=85,
         items=[],
-        spells=["Holy", "Cura", "Shell"],
+        spells=[holy, flare, cure, protect],
         descri="A battle-hardened cleric who wields both a mace and holy magic. Talia can fight on the frontlines while supporting her allies."
     )
 }
