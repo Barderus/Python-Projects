@@ -6,3 +6,8 @@ class Magic:
         self.dmg = dmg
         self.heal = heal
         self.descri = descri
+
+    def __str__(self):
+        return (f"Name: {self.name}"
+                f"\nDamage: {self.dmg}\tMP: {self.mp}"
+                f"Description: {self.descri}")
