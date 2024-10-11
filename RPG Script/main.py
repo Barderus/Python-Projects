@@ -13,7 +13,7 @@ from collections import deque
 
 def battle_screen(allies, enemies):
     """ Display each character health points and their names """
-    print(f"\n{allies[0].name:^20}\t\t{allies[1].name:^20}\t\t{allies[2].name:^20}\t\t{allies[3].name:210}")
+    print(f"{allies[0].name:^20}\t\t{allies[1].name:^20}\t\t{allies[2].name:^20}\t\t{allies[3].name:210}")
     print(f"HP: {allies[0].get_hp()} / {allies[0].maxhp:<10}\t\t"
           f"HP: {allies[1].get_hp()} / {allies[1].maxhp:<10}\t\t"
           f"HP: {allies[2].get_hp()} / {allies[2].maxhp:<15}\t\t"
@@ -48,18 +48,24 @@ def items(ally, enemy):
     pass
 
 def actions(ally, enemies):
-    action = input(f"\n{ally.name}'s action: "
-                   "\t\nACTIONS:"
-                   "\t\n1. Attack"
-                   "\t\n2. Magic"
-                   "\t\n3. Items"
-                   "\t\nChoose Action: ")
-    if action == "1":
-        attack(ally, enemies)
-    elif action == "2":
-        cast_magic(ally, enemies)
-    elif action == "3":
-        items(ally, enemies)
+    while True:
+        action = input(f"\n{ally.name}'s action: "
+                       "\t\nACTIONS:"
+                       "\t\n1. Attack"
+                       "\t\n2. Magic"
+                       "\t\n3. Items"
+                       "\t\nChoose Action: ")
+        if action == "1":
+            attack(ally, enemies)
+            break
+        elif action == "2":
+            cast_magic(ally, enemies)
+            break
+        elif action == "3":
+            items(ally, enemies)
+            break
+        else:
+            print("Invalid action. Please try again.")
 
 def enemy_attack(ally_team, enemy):
     random_ally = random.choice(ally_team)
@@ -147,16 +153,41 @@ def clear():
 
 def battle(ally_team, enemies_team):
     running = True
+    char_q = deque()
+    char_list = ally_team + enemies_team
+    char_list = sorted(char_list, key=lambda chars: chars.speed if chars.hp > 0 else 0, reverse=True)
+    for char in char_list:
+        char_q.append(char)
 
-    while running:
+    print()
+    while running and char_q:
         battle_screen(ally_team, enemies_team)
-        while True:
-            ally = random.choice(ally_team)
-            enemy = random.choice(enemies_team)
-            if ally.hp <= 0 and enemy.hp <= 0:
-                actions(ally, enemies_team)
-                enemy_attack(ally_team, enemy)
-                break
+        current_char = char_q.popleft()
+
+        if current_char.hp > 0:
+            if current_char in ally_team:
+                actions(current_char, enemies_team)
+            elif current_char in enemies_team:
+                enemy_attack(ally_team, current_char)
+
+        if all(enemy.hp <= 0 for enemy in enemies_team):
+            print("All enemies are defeated! You win!")
+            running = False
+            break
+        if all(allies.hp <= 0 for allies in ally_team):
+            print("You failed. You and your allies perished in the hands of enemy.")
+            running = False
+            break
+
+        if not char_q:
+            char_list = [char for char in ally_team + enemies_team if char.hp > 0]
+            if char_list:  # Refill the queue if there are still characters alive
+                char_list = sorted(char_list, key=lambda chars: char.speed, reverse=True)
+                for char in char_list:
+                    char_q.append(char)
+            else:
+                print("Battle is over!")
+                running = False
 
 def main():
 
