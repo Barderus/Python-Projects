@@ -1,5 +1,5 @@
 class Person:
-    def __init__(self, name, hp, mp, atk, df, mgk_atk, mgk_def, items, spells, descri):
+    def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, items, spells, descri, slain = False):
         self.name = name
         self.hp = hp
         self.maxhp = hp
@@ -7,11 +7,13 @@ class Person:
         self.maxmp = mp
         self.atk = atk
         self.df = df
+        self.speed = speed
         self.mgk_atk = mgk_atk
         self.mgk_def = mgk_def
         self.items = items
         self.spells = spells
         self.descri = descri
+        self.slain = slain
 
 
     def get_hp(self):
@@ -33,6 +35,7 @@ class Person:
             print(f"{self.name} attacks, but {target.name} dodged the attack before it lands.")
         elif target.hp - dmg < 0:
             target.hp = 0
+            print(f"{self.name} kills {target.name}")
         else:
             target.hp -= dmg
             print(f"{self.name} attacks {target.name} for {dmg} points of damage\n")
