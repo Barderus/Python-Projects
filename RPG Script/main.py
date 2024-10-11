@@ -1,6 +1,15 @@
+"""
+    Queuing characters
+        1. Queue each character to a queue if char.hp > 0 sorted by their speed
+        2. Check if char.hp > 0, if not, dequeue it
+        3. Dequeue each char after they act
+        4. If queue is empty, finish the round
+            Add all chars again if their hp > 0
+"""
 from characters import *
 import random
 import time
+from collections import deque
 
 def battle_screen(allies, enemies):
     """ Display each character health points and their names """
@@ -138,14 +147,16 @@ def clear():
 
 def battle(ally_team, enemies_team):
     running = True
+
     while running:
         battle_screen(ally_team, enemies_team)
-        ally = random.choice(ally_team)
-        enemy = random.choice(enemies_team)
-        actions(ally, enemies_team)
-        enemy_attack(ally_team, enemy)
-
-
+        while True:
+            ally = random.choice(ally_team)
+            enemy = random.choice(enemies_team)
+            if ally.hp <= 0 and enemy.hp <= 0:
+                actions(ally, enemies_team)
+                enemy_attack(ally_team, enemy)
+                break
 
 def main():
 
