@@ -1,47 +1,51 @@
 from person import Person
 from magic import Magic
 
-fire = Magic("Fire", "black", 600, 0, 25,
+fire = Magic("Fire", "black", 600, 0, 25, "fire",
              "The mage emits a jolt of fire from their hands towards the enemy")
-thunder = Magic("Thunder", "black", 600, 0, 25,
+thunder = Magic("Thunder", "black", 600, 0, 25, "thunder",
                 "Lightning jolts from the mage's hand towards the enemy")
-blizzard = Magic("Blizzard", "black", 600, 0, 25,
+blizzard = Magic("Blizzard", "black", 600, 0, 25, "ice",
                  "A cold wind forms icicles that shoot towards the enemy")
-meteor = Magic("Meteor", "black", 1200, 0, 50,
+meteor = Magic("Meteor", "black", 1200, 0, 50, "fire",
                "A small meteor shower crashes down upon the enemy")
-quake = Magic("Quake", "black", 140, 0, 15,
+quake = Magic("Quake", "black", 140, 0, 15, "earth",
               "The ground trembles as fissures open beneath the enemy's feet")
-tornado = Magic("Tornado", "black", 1600, 0, 45,
+tornado = Magic("Tornado", "black", 1600, 0, 45, "wind",
                 "A fierce whirlwind surrounds the enemy, slashing at them with violent winds")
-ultima = Magic("Ultima", "black", 3000, 0, 100,
+ultima = Magic("Ultima", "black", 3000, 0, 100, "water",
                "The ultimate destructive spell, causing catastrophic damage to all enemies")
-dark = Magic("Dark", "black", 800, 0, 30,
+dark = Magic("Dark", "black", 800, 0, 30, "dark",
              "A shadowy force strikes the enemy, dealing damage and shrouding them in darkness.")
-bio = Magic("Bio", "black", 500, 0, 25,
+bio = Magic("Bio", "black", 500, 0, 25, "wind",
             "A poisonous wind that deals damage over time to the target.")
-drain = Magic("Drain", "black", 400, 200, 20,
+drain = Magic("Drain", "black", 400, 200, 20, "health points"
               "A sinister spell that drains the target's life force, restoring a portion of health to the caster.")
 
-
 # Creating White spells
-cure = Magic("Cure", "white", 0, 400, 20,
+cure = Magic("Cure", "white", None, 100, 20, None,
              "A gentle green light envelops the target, healing their wounds")
-cura = Magic("Cura", "white", 0, 800, 40,
+cura = Magic("Cura", "white", None, 200, 40, None,
              "A stronger healing light mends the target's deeper wounds")
-curaga = Magic("Curaga", "white", 0, 1200, 60,
+curaga = Magic("Curaga", "white", None, 400, 60, None,
                "A powerful healing force restores the target to full hp")
-protect = Magic("Protect", "white", 0, 0, 35,
-                "A magical barrier surrounds the target, reducing physical damage taken")
-shell = Magic("Shell", "white", 0, 0, 35,
-              "A shimmering shield surrounds the target, reducing magical damage taken")
-flare = Magic("Flare", "black", 1800, 0, 75,
-              "A concentrated burst of descends from the sky, engulfing the enemy in holy flames")
-speed = Magic("Speed", "white", 0, 0, 30,
-              "A spell that enhances the speed of all allies, allowing them to act more quickly in battle.")
-holy = Magic("Holy", "white", 2000, 0, 80,
-             "A blinding light descends from above, purging the enemy with divine power")
-revive = Magic("Revive", "white", 0, 0, 50,
+revive = Magic("Revive", "white", None, 0, 50, None,
                "A soft light envelops the fallen ally, reviving them with 10% of their maximum HP")
+
+# Creating Green Spells
+protect = Magic("Protect", "green", None, 0, 35, None,
+                "A magical barrier surrounds the target, reducing physical damage taken")
+shell = Magic("Shell", "green", None, 0, 35, None,
+              "A shimmering shield surrounds the target, reducing magical damage taken")
+speed = Magic("Speed", "green", None, 0, 30, None,
+              "A spell that enhances the speed of all allies, allowing them to act more quickly in battle.")
+
+# Creating Blue Spell
+holy = Magic("Holy", "blue", 2000, 0, 80, "holy",
+             "A blinding light descends from above, purging the enemy with divine power")
+flare = Magic("Flare", "black", 1800, 0, 75, "holy",
+              "A concentrated burst of descends from the sky, engulfing the enemy in holy flames")
+
 
 # Creating player avatar
 avatars= {
