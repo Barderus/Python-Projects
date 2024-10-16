@@ -40,26 +40,58 @@ class Person:
             print(f"{self.name} attacks {target.name} for {dmg} points of damage\n")
 
     def cast_magic(self, target, magic):
-        if magic.mp < self.mp:
+        if self.mp < magic.mp:
             print("You don't have enough mana points!")
-        else:
-            self.mp = self.mp - magic.mp
-            dmg = self.mgk_atk - target.mgk_def
-            if dmg < 0:
-                dmg = 0
-            target.hp -= dmg
-            print(f"{self.name} casts [spell name] on {target.name} dealing {dmg} points of damage\n")
+            return
 
-    def cast_heal(self, target, magic):
-        if magic.mp < self.mp:
+        self.mp -= magic.mp
+        dmg = self.mgk_atk - target.mgk_def + magic.dmg
+        if dmg < 0:
+            dmg = 0
+        target.hp -= dmg
+        print(f"{self.name} casts [spell name] on {target.name} dealing {dmg} points of {magic.dmg_type} damage\n")
+
+    def white_spell(self, target, magic):
+        heal = 0
+        if self.mp < magic.mp:
             print("You don't have enough mana points!\n")
+            return
+
+        self.mp = self.mp - magic.mp
+        if target.hp == target.maxhp:
+            target.hp = self.maxhp
         else:
-            self.mp = self.mp - magic.mp
-            if target.hp == target.maxhp:
-                target.hp = self.maxhp
-            else:
-                target.hp += magic.heal
-                print(f"{self.name} healed {target.name} for {magic.heal} hit points\n")
+            heal += (magic.heal + (self.mgk_atk/2))
+            target.hp += heal
+            print(f"{self.name} healed {target.name} for {magic.heal} hit points\n")
+
+    def green_spell(self, target, magic):
+        if self.mp < magic.mp:
+            print("You don't have enough mana points!\n")
+            return
+
+        self.mp = self.mp - magic.mp
+        if magic.name == "Protect":
+            target.df += 10  # Raise defense
+            print(f"{self.name} casts {magic.name} on {target.name}, increasing defense by 10!\n")
+
+        elif magic.name == "Shell":
+            target.mgk_def += 10  # Raise magical defense
+            print(f"{self.name} casts {magic.name} on {target.name}, increasing magic defense by 10!\n")
+
+        elif magic.name == "Speed":
+            target.speed += 5  # Raise speed
+            print(f"{self.name} casts {magic.name} on {target.name}, increasing speed by 10!\n")
+
+    def blue_spell(self, target, magic):
+        if self.mp < magic.mp:
+            print("You don't have enough mana points!\n")
+
+        self.mp = self.mp - magic.mp
+
+        if magic.name == "Holy":
+            target.hp -= (magic.dmg + (self.mgk_atk/2))
+            print(f"{self.name} casts {magic.name} on {target.name}, dealing  by 10!\n")
 
 
     def __str__(self):
