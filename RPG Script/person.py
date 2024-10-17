@@ -40,22 +40,73 @@ class Person:
             print(f"{self.name} attacks {target.name} for {dmg} points of damage\n")
 
     def cast_magic(self, target, magic):
-        if self.mp < magic.mp:
-            print("You don't have enough mana points!")
-            return
+        """
+            This function selects which method to call to cast the spell
+        """
+        pass
 
-        self.mp -= magic.mp
-        dmg = self.mgk_atk - target.mgk_def + magic.dmg
-        if dmg < 0:
-            dmg = 0
-        target.hp -= dmg
-        print(f"{self.name} casts [spell name] on {target.name} dealing {dmg} points of {magic.dmg_type} damage\n")
+    def black_spell(self, target, magic):
+        dmg = 0
+        if magic.name == "Fire":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
+        elif magic.name == "Thunder":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
+        elif magic.name == "Blizzard":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
+        elif magic.name == "Meteor":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
+        elif magic.name == "Quake":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
+        elif magic.name == "Tornado":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
+        elif magic.name == "Ultima":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
+        elif magic.name == "Dark":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
+        elif magic.name == "Bio":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
+        elif magic.name == "Drain":
+            self.check_mp(magic)
+            self.magic_dmg(target, magic)
+
 
     def white_spell(self, target, magic):
         heal = 0
-        if self.mp < magic.mp:
-            print("You don't have enough mana points!\n")
-            return
+
+        if magic.name == "Cure":
+            self.check_mp(magic)
+
+            pass
+        elif magic.name == "Cura":
+            self.check_mp(magic)
+
+            pass
+        elif magic.name == "Curaga":
+            self.check_mp(magic)
+
+            pass
+        elif magic.name == "Revive":
+            self.check_mp(magic)
+            pass
+
 
         self.mp = self.mp - magic.mp
         if target.hp == target.maxhp:
@@ -66,32 +117,49 @@ class Person:
             print(f"{self.name} healed {target.name} for {magic.heal} hit points\n")
 
     def green_spell(self, target, magic):
-        if self.mp < magic.mp:
-            print("You don't have enough mana points!\n")
-            return
-
-        self.mp = self.mp - magic.mp
         if magic.name == "Protect":
+            self.check_mp(magic)
+
             target.df += 10  # Raise defense
             print(f"{self.name} casts {magic.name} on {target.name}, increasing defense by 10!\n")
 
         elif magic.name == "Shell":
+            self.check_mp(magic)
+
             target.mgk_def += 10  # Raise magical defense
             print(f"{self.name} casts {magic.name} on {target.name}, increasing magic defense by 10!\n")
 
         elif magic.name == "Speed":
+            self.check_mp(magic)
+
             target.speed += 5  # Raise speed
             print(f"{self.name} casts {magic.name} on {target.name}, increasing speed by 10!\n")
 
     def blue_spell(self, target, magic):
-        if self.mp < magic.mp:
-            print("You don't have enough mana points!\n")
-
-        self.mp = self.mp - magic.mp
 
         if magic.name == "Holy":
-            target.hp -= (magic.dmg + (self.mgk_atk/2))
-            print(f"{self.name} casts {magic.name} on {target.name}, dealing  by 10!\n")
+            self.check_mp(magic)
+            damage = (magic.dmg + (self.mgk_atk/2))
+            target.hp -= damage
+            print(f"{self.name} casts {magic.name} on {target.name}, dealing {damage} {magic.dmg_type}!\n")
+        elif magic.name == "Flare":
+            self.check_mp(magic)
+            damage = (magic.dmg + (self.mgk_atk/2))
+            target.hp -= damage
+            print(f"{self.name} casts {magic.name} on {target.name}, dealing {damage} {magic.dmg_type}!\n")
+
+
+    def check_mp(self, magic):
+        if self.mp < magic.mp:
+            print("You don't have enough mana points!\n")
+        self.mp = self.mp - magic.mp
+
+    def magic_dmg(self, magic, target):
+        dmg = target.mgk_def - (magic.dmg + (self.mgk_atk / 2))
+        target.hp -= dmg
+        print(f"{self.name} casts {magic.name} on {target.name}, dealing {dmg} points of {magic.dmg_type}\n")
+
+
 
 
     def __str__(self):
