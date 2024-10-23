@@ -19,7 +19,7 @@ dark = Magic("Dark", "black", 800, 0, 30, "dark",
              "A shadowy force strikes the enemy, dealing damage and shrouding them in darkness.")
 bio = Magic("Bio", "black", 500, 0, 25, "wind",
             "A poisonous wind that deals damage over time to the target.")
-drain = Magic("Drain", "black", 400, 200, 20, "health points"
+drain = Magic("Drain", "black", 400, 200, 20, "health points",
               "A sinister spell that drains the target's life force, restoring a portion of health to the caster.")
 
 # Creating White spells

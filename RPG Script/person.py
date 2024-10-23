@@ -46,7 +46,6 @@ class Person:
         pass
 
     def black_spell(self, target, magic):
-        dmg = 0
         if magic.name == "Fire":
             self.check_mp(magic)
             self.magic_dmg(target, magic)
@@ -89,32 +88,20 @@ class Person:
 
 
     def white_spell(self, target, magic):
-        heal = 0
-
         if magic.name == "Cure":
             self.check_mp(magic)
 
-            pass
         elif magic.name == "Cura":
             self.check_mp(magic)
+            self.magic_heal(magic, target)
 
-            pass
         elif magic.name == "Curaga":
             self.check_mp(magic)
+            self.magic_heal(magic, target)
 
-            pass
         elif magic.name == "Revive":
             self.check_mp(magic)
-            pass
-
-
-        self.mp = self.mp - magic.mp
-        if target.hp == target.maxhp:
-            target.hp = self.maxhp
-        else:
-            heal += (magic.heal + (self.mgk_atk/2))
-            target.hp += heal
-            print(f"{self.name} healed {target.name} for {magic.heal} hit points\n")
+            self.magic_revive(magic, target)
 
     def green_spell(self, target, magic):
         if magic.name == "Protect":
@@ -142,24 +129,36 @@ class Person:
             damage = (magic.dmg + (self.mgk_atk/2))
             target.hp -= damage
             print(f"{self.name} casts {magic.name} on {target.name}, dealing {damage} {magic.dmg_type}!\n")
+
         elif magic.name == "Flare":
             self.check_mp(magic)
             damage = (magic.dmg + (self.mgk_atk/2))
             target.hp -= damage
             print(f"{self.name} casts {magic.name} on {target.name}, dealing {damage} {magic.dmg_type}!\n")
 
-
     def check_mp(self, magic):
         if self.mp < magic.mp:
             print("You don't have enough mana points!\n")
         self.mp = self.mp - magic.mp
 
+    def magic_heal(self, magic, target):
+        heal = 0
+        if target.hp == target.maxhp:
+            target.hp = self.maxhp
+        else:
+            heal += (magic.heal + (self.mgk_atk/2))
+            target.hp += heal
+            print(f"{self.name} healed {target.name} for {magic.heal} hit points\n")
+
+    def magic_revive(self, magic, target):
+        if target.hp == 0:
+            target.hp = (self.maxhp * 0.5)
+        print(f"{self.name} revived {target.name}.")
+
     def magic_dmg(self, magic, target):
         dmg = target.mgk_def - (magic.dmg + (self.mgk_atk / 2))
         target.hp -= dmg
         print(f"{self.name} casts {magic.name} on {target.name}, dealing {dmg} points of {magic.dmg_type}\n")
-
-
 
 
     def __str__(self):
