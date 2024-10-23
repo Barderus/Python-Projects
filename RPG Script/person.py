@@ -14,7 +14,6 @@ class Person:
         self.spells = spells
         self.descri = descri
 
-
     def get_hp(self):
         return self.hp
 
@@ -142,19 +141,32 @@ class Person:
             print("Something wrong has happened")
 
     def check_mp(self, magic):
-        if self.mp < magic.mp:
-            print("You don't have enough mana points!\n")
-        self.mp = self.mp - magic.mp
+        if self.mp <= 0:
+            print("You have no mana points left!\n")
+            return False
+        elif self.mp < magic.mp:
+            print(f"{self.name} tries to access the source of magic, but it has been depleted. {self.name} is stunned.\n")
+            return False
+
+        self.mp -= magic.mp
+        return True
 
     def magic_heal(self, target, magic):
-        heal = (magic.heal + (self.mgk_atk/2))
-        if target.hp == target.maxhp:
-            print(f"{self.name} attempted to heal {target.name}, but {target.name} is already full hp!")
-        else:
-            target.hp += heal
-            if target.hp > target.maxhp:
-                target.hp = self.maxhp
-            print(f"{self.name} healed {target.name} for {int(heal)} hit points\n")
+        # Calculate healing amount
+        heal = magic.heal + (self.mgk_atk / 2)
+
+        # Check if the target is already at full health
+        if target.hp >= target.maxhp:
+            print(f"{self.name} attempted to heal {target.name}, but {target.name} is already at full HP!")
+            return
+
+        # Heal the target
+        target.hp += heal
+
+        # Ensure the target's HP does not exceed maximum HP
+        if target.hp > target.maxhp:
+            target.hp = target.maxhp
+        print(f"{self.name} healed {target.name} for {int(heal)} hit points. {target.name}'s current HP: {int(target.hp)}/{target.maxhp}")
 
     def magic_revive(self, target):
         if target.hp == 0:
@@ -167,9 +179,10 @@ class Person:
             print(f"{target.name} dodges your spell, taking no damage.")
         elif target.hp - dmg < 0:
             target.hp = 0
+            print(f"{self.name} pulverizes {target.name} after casting {magic.name}")
         else:
             target.hp -= dmg
-        print(f"{self.name} casts {magic.name} on {target.name}, dealing {int(dmg)} points of {magic.dmg_type} damage\n")
+            print(f"{self.name} casts {magic.name} on {target.name}, dealing {int(dmg)} points of {magic.dmg_type} damage\n")
 
 
     def __str__(self):
