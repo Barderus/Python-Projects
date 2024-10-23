@@ -1,25 +1,26 @@
 from person import Person
 from magic import Magic
+from items import Items
 
-fire = Magic("Fire", "black", 40, 0, 25, "fire",
+fire = Magic("Fire", "black", 45, 0, 25, "fire",
              "The mage emits a jolt of fire from their hands towards the enemy")
-thunder = Magic("Thunder", "black", 40, 0, 25, "thunder",
+thunder = Magic("Thunder", "black", 45, 0, 25, "thunder",
                 "Lightning jolts from the mage's hand towards the enemy")
-blizzard = Magic("Blizzard", "black", 40, 0, 25, "ice",
+blizzard = Magic("Blizzard", "black", 45, 0, 25, "ice",
                  "A cold wind forms icicles that shoot towards the enemy")
-meteor = Magic("Meteor", "black", 100, 0, 50, "fire",
+meteor = Magic("Meteor", "black", 120, 0, 100, "fire",
                "A small meteor shower crashes down upon the enemy")
-quake = Magic("Quake", "black", 60, 0, 15, "earth",
+quake = Magic("Quake", "black", 80, 0, 40, "earth",
               "The ground trembles as fissures open beneath the enemy's feet")
-tornado = Magic("Tornado", "black", 65, 0, 45, "wind",
+tornado = Magic("Tornado", "black", 75, 0, 45, "wind",
                 "A fierce whirlwind surrounds the enemy, slashing at them with violent winds")
-ultima = Magic("Ultima", "black", 110, 0, 100, "water",
+ultima = Magic("Ultima", "black", 150, 0, 100, "water",
                "The ultimate destructive spell, causing catastrophic damage to all enemies")
 dark = Magic("Dark", "black", 60, 0, 30, "dark",
              "A shadowy force strikes the enemy, dealing damage and shrouding them in darkness.")
-bio = Magic("Bio", "black", 50, 0, 25, "wind",
+bio = Magic("Bio", "black", 60, 0, 25, "wind",
             "A poisonous wind that deals damage over time to the target.")
-drain = Magic("Drain", "black", 40, 200, 20, "health points",
+drain = Magic("Drain", "black", 50, 200, 30, "health points",
               "A sinister spell that drains the target's life force, restoring a portion of health to the caster.")
 
 # Creating White spells
@@ -29,23 +30,45 @@ cura = Magic("Cura", "white", None, 75, 40, None,
              "A stronger healing light mends the target's deeper wounds")
 curaga = Magic("Curaga", "white", None, 100, 60, None,
                "A powerful healing force restores the target to full hp")
-revive = Magic("Revive", "white", None, 0, 50, None,
+revive = Magic("Revive", "white", None, 0, 65, None,
                "A soft light envelops the fallen ally, reviving them with 10% of their maximum HP")
 
 # Creating Green Spells
-protect = Magic("Protect", "green", None, 0, 35, None,
+protect = Magic("Protect", "green", None, 0, 40, None,
                 "A magical barrier surrounds the target, reducing physical damage taken")
-shell = Magic("Shell", "green", None, 0, 35, None,
+shell = Magic("Shell", "green", None, 0, 40, None,
               "A shimmering shield surrounds the target, reducing magical damage taken")
-speed = Magic("Speed", "green", None, 0, 30, None,
+speed = Magic("Speed", "green", None, 0, 40, None,
               "A spell that enhances the speed of all allies, allowing them to act more quickly in battle.")
 
 # Creating Blue Spell
-holy = Magic("Holy", "blue", 80, 0, 80, "holy",
+holy = Magic("Holy", "blue", 90, 0, 80, "holy",
              "A blinding light descends from above, purging the enemy with divine power")
-flare = Magic("Flare", "black", 100, 0, 75, "holy",
+flare = Magic("Flare", "black", 110, 0, 75, "holy",
               "A concentrated burst of descends from the sky, engulfing the enemy in holy flames")
 
+# Healing items
+healing_pot = Items("Healing Potion", "healing", "Restore 100 HP")
+hi_healing_pot = Items("HI-Potion", "healing", "Restore 250 HP")
+ether = Items("Ether", "healing", "Restore 50MP")
+hi_ether = Items("HI-Ether", "healing", "Restore 100MP")
+elixir = Items("Elixir", "healing", "Restore 200 HP and 50 MP")
+hi_elixir = Items("HI-Elixir", "healing", "Restore to full Health and MP")
+phoenix_down = Items("Phoenix Down", "healing", "Revive target with 10% of HP")
+
+# Status inc items
+hermes_shoes = Items("Hermes Shoes", "status", "Increases target speed in 10")
+red_fang = Items("Red Fang", "status", "Increases Attack in 10")
+protect_coat = Items("Protect Coat", "status", "Increase Defense in 10")
+faerie_bless = Items("Faerie Bless", "status", "Increase Magik Attack in 10")
+witch_hat = Items("Witch's Hat", "status", "Increase Magik Defence in 10")
+
+# Status dec items
+slug_bomb = Items("Slug Bomb", "status", "Lowers target Attack in 10")
+acid = Items("Acid", "status", "Lowers target Defense in 10")
+spider_silk = Items("Spider Silk", "status", "Lowers target Speed in 10")
+moonstone = Items("Moonstone", "status", "Lowers target Magik Attack in 10")
+dragon_spit = Items("Dragon Spit", "status", "Lowers target Magik Defense in 10")
 
 # Creating player avatar
 avatars= {
