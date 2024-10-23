@@ -30,7 +30,6 @@ class Person:
     def attacks(self, target):
         dmg = self.atk - target.df
         if dmg < 0:
-            dmg = 0
             print(f"{self.name} attacks, but {target.name} dodged the attack before it lands.")
         elif target.hp - dmg < 0:
             target.hp = 0
@@ -43,7 +42,15 @@ class Person:
         """
             This function selects which method to call to cast the spell
         """
-        pass
+        if magic.school == "black":
+            self.black_spell(target, magic)
+        elif magic.school == "white":
+            self.white_spell(target, magic)
+        elif magic.school == "blue":
+            self.blue_spell(target, magic)
+        elif magic.school == "green":
+            self.green_spell(target, magic)
+
 
     def black_spell(self, target, magic):
         if magic.name == "Fire":
@@ -86,22 +93,22 @@ class Person:
             self.check_mp(magic)
             self.magic_dmg(target, magic)
 
-
     def white_spell(self, target, magic):
         if magic.name == "Cure":
             self.check_mp(magic)
+            self.magic_heal(target, magic)
 
         elif magic.name == "Cura":
             self.check_mp(magic)
-            self.magic_heal(magic, target)
+            self.magic_heal(target, magic)
 
         elif magic.name == "Curaga":
             self.check_mp(magic)
-            self.magic_heal(magic, target)
+            self.magic_heal(target, magic)
 
         elif magic.name == "Revive":
             self.check_mp(magic)
-            self.magic_revive(magic, target)
+            self.magic_revive(target)
 
     def green_spell(self, target, magic):
         if magic.name == "Protect":
@@ -126,39 +133,43 @@ class Person:
 
         if magic.name == "Holy":
             self.check_mp(magic)
-            damage = (magic.dmg + (self.mgk_atk/2))
-            target.hp -= damage
-            print(f"{self.name} casts {magic.name} on {target.name}, dealing {damage} {magic.dmg_type}!\n")
+            self.magic_dmg(target, magic)
 
         elif magic.name == "Flare":
             self.check_mp(magic)
-            damage = (magic.dmg + (self.mgk_atk/2))
-            target.hp -= damage
-            print(f"{self.name} casts {magic.name} on {target.name}, dealing {damage} {magic.dmg_type}!\n")
+            self.magic_dmg(target, magic)
+        else:
+            print("Something wrong has happened")
 
     def check_mp(self, magic):
         if self.mp < magic.mp:
             print("You don't have enough mana points!\n")
         self.mp = self.mp - magic.mp
 
-    def magic_heal(self, magic, target):
-        heal = 0
+    def magic_heal(self, target, magic):
+        heal = (magic.heal + (self.mgk_atk/2))
         if target.hp == target.maxhp:
-            target.hp = self.maxhp
+            print(f"{self.name} attempted to heal {target.name}, but {target.name} is already full hp!")
         else:
-            heal += (magic.heal + (self.mgk_atk/2))
             target.hp += heal
-            print(f"{self.name} healed {target.name} for {magic.heal} hit points\n")
+            if target.hp > target.maxhp:
+                target.hp = self.maxhp
+            print(f"{self.name} healed {target.name} for {int(heal)} hit points\n")
 
-    def magic_revive(self, magic, target):
+    def magic_revive(self, target):
         if target.hp == 0:
             target.hp = (self.maxhp * 0.5)
         print(f"{self.name} revived {target.name}.")
 
-    def magic_dmg(self, magic, target):
-        dmg = target.mgk_def - (magic.dmg + (self.mgk_atk / 2))
-        target.hp -= dmg
-        print(f"{self.name} casts {magic.name} on {target.name}, dealing {dmg} points of {magic.dmg_type}\n")
+    def magic_dmg(self, target, magic):
+        dmg =  (magic.dmg + (self.mgk_atk / 2)) - target.mgk_def
+        if dmg == 0:
+            print(f"{target.name} dodges your spell, taking no damage.")
+        elif target.hp - dmg < 0:
+            target.hp = 0
+        else:
+            target.hp -= dmg
+        print(f"{self.name} casts {magic.name} on {target.name}, dealing {int(dmg)} points of {magic.dmg_type} damage\n")
 
 
     def __str__(self):
