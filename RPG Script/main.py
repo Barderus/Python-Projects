@@ -15,34 +15,45 @@ from collections import deque
 def battle_screen(ally_team, enemy_team):
     """ Display each character health points and their names """
     print(f"{ally_team[0].name:^20}\t\t{ally_team[1].name:^20}\t\t{ally_team[2].name:^20}\t\t{ally_team[3].name:210}")
-    print(f"HP: {ally_team[0].get_hp()} / {ally_team[0].maxhp:<10}\t\t"
-          f"HP: {ally_team[1].get_hp()} / {ally_team[1].maxhp:<10}\t\t"
-          f"HP: {ally_team[2].get_hp()} / {ally_team[2].maxhp:<15}\t\t"
-          f"HP: {ally_team[3].get_hp()} / {ally_team[3].maxhp:<10}")
+    print(f"HP: {int(ally_team[0].get_hp())} / {ally_team[0].maxhp:<10}\t\t"
+          f"HP: {int(ally_team[1].get_hp())} / {ally_team[1].maxhp:<10}\t\t"
+          f"HP: {int(ally_team[2].get_hp())} / {ally_team[2].maxhp:<15}\t\t"
+          f"HP: {int(ally_team[3].get_hp())} / {ally_team[3].maxhp:<10}")
     print()
     print(f"{enemy_team[0].name:^20}\t\t{enemy_team[1].name:^20}\t\t{enemy_team[2].name:^20}\t\t{enemy_team[3].name:^20}")
-    print(f"HP: {enemy_team[0].get_hp()} / {enemy_team[0].maxhp:<10} \t\t"
-          f"HP: {enemy_team[1].get_hp()} / {enemy_team[1].maxhp:<10}\t\t"
-          f"HP: {enemy_team[2].get_hp()} / {enemy_team[2].maxhp:<15}\t\t"
-          f"HP: {enemy_team[3].get_hp()} / {enemy_team[3].maxhp:<10}\n")
+    print(f"HP: {int(enemy_team[0].get_hp())} / {enemy_team[0].maxhp:<10} \t\t"
+          f"HP: {int(enemy_team[1].get_hp())} / {enemy_team[1].maxhp:<10}\t\t"
+          f"HP: {int(enemy_team[2].get_hp())} / {enemy_team[2].maxhp:<15}\t\t"
+          f"HP: {int(enemy_team[3].get_hp())} / {enemy_team[3].maxhp:<10}\n")
 
 
 def attack(ally, enemy_team):
     while True:
-        choose_target = int(input("\n\tChoose a target: "
+        char_name = input("\n\tChoose a target: "
                                   f"\n\t1. {enemy_team[0].name:^10}\n "
                                   f"\n\t2. {enemy_team[1].name:^10}\n"
                                   f"\n\t3. {enemy_team[2].name:^10}\n "
                                   f"\n\t4. {enemy_team[3].name:^10}\n "
-                                  "\n\t Target: "))
-        if enemy_team[choose_target - 1].hp <= 0:
-            print(f"{enemy_team[choose_target - 1].name} is already dead. Choose another target")
-        else:
-            ally.attacks(enemy_team[choose_target - 1])
-            if enemy_team[choose_target - 1].hp == 0:
-                print(f"{enemy_team[choose_target - 1].name} is dead.")
-            break
+                                  "\n\t Target: ")
 
+        # Find the target in the enemy team
+        target = None
+        for enemy in enemy_team:
+            if enemy.name.lower() == char_name.lower():  # Case-insensitive comparison
+                target = enemy
+                break
+
+        if target is None:
+            print("Invalid target name. Please try again.")
+            continue
+
+        if target.hp <= 0:
+            print(f"{target.name} is already dead. Choose another target.")
+        else:
+            ally.attacks(target)  # Attack the selected target
+            if target.hp == 0:
+                print(f"{target.name} is dead.")
+            break
 
 def cast_spell(ally, enemy_team, ally_team):
     spell_list = []
@@ -56,8 +67,10 @@ def cast_spell(ally, enemy_team, ally_team):
         spell_list.append(spell)
         print(f"\nSpell Name: {spell.name} MP cost: {spell.mp} Damage: {spell.dmg} \nDescription: {spell.descri}")
 
-    choose_spell = input("\n\tChoose a spell: ")
+    choose_spell = input("\n\tChoose a spell (c to cancel): ")
     for spells in spell_list:
+        if choose_spell == "c":
+            return
         if spells.name.lower() == choose_spell.lower():
             chosen_spell = spells
             break
@@ -65,7 +78,24 @@ def cast_spell(ally, enemy_team, ally_team):
         print("Spell not found.")
         return
 
-    target = input("\n\tChoose a target: ")
+        # Create a list of valid targets
+    all_targets = [obj for obj in enemy_team if obj.hp > 0] + [obj for obj in ally_team if obj.hp > 0]
+
+    # Target selection loop
+    while True:
+        char_name = input("\n\tEnter the name of your target: ").strip()
+        target = None  # Initialize target as None
+
+        for person in all_targets:
+            if person.name.lower() == char_name.lower():
+                target = person
+                break  # Exit loop if target is found
+
+        if target:  # If target is found
+            break
+        else:
+            print("Invalid target. Please try again.")
+
     ally.cast_magic(target, chosen_spell)
 
 def items(ally, enemy, ally_team):
@@ -84,7 +114,6 @@ def actions(ally, enemy_team, ally_team):
             attack(ally, enemy_team)
             break
         elif action == "2":
-            print(type(ally))
             cast_spell(ally, enemy_team, ally_team)
             break
         elif action == "3":
