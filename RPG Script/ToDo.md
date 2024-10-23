@@ -1,11 +1,11 @@
 ## My To do list so I don't lose track
 
 1. Finish setting up magic spells
-   * White Spells
-   * Blue Spells
-   * Green Spells
+   - [x] White Spells 
+   - [x] Blue Spells
+   - [x] Green Spells
 
-2. Add magic selection to the battle and make sure spells can be casted properly
+2. Add magic selection to the battle and make sure spells can be casted properly [x]
 
 3. Add pep up (like DQ11) and range of damage for both physical and magical attacks
 
