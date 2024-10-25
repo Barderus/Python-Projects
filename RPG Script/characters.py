@@ -2,50 +2,53 @@ from person import Person
 from magic import Magic
 from items import Items
 
-fire = Magic("Fire", "black", 45, 0, 25, "fire",
+# Black Spells
+fire = Magic("Fire", "black", 25, 45, 0, "damage",
              "The mage emits a jolt of fire from their hands towards the enemy")
-thunder = Magic("Thunder", "black", 45, 0, 25, "thunder",
+thunder = Magic("Thunder", "black", 25, 45, 25, "damage",
                 "Lightning jolts from the mage's hand towards the enemy")
-blizzard = Magic("Blizzard", "black", 45, 0, 25, "ice",
+blizzard = Magic("Blizzard", "black", 25, 45, 0, "damage",
                  "A cold wind forms icicles that shoot towards the enemy")
-meteor = Magic("Meteor", "black", 120, 0, 100, "fire",
+meteor = Magic("Meteor", "black", 100, 150, 0, "damage",
                "A small meteor shower crashes down upon the enemy")
-quake = Magic("Quake", "black", 80, 0, 40, "earth",
+quake = Magic("Quake", "black", 80, 60, 0, "damage",
               "The ground trembles as fissures open beneath the enemy's feet")
-tornado = Magic("Tornado", "black", 75, 0, 45, "wind",
+tornado = Magic("Tornado", "black", 75, 65, 0, "damage",
                 "A fierce whirlwind surrounds the enemy, slashing at them with violent winds")
-ultima = Magic("Ultima", "black", 150, 0, 100, "water",
+ultima = Magic("Ultima", "black", 120, 200, 0, "damage",
                "The ultimate destructive spell, causing catastrophic damage to all enemies")
-dark = Magic("Dark", "black", 60, 0, 30, "dark",
+dark = Magic("Dark", "black", 30, 60, 0, "damage",
              "A shadowy force strikes the enemy, dealing damage and shrouding them in darkness.")
-bio = Magic("Bio", "black", 60, 0, 25, "wind",
+bio = Magic("Bio", "black", 30, 50, 0, "damage",
             "A poisonous wind that deals damage over time to the target.")
-drain = Magic("Drain", "black", 50, 200, 30, "health points",
+drain = Magic("Drain", "black", 25, 40, 0, "drain",
               "A sinister spell that drains the target's life force, restoring a portion of health to the caster.")
 
-# Creating White spells
-cure = Magic("Cure", "white", None, 50, 20, None,
+# White Spells
+cure = Magic("Cure", "white", 25, 0, 50, "healing",
              "A gentle green light envelops the target, healing their wounds")
-cura = Magic("Cura", "white", None, 75, 40, None,
+cura = Magic("Cura", "white", 35, 0, 75, "healing",
              "A stronger healing light mends the target's deeper wounds")
-curaga = Magic("Curaga", "white", None, 100, 60, None,
-               "A powerful healing force restores the target to full hp")
-revive = Magic("Revive", "white", None, 0, 65, None,
+curaga = Magic("Curaga", "white", 50, 0, 100, "healing",
+               "A powerful healing force restores the target to full HP")
+revive = Magic("Revive", "white", 75, 0, 65, "revival",
                "A soft light envelops the fallen ally, reviving them with 10% of their maximum HP")
 
-# Creating Green Spells
-protect = Magic("Protect", "green", None, 0, 40, None,
+# Green Spells
+protect = Magic("Protect", "green", 25, 0, 0, "buff",
                 "A magical barrier surrounds the target, reducing physical damage taken")
-shell = Magic("Shell", "green", None, 0, 40, None,
+shell = Magic("Shell", "green", 25, 0, 0, "buff",
               "A shimmering shield surrounds the target, reducing magical damage taken")
-speed = Magic("Speed", "green", None, 0, 40, None,
+speed = Magic("Speed", "green", 25, 0, 0, "buff",
               "A spell that enhances the speed of all allies, allowing them to act more quickly in battle.")
 
-# Creating Blue Spell
-holy = Magic("Holy", "blue", 90, 0, 80, "holy",
+# Blue Spell
+holy = Magic("Holy", "blue", 100, 90, 0, "damage",
              "A blinding light descends from above, purging the enemy with divine power")
-flare = Magic("Flare", "black", 110, 0, 75, "holy",
-              "A concentrated burst of descends from the sky, engulfing the enemy in holy flames")
+flare = Magic("Flare", "blue", 110, 100, 0, "damage",
+              "A concentrated burst of flames descends from the sky, engulfing the enemy.")
+
+
 
 # Healing items
 healing_pot = Items("Healing Potion", "healing", "Restore 100 HP")
@@ -178,49 +181,49 @@ allies = {
 enemies = {
     # Enemies
     "goblin": Person(
-        name="Goblin", hp=200, mp=50, atk=75, df=30, speed = 100, mgk_atk=10, mgk_def=20,
+        name="Goblin", hp=200, mp=50, atk=95, df=30, speed = 100, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri = ""
     ),
     "orc": Person(
-        name="Orc", hp=600, mp=50, atk=125, df=50, speed = 75, mgk_atk=10, mgk_def=20,
+        name="Orc", hp=600, mp=50, atk=145, df=50, speed = 75, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri = ""
     ),
     "kobold": Person(
-        name="Kobold", hp=400, mp=50, atk=75, df=30, speed = 90, mgk_atk=10, mgk_def=20,
+        name="Kobold", hp=400, mp=50, atk=95, df=30, speed = 90, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri = ""
     ),
     "skeleton": Person(
-        name="Skeleton Warrior", hp=380, mp=50, atk=95, df=30, speed = 60, mgk_atk=10, mgk_def=20,
+        name="Skeleton Warrior", hp=380, mp=50, atk=105, df=30, speed = 60, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri = ""
     ),
     "knight": Person(
-        name="Dark Knight", hp=650, mp=50, atk=150, df=70, speed = 70, mgk_atk=10, mgk_def=20,
+        name="Dark Knight", hp=650, mp=50, atk=170, df=70, speed = 70, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri = ""
     ),
     "ghoul": Person(
-        name="Ghoul", hp=320, mp=50, atk=100, df=10, speed = 0, mgk_atk=10, mgk_def=20,
+        name="Ghoul", hp=320, mp=50, atk=120, df=10, speed = 0, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri = ""
     ),
     "slime": Person(
-        name="Slime", hp=500, mp=50, atk=95, df=120, speed = 10, mgk_atk=10, mgk_def=50,
+        name="Slime", hp=500, mp=50, atk=105, df=120, speed = 10, mgk_atk=10, mgk_def=50,
         items=[],
         spells=[],
         descri = ""
     ),
     "necro": Person(
-        name="Necromancer", hp=400, mp=400, atk=65, df=30, speed = 60, mgk_atk=160, mgk_def=80,
+        name="Necromancer", hp=400, mp=400, atk=75, df=30, speed = 60, mgk_atk=160, mgk_def=80,
         items=[],
         spells=[],
         descri = ""
