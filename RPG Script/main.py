@@ -13,24 +13,36 @@ from collections import deque
 
 
 def battle_screen(ally_team, enemy_team):
-    """ Display each character health points and their names """
-    print(f"{ally_team[0].name:^20}\t\t{ally_team[1].name:^20}\t\t{ally_team[2].name:^20}\t\t{ally_team[3].name:210}")
-    print(f"HP: {int(ally_team[0].get_hp())} / {ally_team[0].maxhp:<10}\t\t"
-          f"HP: {int(ally_team[1].get_hp())} / {ally_team[1].maxhp:<10}\t\t"
-          f"HP: {int(ally_team[2].get_hp())} / {ally_team[2].maxhp:<15}\t\t"
-          f"HP: {int(ally_team[3].get_hp())} / {ally_team[3].maxhp:<10}")
+    """ Display each character's health points and their names """
+    # Define the width for formatting
+    name_width = 20  # Width for names
+    hp_width = 15  # Width for HP and max HP display
+    mp_width = 15  # Width for MP and max MP display
 
-    print(f"MP: {int(ally_team[0].get_mp())} / {ally_team[0].maxmp:<10}\t\t"
-          f"MP: {int(ally_team[1].get_mp())} / {ally_team[1].maxmp:<10}\t\t"
-          f"MP: {int(ally_team[2].get_mp())} / {ally_team[2].maxmp:<15}\t\t"
-          f"MP: {int(ally_team[3].get_mp())} / {ally_team[3].maxmp:<10}\t\t")
+    # Display ally team
+    print(f"{ally_team[0].name:<{name_width}}\t{ally_team[1].name:<{name_width}}\t"
+          f"{ally_team[2].name:<{name_width}}\t{ally_team[3].name:<{name_width}}")
+    print(f"HP: {int(ally_team[0].get_hp()):<3}/{int(ally_team[0].maxhp):<{hp_width}}\t"
+          f"HP: {int(ally_team[1].get_hp()):<3}/{int(ally_team[1].maxhp):<{hp_width}}\t"
+          f"HP: {int(ally_team[2].get_hp()):<3}/{int(ally_team[2].maxhp):<{hp_width}}\t"
+          f"HP: {int(ally_team[3].get_hp()):<3}/{int(ally_team[3].maxhp):<{hp_width}}")
+
+    print(f"MP: {int(ally_team[0].get_mp()):<3}/{int(ally_team[0].maxmp):<{mp_width}}\t"
+          f"MP: {int(ally_team[1].get_mp()):<3}/{int(ally_team[1].maxmp):<{mp_width}}\t"
+          f"MP: {int(ally_team[2].get_mp()):<3}/{int(ally_team[2].maxmp):<{mp_width}}\t"
+          f"MP: {int(ally_team[3].get_mp()):<3}/{int(ally_team[3].maxmp):<{mp_width}}")
 
     print()
-    print(f"{enemy_team[0].name:^20}\t\t{enemy_team[1].name:^20}\t\t{enemy_team[2].name:^20}\t\t{enemy_team[3].name:^20}")
-    print(f"HP: {int(enemy_team[0].get_hp())} / {enemy_team[0].maxhp:<10} \t\t"
-          f"HP: {int(enemy_team[1].get_hp())} / {enemy_team[1].maxhp:<10}\t\t"
-          f"HP: {int(enemy_team[2].get_hp())} / {enemy_team[2].maxhp:<15}\t\t"
-          f"HP: {int(enemy_team[3].get_hp())} / {enemy_team[3].maxhp:<10}\n")
+
+    # Display enemy team
+    print(f"{enemy_team[0].name:<{name_width}}\t{enemy_team[1].name:<{name_width}}\t"
+          f"{enemy_team[2].name:<{name_width}}\t{enemy_team[3].name:<{name_width}}")
+    print(f"HP: {int(enemy_team[0].get_hp()):<3}/{int(enemy_team[0].maxhp):<{hp_width}}\t"
+          f"HP: {int(enemy_team[1].get_hp()):<3}/{int(enemy_team[1].maxhp):<{hp_width}}\t"
+          f"HP: {int(enemy_team[2].get_hp()):<3}/{int(enemy_team[2].maxhp):<{hp_width}}\t"
+          f"HP: {int(enemy_team[3].get_hp()):<3}/{int(enemy_team[3].maxhp):<{hp_width}}")
+    print()
+
 
 
 def attack(ally, enemy_team):
@@ -99,8 +111,9 @@ def cast_spell(ally, enemy_team, ally_team):
         else:
             print("Invalid target. Please try again.")
 
-    if not ally.check_mp(chosen_spell):
-        return f"{ally.name} is out of mp and can't cast magic right now."
+    #if not chosen_spell.check_mp(ally):
+        #return f"{ally.name} is out of mp and can't cast magic right now."
+
     ally.cast_magic(target, chosen_spell)
 
 
