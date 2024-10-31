@@ -7,10 +7,13 @@
             Add all chars again if their hp > 0
 """
 from characters import *
+from items import Items
 import random
 import time
 from collections import deque
 
+def treasure_table():
+    pass
 
 def battle_screen(ally_team, enemy_team):
     """ Display each character's health points and their names """
@@ -117,8 +120,44 @@ def cast_spell(ally, enemy_team, ally_team):
     ally.cast_magic(target, chosen_spell)
 
 
-def items(ally, enemy, ally_team):
-    pass
+def items(ally, enemy_team, ally_team):
+    print("\nInventory:")
+
+    # Display available items with their descriptions
+    for item in ally.items:
+        print(f"- {item.name}: {item.description}")  # Ensure to show item details
+
+    # Get user input for choosing an item
+    choose_item = input("\n\tChoose an item (c to cancel): ").strip().lower()
+
+    # Check if the user wants to cancel
+    if choose_item == "c":
+        return "c"
+
+    # Find the chosen item
+    chosen_item = next((item for item in ally.items if item.name.lower() == choose_item), None)
+    if chosen_item is None:
+        print("\tYou don't have this item. Please try again.")
+        return "c"
+
+    # Create a list of valid targets (both allies and enemies)
+    all_targets = [obj for obj in ally_team + enemy_team if obj.hp > 0]
+
+    # Target selection loop
+    while True:
+        target_name = input("\tWho would you like to use this item on? ").strip().lower()
+
+        # Find target by name
+        target = next((person for person in all_targets if person.name.lower() == target_name), None)
+
+        if target:
+            break
+        else:
+            print("\tThat's not a valid target. Please try again.")
+
+    # Use the item on the chosen target
+    chosen_item.use_item(chosen_item, target)  # Pass inventory
+    print(f"\t{chosen_item.name} used on {target.name}!")
 
 
 def actions(ally, enemy_team, ally_team):
@@ -138,7 +177,9 @@ def actions(ally, enemy_team, ally_team):
                 continue
             break
         elif action == "3":
-            items(ally, enemy_team, ally_team)
+            item = items(ally, enemy_team, ally_team)
+            if item == "c":
+                continue
             break
         else:
             print("Invalid action. Please choose 1, 2, or 3.")
@@ -273,7 +314,7 @@ def battle(ally_team, enemies_team):
 
 def main():
 
-    # Generate allies and enemies
+    # Generate allies, enemies
     allies_team = gen_allies()
     enemies_fight, boss_fight = gen_enemies()
 

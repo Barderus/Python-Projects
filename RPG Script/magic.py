@@ -37,6 +37,13 @@ class Magic:
                 magic_dmg *= critical_multiplier  # Apply critical damage multiplier
                 print("Critical hit! ")
 
+            if self.name == "Drain":
+                target.hp = max(0, target.hp - magic_dmg)
+                recovery = magic_dmg * 0.25
+                caster.hp += recovery
+                print(f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage.{caster.name} recovers {int(recovery)} HP.")
+                return
+
             # Update target's HP and ensure it doesn't go below zero
             target.hp = max(0, target.hp - magic_dmg)
             print(f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage.")

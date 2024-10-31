@@ -10,15 +10,16 @@
    - [x] Check if MP is enough
 
 3. Add pep up (like DQ11) and range of damage for both physical and magical attacks
-   - [ ] Add attack and mgk_attack range
-   - [ ] Add critical hits
+   - [x] Add attack and mgk_attack range
+   - [x] Add critical hits
    - [ ] Add Pep Up () ( Increase speed, atk, def, mgk_atk, mgk_def, critical_rate by 20%) Lasts 3 turns.
 
 3. Add items to the game.
    - [x] Added healing items
    - [x] Added status altering items
-   - [ ] Added items to the characters inventory
-   - [ ] Added function and methods to use the items
+   - [x] Added items to the characters inventory
+   - [x] Added function and methods to use the items
+   - [] Testing all the items
 
 4. Add 3 rooms to the game.
    * Room 1 = First Battle (Gain some random items)
