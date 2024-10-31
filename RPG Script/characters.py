@@ -48,30 +48,28 @@ holy = Magic("Holy", "blue", 100, 90, 0, "damage",
 flare = Magic("Flare", "blue", 110, 100, 0, "damage",
               "A concentrated burst of flames descends from the sky, engulfing the enemy.")
 
-
-
 # Healing items
-healing_pot = Items("Healing Potion", "healing", "Restore 100 HP")
-hi_healing_pot = Items("HI-Potion", "healing", "Restore 250 HP")
-ether = Items("Ether", "healing", "Restore 50MP")
-hi_ether = Items("HI-Ether", "healing", "Restore 100MP")
-elixir = Items("Elixir", "healing", "Restore 200 HP and 50 MP")
-hi_elixir = Items("HI-Elixir", "healing", "Restore to full Health and MP")
-phoenix_down = Items("Phoenix Down", "healing", "Revive target with 10% of HP")
+healing_pot = Items("Healing Potion", "heal", 0,"Restore 100 HP")
+hi_healing_pot = Items("HI-Potion", "heal", 0,"Restore 250 HP")
+ether = Items("Ether", "healing", 0,"Restore 50MP")
+hi_ether = Items("HI-Ether", "heal", 0,"Restore 100MP")
+elixir = Items("Elixir", "heal", 0,"Restore 200 HP and 50 MP")
+hi_elixir = Items("HI-Elixir", "heal", 0,"Restore to full Health and MP")
+phoenix_down = Items("Phoenix Down", "heal", 0,"Revive target with 10% of HP")
 
 # Status inc items
-hermes_shoes = Items("Hermes Shoes", "status", "Increases target speed in 10")
-red_fang = Items("Red Fang", "status", "Increases Attack in 10")
-protect_coat = Items("Protect Coat", "status", "Increase Defense in 10")
-faerie_bless = Items("Faerie Bless", "status", "Increase Magik Attack in 10")
-witch_hat = Items("Witch's Hat", "status", "Increase Magik Defence in 10")
+hermes_shoes = Items("Hermes Shoes", "buff", 0,"Increases target speed in 10")
+red_fang = Items("Red Fang", "buff", 0,"Increases Attack in 10")
+protect_coat = Items("Protect Coat", "buff", 0, "Increase Defense in 10")
+faerie_bless = Items("Faerie Bless", "buff", 0,"Increase Magik Attack in 10")
+witch_hat = Items("Witch's Hat", "buff", 0,"Increase Magik Defence in 10")
 
 # Status dec items
-slug_bomb = Items("Slug Bomb", "status", "Lowers target Attack in 10")
-acid = Items("Acid", "status", "Lowers target Defense in 10")
-spider_silk = Items("Spider Silk", "status", "Lowers target Speed in 10")
-moonstone = Items("Moonstone", "status", "Lowers target Magik Attack in 10")
-dragon_spit = Items("Dragon Spit", "status", "Lowers target Magik Defense in 10")
+slug_bomb = Items("Slug Bomb", "debuff", 0,"Lowers target Attack in 10")
+acid = Items("Acid", "debuff", 0,"Lowers target Defense in 10")
+spider_silk = Items("Spider Silk", "debuff", 0,"Lowers target Speed in 10")
+moonstone = Items("Moonstone", "debuff", 0,"Lowers target Magik Attack in 10")
+dragon_spit = Items("Dragon Spit", "debuff", 0, "Lowers target Magik Defense in 10")
 
 # Creating player avatar
 avatars= {
