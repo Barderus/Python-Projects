@@ -1,4 +1,19 @@
 from inventory import Inventory
+from Colors import bcolors
+
+
+
+def check_hp(target, heal, mp_heal):
+    if target.hp < 0:
+        print(f"{target.name} has perished in battle. They can't be healed.")
+
+    target.hp += heal
+    target.mp += mp_heal
+
+    if target.hp > target.maxhp:
+        target.hp = target.maxhp
+    if target.mp > target.maxmp:
+        target.mp = target.maxmp
 
 
 class Items:
@@ -28,28 +43,44 @@ class Items:
         item.quantity -= 1
         print(f"\n\tUsed {item.name}. Remaining: {item.quantity}")
 
+
     def apply_healing(self, item, target):
         match item.name:
             case "Healing Potion":
-                target.hp += 100
+                heal = 100
+                mp_heal = 0
+                check_hp(target, heal, mp_heal)
             case "HI-Potion":
-                target.hp += 250
+                heal = 250
+                mp_heal = 0
+
+                check_hp(target, heal, mp_heal)
             case "Ether":
-                target.mp += 50
+                heal = 0
+                mp_heal = 50
+                check_hp(target, heal, mp_heal)
+
             case "HI-Ether":
-                target.mp += 100
+                heal = 0
+                mp_heal = 100
+                check_hp(target, heal, mp_heal)
+
             case "Elixir":
-                target.hp += 200
-                target.mp += 50
+                heal = 200
+                mp_heal = 50
+                check_hp(target, heal, mp_heal)
+
             case "HI-Elixir":
                 target.hp = target.maxhp
                 target.mp = target.maxmp
+
             case "Phoenix Down":
                 if target.hp > 0:
                     print(f"{target.name} isn't dead.")
                 else:
                     target.hp = target.maxhp * 0.1
                     print(f"{target.name} is back on their feet.")
+
             case _:
                 print("Some problem with healing.")
 
