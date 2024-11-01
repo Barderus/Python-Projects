@@ -14,12 +14,22 @@
    - [x] Add critical hits
    - [ ] Add Pep Up () ( Increase speed, atk, def, mgk_atk, mgk_def, critical_rate by 20%) Lasts 3 turns.
 
-3. Add items to the game.
+4. Add items to the game.
    - [x] Added healing items
    - [x] Added status altering items
    - [x] Added items to the characters inventory
    - [x] Added function and methods to use the items
    - [] Testing all the items
+
+5. Add color and visuals
+   - Add colors to:
+     - Critial hits
+     - Mana
+     - HP
+     - Dead
+     - Lose the game
+     - Win the game
+     - Items being healed
 
 4. Add 3 rooms to the game.
    * Room 1 = First Battle (Gain some random items)
