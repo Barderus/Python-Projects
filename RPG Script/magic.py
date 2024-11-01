@@ -1,4 +1,5 @@
 import random
+from Colors import bcolors
 
 class Magic:
     def __init__(self, name, school, mp, dmg=0, heal=0, effect_type="damage", description=""):
@@ -14,11 +15,7 @@ class Magic:
         if caster.mp < self.mp:
             print(f"{caster.name} doesn't have enough MP to cast {self.name}. {caster.name} is stunned.")
             return False
-
-        print(f"Caster mp: {caster.mp}")
-        print(f"Spell cost: {self.mp}")
         caster.mp -= self.mp
-        print(f"Caster mp afterwards: {caster.mp}")
         return True
 
     def apply(self, caster, target):
