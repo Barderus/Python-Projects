@@ -1,4 +1,5 @@
 import random
+from Colors import bcolors
 
 class Person:
     def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, items, spells, descri,):
