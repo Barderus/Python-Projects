@@ -1,16 +1,18 @@
-"""
-    Queuing characters
-        1. Queue each character to a queue if char.hp > 0 sorted by their speed
-        2. Check if char.hp > 0, if not, dequeue it
-        3. Dequeue each char after they act
-        4. If queue is empty, finish the round
-            Add all chars again if their hp > 0
-"""
 from characters import *
 from items import Items
 import random
 import time
 from collections import deque
+from Colors import bcolors
+
+
+
+def target_list(enemy_team):
+    print("\n\tChoose a target: \n"
+            f"\t- {enemy_team[0].name}\n "
+            f"\t- {enemy_team[1].name}\n"
+            f"\t- {enemy_team[2].name}\n "
+            f"\t- {enemy_team[3].name}\n ")
 
 def treasure_table():
     pass
@@ -50,12 +52,8 @@ def battle_screen(ally_team, enemy_team):
 
 def attack(ally, enemy_team):
     while True:
-        char_name = input("\n\tChoose a target: "
-                                  f"\n\t {enemy_team[0].name:^10}\n "
-                                  f"\n\t {enemy_team[1].name:^10}\n"
-                                  f"\n\t {enemy_team[2].name:^10}\n "
-                                  f"\n\t {enemy_team[3].name:^10}\n "
-                                  "\n\t Target: ")
+        target_list(enemy_team)
+        char_name = input("\n\t Target: ")
 
         # Find the target in the enemy team
         target = None
@@ -104,7 +102,8 @@ def cast_spell(ally, enemy_team, ally_team):
 
     # Target selection loop
     while True:
-        char_name = input("\n\tEnter the name of your target: ").strip().lower()
+        target_list(enemy_team)
+        char_name = input("\n\tTarget: ").strip().lower()
 
         # Find target by name
         target = next((person for person in all_targets if person.name.lower() == char_name), None)
