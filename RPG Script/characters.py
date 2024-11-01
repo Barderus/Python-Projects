@@ -51,7 +51,7 @@ flare = Magic("Flare", "blue", 110, 100, 0, "damage",
 # Healing items
 healing_pot = Items("Healing Potion", "heal", 1,"Restore 100 HP")
 hi_pot = Items("HI-Potion", "heal", 1,"Restore 250 HP")
-ether = Items("Ether", "healing", 1,"Restore 50MP")
+ether = Items("Ether", "heal", 1,"Restore 50MP")
 hi_ether = Items("HI-Ether", "heal", 1,"Restore 100MP")
 elixir = Items("Elixir", "heal", 1,"Restore 200 HP and 50 MP")
 hi_elixir = Items("HI-Elixir", "heal", 1,"Restore to full Health and MP")
