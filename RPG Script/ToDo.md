@@ -31,7 +31,7 @@
      - Win the game
      - Items being healed
 
-4. Add 3 rooms to the game.
+6. Add 3 rooms to the game.
    * Room 1 = First Battle (Gain some random items)
    * Room 2 = Second Battle (Gain some more random items)
    * Room 3 = Boss Fight
