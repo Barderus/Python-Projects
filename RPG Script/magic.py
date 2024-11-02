@@ -23,8 +23,9 @@ class Magic:
             return
 
         if self.effect_type == "damage":
+
             # Define critical hit parameters
-            critical_chance = 0.25  # 25% chance for a critical hit
+            critical_chance = 0.2  # 20% chance for a critical hit
             critical_multiplier = 2  # Critical hits deal double damage
 
             magic_dmg = (caster.mgk_atk + self.dmg) - target.mgk_def
@@ -32,18 +33,43 @@ class Magic:
             is_critical = random.random() < critical_chance
             if is_critical:
                 magic_dmg *= critical_multiplier  # Apply critical damage multiplier
-                print("Critical hit! ")
+                print(bcolors.BOLD + bcolors.BLUE + "Arcane Surge! " + bcolors.ENDC)
 
+            dodge_messages = [
+                f"{target.name} swiftly dodges the attack!",
+                f"{target.name} anticipates and avoids the magic!",
+                f"{target.name} parries, nullifying the spell's effect!",
+                f"{target.name} deflects the spell in a burst of light!"
+            ]
+            kill_messages = [
+                f"{caster.name}'s magic obliterates {target.name}!",
+                f"{target.name} is consumed by {caster.name}'s powerful spell!",
+                f"The magic overwhelms {target.name}, leaving no chance for survival!",
+                f"{caster.name} casts a fatal blow, ending {target.name}!"
+            ]
+
+            # If magic is dodged or blocked
+            if magic_dmg <= 0:
+                print(random.choice(dodge_messages))
+                return
+
+            # Check for Drain spell
             if self.name == "Drain":
                 target.hp = max(0, target.hp - magic_dmg)
                 recovery = magic_dmg * 0.25
                 caster.hp += recovery
-                print(f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage.{caster.name} recovers {int(recovery)} HP.")
+                print(
+                    f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage. {caster.name} recovers {int(recovery)} HP.")
                 return
 
             # Update target's HP and ensure it doesn't go below zero
             target.hp = max(0, target.hp - magic_dmg)
-            print(f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage.")
+
+            # Check if target was defeated
+            if target.hp == 0:
+                print(random.choice(kill_messages))
+            else:
+                print(f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage.")
 
         elif self.effect_type == "healing":
             heal = self.heal + (caster.mgk_atk / 2)
