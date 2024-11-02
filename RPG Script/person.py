@@ -44,14 +44,33 @@ class Person:
         is_critical = random.random() < critical_chance
         if is_critical:
             dmg *= critical_multiplier
-            print("Critical hit! ")
+            print(bcolors.BOLD + bcolors.RED+ "\nCritical hit! " + bcolors.ENDC)
 
-        # Handle damage output
+        miss_messages = [
+            "{target} swiftly evades {attacker}'s attack!",
+            "{attacker} strikes, but {target} nimbly dodges!",
+            "{target} deflects the blow with a perfect parry!",
+            "{attacker}'s attack is met with a quick parry from {target}!",
+            "{target} braces, absorbing {attacker}'s strike!",
+            "{attacker}'s attack lands, but {target} blocks it with a solid defense!"
+        ]
         if dmg < 0:
-            print(f"{self.name} attacks, but {target.name} dodged the attack before it lands.")
-        elif target.hp - dmg < 0:
+            message = random.choice(miss_messages).format(attacker=self.name, target=target.name)
+            print(message)
+        elif target.hp - dmg <= 0:
             target.hp = 0
-            print(f"{self.name} kills {target.name}")
+
+            kill_messages = [
+                "{attacker} lands a devastating strike, finishing off {target}!",
+                "{target} falls as {attacker} delivers the final blow!",
+                "{attacker} defeats {target} with a powerful attack!",
+                "With a fierce attack, {attacker} vanquishes {target}!",
+                "{attacker}'s strike overwhelms {target}, leaving them defeated!"
+            ]
+
+            message = random.choice(kill_messages).format(attacker=self.name, target=target.name)
+            print(f"{bcolors.BOLD}{message}{bcolors.ENDC}")
+
         else:
             target.hp -= dmg
             print(f"{self.name} attacks {target.name} for {dmg} points of damage\n")
