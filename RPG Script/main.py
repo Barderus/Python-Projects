@@ -14,8 +14,9 @@ def target_list(enemy_team):
             f"\t- {enemy_team[2].name}\n "
             f"\t- {enemy_team[3].name}\n ")
 
-def treasure_table():
+def treasure_table(main_team):
     pass
+
 
 def battle_screen(ally_team, enemy_team):
     """ Display each character's health points and their names """
@@ -46,14 +47,12 @@ def battle_screen(ally_team, enemy_team):
           f"HP: {int(enemy_team[1].get_hp()):<3}/{int(enemy_team[1].maxhp):<{hp_width}}\t"
           f"HP: {int(enemy_team[2].get_hp()):<3}/{int(enemy_team[2].maxhp):<{hp_width}}\t"
           f"HP: {int(enemy_team[3].get_hp()):<3}/{int(enemy_team[3].maxhp):<{hp_width}}")
-    print()
-
 
 
 def attack(ally, enemy_team):
     while True:
         target_list(enemy_team)
-        char_name = input("\n\t Target: ")
+        char_name = input(bcolors.RED + bcolors.BOLD + "    TARGET: " + bcolors.ENDC)
 
         # Find the target in the enemy team
         target = None
@@ -61,6 +60,9 @@ def attack(ally, enemy_team):
             if enemy.name.lower() == char_name.lower():  # Case-insensitive comparison
                 target = enemy
                 break
+
+        if target == "c":
+            return "c"
 
         if target is None:
             print("Invalid target name. Please try again.")
@@ -77,12 +79,13 @@ def attack(ally, enemy_team):
 def cast_spell(ally, enemy_team, ally_team):
     # Check if the ally has any spells
     if not ally.spells:
-        print("No spells to display")
+        print(f"\n\t{bcolors.YELLOW}{bcolors.BOLD}{ally.name} is not adept with the arts of magic.{bcolors.ENDC}\n")
         return "c"
 
     # Display available spells
+    print(f"\n{bcolors.BOLD}{bcolors.BLUE} SPELLS: {bcolors.ENDC}")
     for spell in ally.spells:
-        print(f"\nSpell Name: {spell.name} | MP cost: {spell.mp} | Damage: {spell.dmg} \nDescription: {spell.descri}")
+        print(f"\nSpell Name: {spell.name} | MP cost: {spell.mp} |\nDescription: {spell.descri}")
 
     # Get user input for choosing a spell
     choose_spell = input("\n\tChoose a spell (c to cancel): ").strip().lower()
@@ -103,8 +106,10 @@ def cast_spell(ally, enemy_team, ally_team):
     # Target selection loop
     while True:
         target_list(enemy_team)
-        char_name = input("\n\tTarget: ").strip().lower()
+        char_name = input(bcolors.RED + bcolors.BOLD + "    TARGET: " + bcolors.ENDC).strip().lower()
 
+        if char_name == "c":
+            return "c"
         # Find target by name
         target = next((person for person in all_targets if person.name.lower() == char_name), None)
 
@@ -113,18 +118,15 @@ def cast_spell(ally, enemy_team, ally_team):
         else:
             print("Invalid target. Please try again.")
 
-    #if not chosen_spell.check_mp(ally):
-        #return f"{ally.name} is out of mp and can't cast magic right now."
-
     ally.cast_magic(target, chosen_spell)
 
 
 def items(ally, enemy_team, ally_team):
-    print("\nInventory:")
+    print(f"\n{bcolors.BOLD}{bcolors.BLUE}INVENTORY:{bcolors.ENDC}")
 
     # Display available items with their descriptions
     for item in ally.items:
-        print(f"- {item.name}: {item.description}")  # Ensure to show item details
+        print(f"- {item.name}: {item.description} x{item.quantity}")  # Ensure to show item details
 
     # Get user input for choosing an item
     choose_item = input("\n\tChoose an item (c to cancel): ").strip().lower()
@@ -144,7 +146,9 @@ def items(ally, enemy_team, ally_team):
 
     # Target selection loop
     while True:
-        target_name = input("\tWho would you like to use this item on? ").strip().lower()
+        target_name = input("\tWho would you like to use this item on: ").strip().lower()
+        if target_name == "c":
+            return "c"
 
         # Find target by name
         target = next((person for person in all_targets if person.name.lower() == target_name), None)
@@ -155,20 +159,24 @@ def items(ally, enemy_team, ally_team):
             print("\tThat's not a valid target. Please try again.")
 
     # Use the item on the chosen target
-    chosen_item.use_item(chosen_item, target)  # Pass inventory
-    print(f"\t{chosen_item.name} used on {target.name}!")
+    result = chosen_item.use_item(chosen_item, target)  # Pass inventory
+    if not result:
+        return "c"
+    print(f"\t{ally.name} uses {chosen_item.name} on {target.name}!")
 
 
 def actions(ally, enemy_team, ally_team):
     while True:
         action = input(f"\n{ally.name}'s action:"
-                       "\nACTIONS:"
+                       f"{bcolors.BOLD}{bcolors.BLUE}\nACTIONS:{bcolors.ENDC}"
                        "\n1. Attack"
                        "\n2. Magic"
                        "\n3. Items"
                        "\nChoose Action: ").strip()
         if action == "1":
-            attack(ally, enemy_team)
+            result = attack(ally, enemy_team)
+            if result == "c":
+                continue
             break
         elif action == "2":
             result = cast_spell(ally, enemy_team, ally_team)
@@ -191,29 +199,30 @@ def enemy_attack(ally_team, enemy):
     else:
         enemy.attacks(random_ally)
         if random_ally.hp == 0:
-            print(f"{random_ally.name} is dead.")
+            print(f"{random_ally.name} is " + bcolors.BOLD+ bcolors.RED + "dead" + bcolors.ENDC)
 
 
 def prompt():
     """
         This function displays a welcoming message and prompts the user for their characters.
     """
-    # Display a welcome message and prompt user for their character
-    print("\t\t\t\tWelcome to Dungeons and the Ur-Dragon!\n\n\
-     \tAre you ready to embark on an epic adventure, defeat the forces of evil,\n\
-     \tand become a legendary hero?\n\n")
-    input("\t\t\t\tEnter any button to begin...\n >")
-    print("\t\t\t\t\t\tLet the quest begin!")
-    print("\n\t\tChoose your hero: ")
+    print(
+        f"{bcolors.BOLD}{bcolors.PURPLE}\n\t\t\t\tWelcome to {bcolors.UNDERLINE}Dungeons and the Ur-Dragon!{bcolors.ENDC}\n\n")
+    print(
+        f"\tAre you ready to embark on an {bcolors.BOLD}epic adventure{bcolors.ENDC}, defeat the forces of {bcolors.RED}evil{bcolors.ENDC},")
+    print(f"\tand become a {bcolors.GREEN}legendary hero{bcolors.ENDC}?\n\n{bcolors.ENDC}")
+    input(f"{bcolors.BLUE}\t\t\t\tPress any key to begin...\n > {bcolors.ENDC}")
+    print(f"{bcolors.RED}{bcolors.BOLD}\t\t\t\t\t\tLet the quest begin!{bcolors.ENDC}")
+    print(f"{bcolors.GREEN}\n\t\tChoose your hero: {bcolors.ENDC}")
 
     # List of all the character names to be chosen from
     avatar_names = [avatar.name for avatar in avatars.values()]
 
-    # Display the names in a list format. Also including the hero's description.
-    for index, name in enumerate(avatar_names):
-        print(f"\t\t{index + 1}. {name}")
+    # Display the names with a dash and style, followed by the hero's description.
+    for name in avatar_names:
+        print(f"{bcolors.BOLD}\t\t- {name}{bcolors.ENDC}")
         avatar_obj = next(avatar for avatar in avatars.values() if avatar.name == name)
-        print(f"\t\t {avatar_obj.descri}\n")
+        print(f"\t\t{avatar_obj.descri}\n")
 
     # Control loop to check if the name entered by the user is valid
     while True:
@@ -223,7 +232,7 @@ def prompt():
             selected_hero = name_to_avatar[hero_choice]  # Now this is the object
             break
         else:
-            print(f"{hero_choice} is not a playable character!")
+            print(f"{bcolors.BOLD}{bcolors.RED}{hero_choice}{bcolors.ENDC} is not a playable character.\n")
 
     # Returns the name of the hero
     return selected_hero
@@ -233,22 +242,32 @@ def gen_enemies():
     """
         This function generates a random list of enemies for the player to fight
     """
+    # Enemies for room1
     enemy_list = list(enemies.values())
+
+    # Enemies for room2
+    enemy_list2 = list(enemies.values())
+
+    # enemies for room3
     boss_list = list(bosses.values())
 
     enemy_fight_set = set()
+    enemy_fight_set2 = set()
     boss_fight_set = set()
 
     #  Select the enemies
     while len(enemy_fight_set) < 4:
         enemy_fight_set.add(random.choice(enemy_list))
 
+    while len(enemy_fight_set2) < 4:
+         enemy_fight_set2.add(random.choice(enemy_list))
+
     # Select the enemies for the boss fight
     for x in range(1, 3):
         boss_fight_set.add(random.choice(enemy_list))
     boss_fight_set.add(random.choice(boss_list))
 
-    return list(enemy_fight_set), list(boss_fight_set)
+    return list(enemy_fight_set), list(enemy_fight_set2), list(boss_fight_set)
 
 
 def gen_allies():
@@ -274,6 +293,7 @@ def clear():
 
 def battle(ally_team, enemies_team):
     running = True
+    turn = 1
     char_q = deque()
     char_list = ally_team + enemies_team
     char_list = sorted(char_list, key=lambda chars: chars.speed if chars.hp > 0 else 0, reverse=True)
@@ -282,6 +302,7 @@ def battle(ally_team, enemies_team):
 
     print()
     while running and char_q:
+        print(f"\n############################## {bcolors.BOLD}{bcolors.GREEN}TURN {turn}{bcolors.ENDC} ##############################")
         battle_screen(ally_team, enemies_team)
         current_char = char_q.popleft()
 
@@ -290,13 +311,14 @@ def battle(ally_team, enemies_team):
                 actions(current_char, enemies_team, ally_team)
             elif current_char in enemies_team:
                 enemy_attack(ally_team, current_char)
+        turn += 1
 
         if all(enemy.hp <= 0 for enemy in enemies_team):
             print("All enemies are defeated! You win!")
             running = False
             break
         if all(allies.hp <= 0 for allies in ally_team):
-            print("You failed. You and your allies perished in the hands of enemy.")
+            print(+ bcolors.BOLD + bcolors.RED + "You failed. You and your allies perished in the hands of enemy." + bcolors.ENDC)
             running = False
             break
 
@@ -315,7 +337,7 @@ def main():
 
     # Generate allies, enemies
     allies_team = gen_allies()
-    enemies_fight, boss_fight = gen_enemies()
+    enemies_fight, enemies_fight2, boss_fight = gen_enemies()
 
     # Prompt the user for their hero
     selected_hero = prompt()
@@ -324,12 +346,18 @@ def main():
     main_team = [selected_hero] + allies_team
 
     # Display the team roster with access to object attributes
-    print("Your team roster: ")
+    print(bcolors.BOLD + bcolors.PURPLE + "\nYour team roster: " + bcolors.ENDC)
     for ally in main_team:
-        print(f"\t{ally.name}\n\t\t{ally.descri}")
+        print(f"\t- {ally.name}")
     clear()
 
     battle(main_team, enemies_fight)
+    treasure_table(main_team)
+    battle(main_team, enemies_fight2)
+    treasure_table(main_team)
+    battle(main_team, boss_fight)
+
+
 
 
 if "__main__" == __name__:

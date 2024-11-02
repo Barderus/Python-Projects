@@ -27,7 +27,7 @@ class Items:
         # Check if the item can be used (quantity check)
         if self.quantity <= 0:
             print(f"You have no {self.name} left to use.")
-            return
+            return False
 
         # Apply the effect of the item on the target
         if item.effect == "heal":
