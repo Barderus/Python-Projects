@@ -194,19 +194,56 @@ def actions(ally, enemy_team, ally_team):
             print("Invalid action. Please choose 1, 2, or 3.")
 
 
+def select_enemy_spell(enemy):
+    spells = list(enemy.spell_weights.keys())
+    weights = list(enemy.spell_weights.values())
+    chosen_spell = random.choices(spells, weights=weights, k=1)[0]
+    return chosen_spell
+
+
 def enemy_attack(ally_team, enemy):
-    # Select a random ally with HP > 0
+    # Select only alive allies
     alive_allies = [ally for ally in ally_team if ally.hp > 0]
 
     if not alive_allies:
         print(f"All allies are down. {enemy.name} has no one to attack.")
         return
 
-    random_ally = random.choice(alive_allies)
-    enemy.attacks(random_ally)
+    # Sort allies by attributes
+    sorted_by_hp = sorted(alive_allies, key=lambda obj: obj.hp)
+    sorted_by_mgk_def = sorted(alive_allies, key=lambda obj: obj.mgk_def)
+    sorted_by_atk = sorted(alive_allies, key=lambda obj: obj.atk, reverse=True)
 
-    if random_ally.hp == 0:
-        print(f"{random_ally.name} is " + bcolors.BOLD + bcolors.RED + "dead" + bcolors.ENDC)
+    # Ally with lowest HP
+    low_hp_ally = sorted_by_hp[0]
+
+    # Check if enemy has spells
+    if enemy.spells:
+        # Cast spell if enemy has high magic attack and ally is vulnerable
+        if low_hp_ally.hp < (low_hp_ally.maxhp // 2):
+            if enemy.mgk_atk > enemy.atk and low_hp_ally.mgk_def < low_hp_ally.df:
+                spell = select_enemy_spell(enemy)
+                enemy.cast_magic(low_hp_ally, spell)
+            else:
+                enemy.attacks(low_hp_ally)
+        else:
+            random_low_mgk = random.choice(sorted_by_mgk_def)
+            random_high_atk = random.choice(sorted_by_atk)
+
+            if random_low_mgk != random_high_atk:
+                ally_list = [random_low_mgk, random_high_atk]
+            else:
+                ally_list = [random_low_mgk]
+
+            target_ally = random.choice(ally_list)
+            enemy.attacks(target_ally)
+    else:
+        target_ally = random.choice(alive_allies)
+        enemy.attacks(target_ally)
+
+        # Check if the targeted ally is down after the attack
+        if target_ally.hp == 0:
+            print(f"{target_ally.name} is " + bcolors.BOLD + bcolors.RED + "dead" + bcolors.ENDC)
 
 
 def prompt():
@@ -307,6 +344,8 @@ def battle(ally_team, enemies_team):
     for char in char_list:
         char_q.append(char)
 
+    print()
+    print(char_list[0].name, char_list[1].name, char_list[2].name)
     print()
     while running and char_q:
         print(f"\n############################## {bcolors.BOLD}{bcolors.GREEN}TURN {turn}{bcolors.ENDC} ##############################")
