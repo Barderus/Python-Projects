@@ -9,10 +9,40 @@ from characters import *
 
 
 def play_sound():
+    # List of songs
+    songs = [
+        "Music/AudioCoffee Band - Cinematic Galactic.mp3",
+        "Music/ArcSound - Dark Horror Nightmare.mp3",
+        "Music/BlackTrendMusic - Epic.mp3",
+        "Music/Lowtone Music - Cinematic Soundtrack.mp3",
+        "Music/Lowtone Music - Dark Trailer.mp3",
+        "Music/Lowtone Music - Epic Action.mp3",
+        "Music/Lowtone Music - Fantasy Teaser.mp3",
+        "Music/Lowtone Music - Get Up & Fight.mp3",
+        "Music/Lowtone Music - This is War - Cinematic Epic.mp3",
+        "Music/UNIVERSFIELD - Gloomy Depths.mp3"
+    ]
+
     mixer.init()
-    mixer.music.load("Music/AudioCoffee Band - Cinematic Galactic.mp3")
     mixer.music.set_volume(0.8)
-    mixer.music.play()
+
+    def queue_songs(song_list):
+        # Shuffle and queue all songs
+        random.shuffle(song_list)
+        first_song = song_list.pop(0)
+        mixer.music.load(first_song)
+        for song in song_list:
+            mixer.music.queue(song)
+        mixer.music.play()
+
+    queue_songs(songs.copy())  # Queue initial songs
+
+    # Loop to check if queue is empty
+    while True:
+        if not mixer.music.get_busy():
+            print("Queue empty, reloading songs...")
+            queue_songs(songs.copy())  # Reload the songs
+        time.sleep(5)
 
 def target_list(enemy_team):
     print("\n\tChoose a target: \n"
@@ -23,37 +53,25 @@ def target_list(enemy_team):
 
 
 def treasure_table(main_team):
-    pass
+    items_per_ally = 1
+    for ally in allies:
+        rewards = random.sample(all_items, items_per_ally)
+        for item in rewards:
+            ally.inventory.add_item(item)  # Use add_item to add each item
+        print(f"{ally.name} received: {[item.name for item in rewards]}")
+
+
 
 
 def battle_screen(ally_team, enemy_team):
     """ Display each character's health points and their names """
-    # Define the width for formatting
-    name_width = 20  # Width for names
-    hp_width = 15  # Width for HP and max HP display
-    mp_width = 15  # Width for MP and max MP display
-
     # Display ally team
-    print(f"{bcolors.BOLD}{ally_team[0].name:<{name_width}}\t{ally_team[1].name:<{name_width}}\t"
-          f"{ally_team[2].name:<{name_width}}\t{ally_team[3].name:<{name_width}}{bcolors.ENDC}")
-    print(f"HP: {int(ally_team[0].get_hp()):<3}/{int(ally_team[0].maxhp):<{hp_width}}\t"
-          f"HP: {int(ally_team[1].get_hp()):<3}/{int(ally_team[1].maxhp):<{hp_width}}\t"
-          f"HP: {int(ally_team[2].get_hp()):<3}/{int(ally_team[2].maxhp):<{hp_width}}\t"
-          f"HP: {int(ally_team[3].get_hp()):<3}/{int(ally_team[3].maxhp):<{hp_width}}")
-
-    print(f"MP: {int(ally_team[0].get_mp()):<3}/{int(ally_team[0].maxmp):<{mp_width}}\t"
-          f"MP: {int(ally_team[1].get_mp()):<3}/{int(ally_team[1].maxmp):<{mp_width}}\t"
-          f"MP: {int(ally_team[2].get_mp()):<3}/{int(ally_team[2].maxmp):<{mp_width}}\t"
-          f"MP: {int(ally_team[3].get_mp()):<3}/{int(ally_team[3].maxmp):<{mp_width}}")
+    for person in ally_team:
+        person.get_stats()
 
     print()
-    # Display enemy team
-    print(f"{bcolors.BOLD}{enemy_team[0].name:<{name_width}}\t{enemy_team[1].name:<{name_width}}\t"
-          f"{enemy_team[2].name:<{name_width}}\t{enemy_team[3].name:<{name_width}}{bcolors.ENDC}")
-    print(f"HP: {int(enemy_team[0].get_hp()):<3}/{int(enemy_team[0].maxhp):<{hp_width}}\t"
-          f"HP: {int(enemy_team[1].get_hp()):<3}/{int(enemy_team[1].maxhp):<{hp_width}}\t"
-          f"HP: {int(enemy_team[2].get_hp()):<3}/{int(enemy_team[2].maxhp):<{hp_width}}\t"
-          f"HP: {int(enemy_team[3].get_hp()):<3}/{int(enemy_team[3].maxhp):<{hp_width}}")
+    for bbeg in enemy_team:
+        bbeg.get_stats()
     print()
 
 
@@ -64,13 +82,15 @@ def attack(ally, enemy_team):
 
         # Find the target in the enemy team
         target = None
+
+        if char_name == "c":
+            return "c"
+
         for enemy in enemy_team:
             if enemy.name.lower() == char_name.lower():  # Case-insensitive comparison
                 target = enemy
                 break
 
-        if target == "c":
-            return "c"
 
         if target is None:
             print(f"{bcolors.YELLOW}{bcolors.BOLD}Invalid target name. Please try again.{bcolors.ENDC}")
@@ -343,6 +363,10 @@ def battle(ally_team, enemies_team):
     char_list = sorted(char_list, key=lambda chars: chars.speed if chars.hp > 0 else 0, reverse=True)
     for char in char_list:
         char_q.append(char)
+
+    for char in char_q:
+       print(char.name)
+
     print()
     while running and char_q:
         print(
@@ -368,17 +392,22 @@ def battle(ally_team, enemies_team):
             break
 
         if not char_q:
+            print("Refilling the queue...")
             char_list = [char for char in ally_team + enemies_team if char.hp > 0]
             if char_list:  # Refill the queue if there are still characters alive
-                char_list = sorted(char_list, key=lambda chars: char.speed, reverse=True)
+                char_list = sorted(char_list, key=lambda chars: chars.speed if chars.hp > 0 else 0, reverse=True)
                 for char in char_list:
                     char_q.append(char)
+                    print(char.name)
             else:
                 print("Battle is over!")
                 running = False
 
 
 def main():
+    thread = Thread(target=play_sound)
+    thread.start()
+
     # Generate allies, enemies
     allies_team = gen_allies()
     enemies_fight, enemies_fight2, boss_fight = gen_enemies()
@@ -394,8 +423,6 @@ def main():
     for ally in main_team:
         print(f"\t- {ally.name}")
     clear()
-    thread = Thread(target=play_sound)
-    thread.start()
     battle(main_team, enemies_fight)
     treasure_table(main_team)
     battle(main_team, enemies_fight2)
