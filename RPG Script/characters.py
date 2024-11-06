@@ -235,10 +235,31 @@ enemies = {
     "troll": Person(
         name="Troll", hp=950, mp=50, atk=200, df=110, speed = 30, mgk_atk=10, mgk_def=50,
         items=[red_fang],
-        spells=[red_fang, protect_coat],
+        spells=[],
         descri = ""
     ),
 }
+
+enemies["orc"].spell_weights = {
+    drain: 2,       # Medium likelihood of using Drain
+    blizzard: 5     # Higher likelihood of using Blizzard
+}
+
+enemies["knight"].spell_weights = {
+    drain: 3,       # Medium chance
+    protect: 4,     # Slightly higher chance to use Protect
+    speed: 2        # Lower chance
+}
+
+enemies["necro"].spell_weights = {
+    dark: 4,        # High chance of using Dark
+    drain: 3,       # Medium chance
+    fire: 2,        # Lower chance
+    quake: 5,       # Highest likelihood
+    revive: 1       # Rare chance to use Revive
+}
+
+
 # Bosses
 bosses = {
     "dragon": Person(
