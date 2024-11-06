@@ -1,18 +1,17 @@
-from characters import *
-from items import Items
 import random
 import time
 from collections import deque
-from Colors import bcolors
 
+from Colors import bcolors
+from characters import *
 
 
 def target_list(enemy_team):
     print("\n\tChoose a target: \n"
-            f"\t- {enemy_team[0].name}\n "
-            f"\t- {enemy_team[1].name}\n"
-            f"\t- {enemy_team[2].name}\n "
-            f"\t- {enemy_team[3].name}\n ")
+          f"\t- {enemy_team[0].name}\n "
+          f"\t- {enemy_team[1].name}\n"
+          f"\t- {enemy_team[2].name}\n "
+          f"\t- {enemy_team[3].name}\n ")
 
 
 def treasure_table(main_team):
@@ -94,13 +93,11 @@ def cast_spell(ally, enemy_team, ally_team):
     if choose_spell == "c":
         return "c"
 
-
     # Find the chosen spell
     chosen_spell = next((spell for spell in ally.spells if spell.name.lower() == choose_spell), None)
     if not chosen_spell:
         print("Spell not found.")
         return "c"
-
 
     # Create a list of valid targets (enemies and allies)
     all_targets = [obj for obj in enemy_team if obj.hp > 0] + [obj for obj in ally_team if obj.hp > 0]
@@ -216,34 +213,29 @@ def enemy_attack(ally_team, enemy):
 
     # Ally with lowest HP
     low_hp_ally = sorted_by_hp[0]
+    target_ally = low_hp_ally
 
-    # Check if enemy has spells
-    if enemy.spells:
-        # Cast spell if enemy has high magic attack and ally is vulnerable
-        if low_hp_ally.hp < (low_hp_ally.maxhp // 2):
-            if enemy.mgk_atk > enemy.atk and low_hp_ally.mgk_def < low_hp_ally.df:
-                spell = select_enemy_spell(enemy)
-                enemy.cast_magic(low_hp_ally, spell)
-            else:
-                enemy.attacks(low_hp_ally)
-        else:
-            random_low_mgk = random.choice(sorted_by_mgk_def)
-            random_high_atk = random.choice(sorted_by_atk)
+    # Check if enemy has spells and prioritizes magic
+    if enemy.spells and enemy.mgk_atk > enemy.atk:
+        spell = select_enemy_spell(enemy)
+        enemy.cast_magic(low_hp_ally, spell)
+        return
 
-            if random_low_mgk != random_high_atk:
-                ally_list = [random_low_mgk, random_high_atk]
-            else:
-                ally_list = [random_low_mgk]
-
-            target_ally = random.choice(ally_list)
-            enemy.attacks(target_ally)
+    # Fallback to physical attack if no spells or insufficient MP
+    if low_hp_ally.hp < (low_hp_ally.maxhp // 2) and low_hp_ally.mgk_def < low_hp_ally.df:
+        target_ally = low_hp_ally
     else:
-        target_ally = random.choice(alive_allies)
-        enemy.attacks(target_ally)
+        # Select from weaker defense and stronger attack allies
+        random_low_mgk = random.choice(sorted_by_mgk_def)
+        random_high_atk = random.choice(sorted_by_atk)
 
-        # Check if the targeted ally is down after the attack
-        if target_ally.hp == 0:
-            print(f"{target_ally.name} is " + bcolors.BOLD + bcolors.RED + "dead" + bcolors.ENDC)
+        ally_list = [random_low_mgk] if random_low_mgk == random_high_atk else [random_low_mgk, random_high_atk]
+        target_ally = random.choice(ally_list)  # Select the final target for attack
+
+    enemy.attacks(target_ally)
+
+    if target_ally.hp == 0:
+        print(f"{target_ally.name} is " + bcolors.BOLD + bcolors.RED + "dead" + bcolors.ENDC)
 
 
 def prompt():
@@ -304,7 +296,7 @@ def gen_enemies():
         enemy_fight_set.add(random.choice(enemy_list))
 
     while len(enemy_fight_set2) < 4:
-         enemy_fight_set2.add(random.choice(enemy_list))
+        enemy_fight_set2.add(random.choice(enemy_list))
 
     # Select the enemies for the boss fight
     for x in range(1, 3):
@@ -348,7 +340,8 @@ def battle(ally_team, enemies_team):
     print(char_list[0].name, char_list[1].name, char_list[2].name)
     print()
     while running and char_q:
-        print(f"\n############################## {bcolors.BOLD}{bcolors.GREEN}TURN {turn}{bcolors.ENDC} ##############################")
+        print(
+            f"\n############################## {bcolors.BOLD}{bcolors.GREEN}TURN {turn}{bcolors.ENDC} ##############################")
         battle_screen(ally_team, enemies_team)
         current_char = char_q.popleft()
 
@@ -364,7 +357,8 @@ def battle(ally_team, enemies_team):
             running = False
             break
         if all(allies.hp <= 0 for allies in ally_team):
-            print(+ bcolors.BOLD + bcolors.RED + "You failed. You and your allies perished in the hands of enemy." + bcolors.ENDC)
+            print(
+                + bcolors.BOLD + bcolors.RED + "You failed. You and your allies perished in the hands of enemy." + bcolors.ENDC)
             running = False
             break
 
@@ -380,7 +374,6 @@ def battle(ally_team, enemies_team):
 
 
 def main():
-
     # Generate allies, enemies
     allies_team = gen_allies()
     enemies_fight, enemies_fight2, boss_fight = gen_enemies()
