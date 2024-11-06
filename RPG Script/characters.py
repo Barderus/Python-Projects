@@ -92,33 +92,33 @@ avatars= {
         descri = "A fierce and untamed warrior, the Barbarian relies on raw power and savage attacks to overwhelm foes."
     ),
     "healer": Person(
-        name="Aerith", hp=700, mp=180, atk=30, df=80, speed = 45, mgk_atk=150, mgk_def=100,
+        name="Aerith", hp=700, mp=360, atk=30, df=80, speed = 45, mgk_atk=150, mgk_def=100,
         items=[hi_pot, ether, witch_hat, dragon_spit],
         spells=[cura, curaga, revive, flare],
         descri = "A compassionate and wise protector, the Healer specializes in restoring hp and safeguarding allies."
     ),
     "green mage": Person(
-        name="Gandalf", hp=750, mp=200, atk=80, df=75, speed = 40, mgk_atk=200, mgk_def=90,
+        name="Gandalf", hp=750, mp=400, atk=80, df=75, speed = 40, mgk_atk=200, mgk_def=90,
         items=[elixir, faerie_bless, dragon_spit, healing_pot],
-        spells=[cure, protect, shell, holy],
+        spells=[cure, protect, shell, holy, fire, blizzard, speed],
         descri = "A versatile caster, the Green Mage blends healing magic with elemental attacks, balancing support and offense."
     ),
     "wizard": Person(
-        name="Snape", hp=680, mp=220, atk=40, df=70, speed = 50, mgk_atk=220, mgk_def=70,
+        name="Snape", hp=680, mp=440, atk=40, df=70, speed = 50, mgk_atk=220, mgk_def=70,
         items=[elixir, faerie_bless, dragon_spit, healing_pot],
-        spells=[thunder, ultima, quake, tornado],
+        spells=[thunder, dark, ultima, quake, tornado],
         descri = "A master of destructive magic, the Black Mage wields powerful spells to annihilate enemies from afar."
     ),
     "sorcerer": Person(
-        name="Vivi", hp=650, mp=190, atk=40, df=70, speed = 60, mgk_atk=200, mgk_def=100,
+        name="Vivi", hp=650, mp=380, atk=40, df=70, speed = 60, mgk_atk=200, mgk_def=100,
         items=[elixir, faerie_bless, dragon_spit, healing_pot],
-        spells=[fire, blizzard, ultima, meteor],
+        spells=[fire, thunder, dark, drain, ultima, meteor],
         descri = "A dark and enigmatic sorcerer, this Black Mage conjures arcane forces to devastate foes with precision."
     ),
     "you": Person(
-        name= "You", hp=125, mp=100, atk=100, df=65, speed = 80, mgk_atk=125, mgk_def=80,
+        name= "You", hp=125, mp=300, atk=150, df=65, speed = 80, mgk_atk=155, mgk_def=80,
         items=[hi_pot, hi_elixir, phoenix_down],
-        spells=[],
+        spells=[fire, blizzard, thunder, dark, drain, quake, tornado, meteor, ultima],
         descri = "The destined champion, the Hero embodies the player's choices, leading the charge against evil with courage and valor."
     )
 }
@@ -126,13 +126,13 @@ avatars= {
 # Create the NPC dictionary
 allies = {
     "liora": Person(
-        name="Liora the Healer", hp=600, mp=180, atk=55, df=50, speed = 35, mgk_atk=180, mgk_def=100,
+        name="Liora the Healer", hp=600, mp=360, atk=55, df=50, speed = 35, mgk_atk=180, mgk_def=100,
         items=[healing_pot, hi_pot, elixir, phoenix_down, protect_coat],
         spells=[cure, cura, curaga, revive],
         descri="A compassionate healer from the White Lotus Order. Liora is known for her ability to mend even the most grievous wounds."
     ),
     "zarek": Person(
-        name="Zarek the Black Mage", hp=500, mp=200, atk=50, df=65, speed = 65, mgk_atk=220, mgk_def=75,
+        name="Zarek the Black Mage", hp=500, mp=400, atk=50, df=65, speed = 65, mgk_atk=220, mgk_def=75,
         items=[ether, healing_pot, faerie_bless, moonstone],
         spells=[fire, thunder, blizzard],
         descri="A powerful black mage with mastery over the elements. Zarek's spells bring destruction to his foes."
@@ -144,19 +144,19 @@ allies = {
         descri="A seasoned warrior known for his unshakable resolve and strength in battle. Eldric excels in close combat."
     ),
     "sylphra": Person(
-        name="Sylphra the White Mage", hp=450, mp=180, atk=40, df=50, speed = 50, mgk_atk=150, mgk_def=110,
+        name="Sylphra the White Mage", hp=450, mp=360, atk=40, df=50, speed = 50, mgk_atk=150, mgk_def=110,
         items=[hi_pot, ether, protect_coat, witch_hat, elixir],
         spells=[cura, protect, shell],
         descri="A gentle white mage with a deep connection to the divine. Sylphra uses her magic to protect and heal her allies."
     ),
     "thorn": Person(
-        name="Thorne the Dark Blade", hp=620, mp=150, atk=90, df=65, speed = 55, mgk_atk=100, mgk_def=55,
+        name="Thorne the Dark Blade", hp=620, mp=300, atk=90, df=65, speed = 55, mgk_atk=100, mgk_def=55,
         items=[ether, moonstone, witch_hat, spider_silk, dragon_spit, healing_pot],
         spells=[dark, drain],
         descri="A warrior with a mastery of dark magic, Thorne strikes fear into the hearts of his enemies with his cursed blade."
     ),
     "faye": Person(
-        name="Faye the Mystic", hp=430, mp=170, atk=50, df=50, speed = 75, mgk_atk=220, mgk_def=75,
+        name="Faye the Mystic", hp=430, mp=340, atk=50, df=50, speed = 75, mgk_atk=220, mgk_def=75,
         items=[ether, faerie_bless, acid, spider_silk],
         spells=[bio, meteor, speed],
         descri="A mysterious mage who wields unconventional magic. Faye uses forbidden spells to outsmart and debilitate her foes."
@@ -168,7 +168,7 @@ allies = {
         descri="A stalwart warrior who prioritizes defense. Garrick’s immense strength and resilience make him a formidable protector."
     ),
     "talia": Person(
-        name="Talia the Battle Cleric", hp=520, mp=120, atk=85, df=65, speed = 45, mgk_atk=90, mgk_def=85,
+        name="Talia the Battle Cleric", hp=520, mp=240, atk=85, df=65, speed = 45, mgk_atk=90, mgk_def=85,
         items=[healing_pot, ether, phoenix_down, acid, moonstone],
         spells=[holy, flare, cure, protect],
         descri="A battle-hardened cleric who wields both a mace and holy magic. Talia can fight on the frontlines while supporting her allies."
@@ -179,33 +179,33 @@ allies = {
 enemies = {
     # Enemies
     "goblin": Person(
-        name="Goblin", hp=200, mp=50, atk=95, df=30, speed = 100, mgk_atk=10, mgk_def=20,
-        items=[],
-        spells=[],
+        name="Goblin", hp=200, mp=50, atk=100, df=30, speed = 100, mgk_atk=10, mgk_def=20,
+        items=[healing_pot],
+        spells=[fire],
         descri = ""
     ),
     "orc": Person(
-        name="Orc", hp=600, mp=50, atk=145, df=50, speed = 75, mgk_atk=10, mgk_def=20,
-        items=[],
-        spells=[],
+        name="Orc", hp=600, mp=50, atk=165, df=50, speed = 75, mgk_atk=10, mgk_def=20,
+        items=[hi_pot],
+        spells=[drain, blizzard],
         descri = ""
     ),
     "kobold": Person(
-        name="Kobold", hp=400, mp=50, atk=95, df=30, speed = 90, mgk_atk=10, mgk_def=20,
-        items=[],
-        spells=[],
+        name="Kobold", hp=400, mp=50, atk=105, df=30, speed = 90, mgk_atk=10, mgk_def=20,
+        items=[healing_pot],
+        spells=[fire],
         descri = ""
     ),
     "skeleton": Person(
-        name="Skeleton Warrior", hp=380, mp=50, atk=105, df=30, speed = 60, mgk_atk=10, mgk_def=20,
+        name="Skeleton Warrior", hp=380, mp=50, atk=115, df=30, speed = 60, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri = ""
     ),
     "knight": Person(
         name="Dark Knight", hp=650, mp=50, atk=170, df=70, speed = 70, mgk_atk=10, mgk_def=20,
-        items=[],
-        spells=[],
+        items=[hi_pot, protect_coat, hermes_shoes],
+        spells=[drain, protect, speed],
         descri = ""
     ),
     "ghoul": Person(
@@ -215,14 +215,14 @@ enemies = {
         descri = ""
     ),
     "slime": Person(
-        name="Slime", hp=500, mp=50, atk=105, df=120, speed = 10, mgk_atk=10, mgk_def=50,
+        name="Slime", hp=500, mp=50, atk=105, df=120, speed = 10, mgk_atk=10, mgk_def=75,
         items=[],
         spells=[],
         descri = ""
     ),
     "necro": Person(
         name="Necromancer", hp=400, mp=400, atk=75, df=30, speed = 60, mgk_atk=160, mgk_def=80,
-        items=[],
+        items=[witch_hat, faerie_bless, ether, healing_pot],
         spells=[dark, drain, fire, quake, revive],
         descri = ""
     ),
@@ -234,22 +234,22 @@ enemies = {
     ),
     "troll": Person(
         name="Troll", hp=950, mp=50, atk=200, df=110, speed = 30, mgk_atk=10, mgk_def=50,
-        items=[],
-        spells=[],
+        items=[red_fang],
+        spells=[red_fang, protect_coat],
         descri = ""
     ),
 }
 # Bosses
 bosses = {
     "dragon": Person(
-        name="Ur-Dragon", hp=4000, mp=50, atk=250, df=100, speed = 100, mgk_atk=50, mgk_def=100,
+        name="Ur-Dragon", hp=4000, mp=50, atk=250, df=100, speed = 100, mgk_atk=200, mgk_def=100,
         items=[],
-        spells=[],
+        spells=[curaga, fire ],
         descri = ""
     ),
     "lich": Person(
         name="Lich", hp=2000, mp=1000, atk=100, df=80, mgk_atk=250, speed = 60, mgk_def=100,
-        items=[],
+        items=[hi_elixir, hi_pot, phoenix_down],
         spells=[meteor, dark, drain, quake, cura, revive],
         descri = ""
     ),
