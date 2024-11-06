@@ -78,10 +78,31 @@ class Person:
 
         else:
             target.hp -= dmg
-            print(f"{self.name} attacks {target.name} for {dmg} points of damage\n")
+            print(f"{self.name} attacks {target.name} for {bcolors.RED}{bcolors.BOLD}{dmg} points of damage{bcolors.ENDC}\n")
 
     def cast_magic(self, target, magic):
         magic.apply(caster=self, target=target)
+
+    def get_stats(self):
+        # Calculate the bar lengths and ticks
+        hp_bar_length = 25
+        mp_bar_length = 10
+
+        # HP bar and MP bar generation with fixed lengths
+        hp_bar = "█" * int((self.hp / self.maxhp) * hp_bar_length)
+        hp_bar = hp_bar.ljust(hp_bar_length)
+
+        mp_bar = "█" * int((self.mp / self.maxmp) * mp_bar_length)
+        mp_bar = mp_bar.ljust(mp_bar_length)
+
+        # Format HP and MP as strings with right-alignment within fixed widths
+        current_hp = f"{int(self.hp)}/{self.maxhp}".rjust(9)
+        current_mp = f"{self.mp}/{self.maxmp}".rjust(7)
+
+        # Print the character stats line
+        print("                     _________________________              __________ ")
+        print(
+            f"{bcolors.BOLD}{self.name:<20}{(current_hp)} |{bcolors.GREEN}{hp_bar}{bcolors.ENDC}|    {current_mp} |{bcolors.BLUE}{mp_bar}{bcolors.ENDC}|")
 
     def __str__(self):
         return (f"Name: {self.name}"
