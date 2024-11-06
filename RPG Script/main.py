@@ -1,10 +1,18 @@
 import random
 import time
+from pygame import mixer
+from threading import Thread
 from collections import deque
 
 from Colors import bcolors
 from characters import *
 
+
+def play_sound():
+    mixer.init()
+    mixer.music.load("Music/AudioCoffee Band - Cinematic Galactic.mp3")
+    mixer.music.set_volume(0.8)
+    mixer.music.play()
 
 def target_list(enemy_team):
     print("\n\tChoose a target: \n"
@@ -386,7 +394,8 @@ def main():
     for ally in main_team:
         print(f"\t- {ally.name}")
     clear()
-
+    thread = Thread(target=play_sound)
+    thread.start()
     battle(main_team, enemies_fight)
     treasure_table(main_team)
     battle(main_team, enemies_fight2)
