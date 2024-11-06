@@ -71,6 +71,9 @@ spider_silk = Items("Spider Silk", "debuff", 1, "Lowers target Speed in 10")
 moonstone = Items("Moonstone", "debuff", 1, "Lowers target Magik Attack in 10")
 dragon_spit = Items("Dragon Spit", "debuff", 1, "Lowers target Magik Defense in 10")
 
+all_items = [healing_pot, hi_pot, ether, hi_ether, elixir, hi_elixir, phoenix_down, hermes_shoes, red_fang, protect_coat,
+             faerie_bless, witch_hat, slug_bomb, acid, spider_silk, moonstone, dragon_spit]
+
 # Creating player avatar
 avatars = {
     "fighter": Person(
@@ -179,61 +182,61 @@ allies = {
 enemies = {
     # Enemies
     "goblin": Person(
-        name="Goblin", hp=200, mp=50, atk=100, df=30, speed=100, mgk_atk=95, mgk_def=20,
+        name="Goblin", hp=200, mp=50, atk=120, df=30, speed=100, mgk_atk=105, mgk_def=20,
         items=[healing_pot],
         spells=[fire],
         descri=""
     ),
     "orc": Person(
-        name="Orc", hp=600, mp=50, atk=165, df=50, speed=75, mgk_atk=120, mgk_def=20,
+        name="Orc", hp=600, mp=50, atk=175, df=50, speed=75, mgk_atk=120, mgk_def=20,
         items=[hi_pot],
         spells=[drain, blizzard],
         descri=""
     ),
     "kobold": Person(
-        name="Kobold", hp=400, mp=50, atk=105, df=30, speed=90, mgk_atk=100, mgk_def=20,
+        name="Kobold", hp=400, mp=50, atk=115, df=30, speed=90, mgk_atk=110, mgk_def=20,
         items=[healing_pot],
         spells=[fire],
         descri=""
     ),
     "skeleton": Person(
-        name="Skeleton Warrior", hp=380, mp=50, atk=115, df=30, speed=60, mgk_atk=10, mgk_def=20,
+        name="Skeleton Warrior", hp=380, mp=50, atk=125, df=30, speed=60, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri=""
     ),
     "knight": Person(
-        name="Dark Knight", hp=650, mp=50, atk=170, df=70, speed=70, mgk_atk=10, mgk_def=20,
+        name="Dark Knight", hp=650, mp=50, atk=180, df=70, speed=70, mgk_atk=10, mgk_def=20,
         items=[hi_pot, protect_coat, hermes_shoes],
         spells=[drain, protect, speed],
         descri=""
     ),
     "ghoul": Person(
-        name="Ghoul", hp=320, mp=50, atk=120, df=10, speed=0, mgk_atk=10, mgk_def=20,
+        name="Ghoul", hp=320, mp=50, atk=130, df=10, speed=0, mgk_atk=10, mgk_def=20,
         items=[],
         spells=[],
         descri=""
     ),
     "slime": Person(
-        name="Slime", hp=500, mp=50, atk=105, df=120, speed=10, mgk_atk=10, mgk_def=75,
+        name="Slime", hp=500, mp=50, atk=145, df=120, speed=10, mgk_atk=10, mgk_def=75,
         items=[],
         spells=[],
         descri=""
     ),
     "necro": Person(
-        name="Necromancer", hp=400, mp=800, atk=75, df=30, speed=60, mgk_atk=160, mgk_def=80,
+        name="Necromancer", hp=400, mp=800, atk=75, df=30, speed=60, mgk_atk=180, mgk_def=80,
         items=[witch_hat, faerie_bless, ether, healing_pot],
         spells=[dark, drain, fire, quake],
         descri=""
     ),
     "ghost": Person(
-        name="Wraith", hp=720, mp=50, atk=190, df=100, speed=70, mgk_atk=10, mgk_def=70,
+        name="Wraith", hp=720, mp=50, atk=200, df=100, speed=70, mgk_atk=10, mgk_def=80,
         items=[],
         spells=[],
         descri=""
     ),
     "troll": Person(
-        name="Troll", hp=950, mp=50, atk=200, df=110, speed=30, mgk_atk=10, mgk_def=50,
+        name="Troll", hp=950, mp=50, atk=215, df=110, speed=30, mgk_atk=10, mgk_def=70,
         items=[red_fang],
         spells=[],
         descri=""
