@@ -1,5 +1,7 @@
 import random
+
 from Colors import bcolors
+
 
 class Magic:
     def __init__(self, name, school, mp, dmg=0, heal=0, effect_type="damage", description=""):
@@ -67,6 +69,7 @@ class Magic:
 
             # Check if target was defeated
             if target.hp == 0:
+                print(f"{caster.name} casts {self.name} on {target.name} dealing {magic_dmg}")
                 print(random.choice(kill_messages))
             else:
                 print(f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage.")
@@ -88,6 +91,7 @@ class Magic:
         elif self.effect_type == "revive" and target.hp == 0:
             target.hp = target.maxhp * 0.5
             print(f"{caster.name} revives {target.name}.")
+
 
 def __str__(self):
     return (f"Name: {self.name}"

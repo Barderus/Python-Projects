@@ -1,8 +1,10 @@
 import random
+
 from Colors import bcolors
 
+
 class Person:
-    def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, items, spells, descri,):
+    def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, items, spells, descri, ):
         self.name = name
         self.hp = hp
         self.maxhp = hp
@@ -47,7 +49,7 @@ class Person:
         is_critical = random.random() < critical_chance
         if is_critical:
             dmg *= critical_multiplier
-            print(bcolors.BOLD + bcolors.RED+ "\nCritical hit! " + bcolors.ENDC)
+            print(bcolors.BOLD + bcolors.RED + "\nCritical hit! " + bcolors.ENDC)
 
         miss_messages = [
             "{target} swiftly evades {attacker}'s attack!",

@@ -1,5 +1,3 @@
-from Colors import bcolors
-
 class Inventory:
     def __init__(self):
         self.inventory = []
@@ -31,4 +29,3 @@ class Inventory:
         print("\nCurrent Inventory:")
         for item in self.inventory:
             print(f"{item.name} | Quantity: {item.quantity} | Description: {item.description}")
-

@@ -1,8 +1,3 @@
-from inventory import Inventory
-from Colors import bcolors
-
-
-
 def check_hp(target, heal, mp_heal):
     if target.hp < 0:
         print(f"{target.name} has perished in battle. They can't be healed.")
@@ -42,7 +37,6 @@ class Items:
         # Decrease item quantity after usage
         item.quantity -= 1
         print(f"\n\tUsed {item.name}. Remaining: {item.quantity}")
-
 
     def apply_healing(self, item, target):
         match item.name:
@@ -99,7 +93,7 @@ class Items:
             case _:
                 print("Some problem with buffing")
 
-    def apply_debuff(self,item, target):
+    def apply_debuff(self, item, target):
         match item.name:
             case "Slug Bomb":
                 target.atk -= 10
