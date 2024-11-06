@@ -14,6 +14,7 @@ def target_list(enemy_team):
             f"\t- {enemy_team[2].name}\n "
             f"\t- {enemy_team[3].name}\n ")
 
+
 def treasure_table(main_team):
     pass
 
@@ -75,6 +76,7 @@ def attack(ally, enemy_team):
             if target.hp == 0:
                 print(f"{target.name} is dead.")
             break
+
 
 def cast_spell(ally, enemy_team, ally_team):
     # Check if the ally has any spells
@@ -193,13 +195,18 @@ def actions(ally, enemy_team, ally_team):
 
 
 def enemy_attack(ally_team, enemy):
-    random_ally = random.choice(ally_team)
-    if random_ally.hp <= 0:
-        print(f"{enemy.name} slips and isn't able to attack.")
-    else:
-        enemy.attacks(random_ally)
-        if random_ally.hp == 0:
-            print(f"{random_ally.name} is " + bcolors.BOLD+ bcolors.RED + "dead" + bcolors.ENDC)
+    # Select a random ally with HP > 0
+    alive_allies = [ally for ally in ally_team if ally.hp > 0]
+
+    if not alive_allies:
+        print(f"All allies are down. {enemy.name} has no one to attack.")
+        return
+
+    random_ally = random.choice(alive_allies)
+    enemy.attacks(random_ally)
+
+    if random_ally.hp == 0:
+        print(f"{random_ally.name} is " + bcolors.BOLD + bcolors.RED + "dead" + bcolors.ENDC)
 
 
 def prompt():
@@ -356,8 +363,6 @@ def main():
     battle(main_team, enemies_fight2)
     treasure_table(main_team)
     battle(main_team, boss_fight)
-
-
 
 
 if "__main__" == __name__:
