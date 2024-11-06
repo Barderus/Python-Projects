@@ -17,6 +17,9 @@ class Person:
         self.spells = spells
         self.descri = descri
 
+        # For enemies: stores weights of each spell if needed
+        self.spell_weights = {spell: 1 for spell in spells}
+
     def get_hp(self):
         return self.hp
 
@@ -74,7 +77,6 @@ class Person:
         else:
             target.hp -= dmg
             print(f"{self.name} attacks {target.name} for {dmg} points of damage\n")
-
 
     def cast_magic(self, target, magic):
         magic.apply(caster=self, target=target)
