@@ -15,7 +15,7 @@ class Magic:
 
     def check_mp(self, caster):
         if caster.mp < self.mp:
-            print(f"{caster.name} doesn't have enough MP to cast {self.name}. {caster.name} is stunned.")
+            print(f"\t\t{bcolors.YELLOW}{bcolors.BOLD}{caster.name} doesn't have enough MP to cast {self.name}. {caster.name} is stunned.{bcolors.ENDC}")
             return False
         caster.mp -= self.mp
         return True
@@ -44,10 +44,10 @@ class Magic:
                 f"{target.name} deflects the spell in a burst of light!"
             ]
             kill_messages = [
-                f"{caster.name}'s magic obliterates {target.name}!",
-                f"{target.name} is consumed by {caster.name}'s powerful spell!",
-                f"The magic overwhelms {target.name}, leaving no chance for survival!",
-                f"{caster.name} casts a fatal blow, ending {target.name}!"
+                f"{caster.name}'s magic {bcolors.RED}{bcolors.BOLD}obliterates{bcolors.ENDC} {target.name}!",
+                f"{target.name} is {bcolors.RED}{bcolors.BOLD}consumed{bcolors.ENDC} by {caster.name}'s powerful spell!",
+                f"{caster.name}'s magic overwhelms {target.name}, leaving {bcolors.RED}{bcolors.BOLD}no chance{bcolors.ENDC} for survival!",
+                f"{caster.name} casts a {bcolors.RED}{bcolors.BOLD}fatal blow{bcolors.ENDC}, ending {target.name}!"
             ]
 
             # If magic is dodged or blocked
@@ -69,15 +69,15 @@ class Magic:
 
             # Check if target was defeated
             if target.hp == 0:
-                print(f"{caster.name} casts {self.name} on {target.name} dealing {magic_dmg}")
+                print(f"{caster.name} casts {self.name} on {target.name} dealing {bcolors.RED}{bcolors.BOLD}{magic_dmg}{bcolors.ENDC} points of damage")
                 print(random.choice(kill_messages))
             else:
-                print(f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage.")
+                print(f"{caster.name} casts {self.name} on {target.name}, dealing {bcolors.RED}{bcolors.BOLD}{int(magic_dmg)}{bcolors.ENDC} damage.")
 
         elif self.effect_type == "healing":
             heal = self.heal + (caster.mgk_atk / 2)
             target.hp = min(target.maxhp, target.hp + heal)
-            print(f"{caster.name} heals {target.name} for {int(heal)} HP.")
+            print(f"{caster.name} heals {target.name} for {bcolors.GREEN}{bcolors.BOLD}{int(heal)}{bcolors.ENDC} HP.")
 
         elif self.effect_type == "buff":
             if self.name == "Protect":

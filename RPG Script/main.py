@@ -26,8 +26,8 @@ def battle_screen(ally_team, enemy_team):
     mp_width = 15  # Width for MP and max MP display
 
     # Display ally team
-    print(f"{ally_team[0].name:<{name_width}}\t{ally_team[1].name:<{name_width}}\t"
-          f"{ally_team[2].name:<{name_width}}\t{ally_team[3].name:<{name_width}}")
+    print(f"{bcolors.BOLD}{ally_team[0].name:<{name_width}}\t{ally_team[1].name:<{name_width}}\t"
+          f"{ally_team[2].name:<{name_width}}\t{ally_team[3].name:<{name_width}}{bcolors.ENDC}")
     print(f"HP: {int(ally_team[0].get_hp()):<3}/{int(ally_team[0].maxhp):<{hp_width}}\t"
           f"HP: {int(ally_team[1].get_hp()):<3}/{int(ally_team[1].maxhp):<{hp_width}}\t"
           f"HP: {int(ally_team[2].get_hp()):<3}/{int(ally_team[2].maxhp):<{hp_width}}\t"
@@ -39,14 +39,14 @@ def battle_screen(ally_team, enemy_team):
           f"MP: {int(ally_team[3].get_mp()):<3}/{int(ally_team[3].maxmp):<{mp_width}}")
 
     print()
-
     # Display enemy team
-    print(f"{enemy_team[0].name:<{name_width}}\t{enemy_team[1].name:<{name_width}}\t"
-          f"{enemy_team[2].name:<{name_width}}\t{enemy_team[3].name:<{name_width}}")
+    print(f"{bcolors.BOLD}{enemy_team[0].name:<{name_width}}\t{enemy_team[1].name:<{name_width}}\t"
+          f"{enemy_team[2].name:<{name_width}}\t{enemy_team[3].name:<{name_width}}{bcolors.ENDC}")
     print(f"HP: {int(enemy_team[0].get_hp()):<3}/{int(enemy_team[0].maxhp):<{hp_width}}\t"
           f"HP: {int(enemy_team[1].get_hp()):<3}/{int(enemy_team[1].maxhp):<{hp_width}}\t"
           f"HP: {int(enemy_team[2].get_hp()):<3}/{int(enemy_team[2].maxhp):<{hp_width}}\t"
           f"HP: {int(enemy_team[3].get_hp()):<3}/{int(enemy_team[3].maxhp):<{hp_width}}")
+    print()
 
 
 def attack(ally, enemy_team):
@@ -65,31 +65,31 @@ def attack(ally, enemy_team):
             return "c"
 
         if target is None:
-            print("Invalid target name. Please try again.")
+            print(f"{bcolors.YELLOW}{bcolors.BOLD}Invalid target name. Please try again.{bcolors.ENDC}")
             continue
 
         if target.hp <= 0:
-            print(f"{target.name} is already dead. Choose another target.")
+            print(f"{bcolors.YELLOW}{bcolors.BOLD}{target.name} is already dead. Choose another target.{bcolors.ENDC}")
         else:
             ally.attacks(target)  # Attack the selected target
             if target.hp == 0:
-                print(f"{target.name} is dead.")
+                print(f"{target.name} is {bcolors.RED}{bcolors.BOLD}dead{bcolors.ENDC}.")
             break
 
 
 def cast_spell(ally, enemy_team, ally_team):
     # Check if the ally has any spells
     if not ally.spells:
-        print(f"\n\t{bcolors.YELLOW}{bcolors.BOLD}{ally.name} is not adept with the arts of magic.{bcolors.ENDC}\n")
+        print(f"\n\t{bcolors.YELLOW}{bcolors.BOLD}{ally.name} is not adept with the arts of Magik.{bcolors.ENDC}\n")
         return "c"
 
     # Display available spells
     print(f"\n{bcolors.BOLD}{bcolors.BLUE} SPELLS: {bcolors.ENDC}")
     for spell in ally.spells:
-        print(f"\nSpell Name: {spell.name} | MP cost: {spell.mp} |\nDescription: {spell.descri}")
+        print(f"Spell Name: {spell.name} | MP cost: {spell.mp} \nDescription: {spell.descri}\n")
 
     # Get user input for choosing a spell
-    choose_spell = input("\n\tChoose a spell (c to cancel): ").strip().lower()
+    choose_spell = input(f"\n\t{bcolors.BLUE}{bcolors.BOLD}SPELL:{bcolors.ENDC} (c to cancel): ").strip().lower()
     if choose_spell == "c":
         return "c"
 
@@ -104,7 +104,6 @@ def cast_spell(ally, enemy_team, ally_team):
 
     # Target selection loop
     while True:
-        target_list(enemy_team)
         char_name = input(bcolors.RED + bcolors.BOLD + "    TARGET: " + bcolors.ENDC).strip().lower()
 
         if char_name == "c":
@@ -115,7 +114,7 @@ def cast_spell(ally, enemy_team, ally_team):
         if target:
             break
         else:
-            print("Invalid target. Please try again.")
+            print(f"\t\t{bcolors.YELLOW}{bcolors.BOLD}Invalid target. Please try again.{bcolors.ENDC}")
 
     ally.cast_magic(target, chosen_spell)
 
@@ -128,7 +127,7 @@ def items(ally, enemy_team, ally_team):
         print(f"- {item.name}: {item.description} x{item.quantity}")  # Ensure to show item details
 
     # Get user input for choosing an item
-    choose_item = input("\n\tChoose an item (c to cancel): ").strip().lower()
+    choose_item = input(f"\n\t{bcolors.BLUE}{bcolors.BOLD}ITEM{bcolors.ENDC} (c to cancel): ").strip().lower()
 
     # Check if the user wants to cancel
     if choose_item == "c":
@@ -137,15 +136,16 @@ def items(ally, enemy_team, ally_team):
     # Find the chosen item
     chosen_item = next((item for item in ally.items if item.name.lower() == choose_item), None)
     if chosen_item is None:
-        print("\tYou don't have this item. Please try again.")
+        print(f"\t{bcolors.YELLOW}{bcolors.BOLD}You don't have this item. Try again.{bcolors.ENDC}")
         return "c"
 
     # Create a list of valid targets (both allies and enemies)
     all_targets = [obj for obj in ally_team + enemy_team if obj.hp > 0]
 
     # Target selection loop
+
     while True:
-        target_name = input("\tWho would you like to use this item on: ").strip().lower()
+        target_name = input(bcolors.RED + bcolors.BOLD + "    TARGET: " + bcolors.ENDC).strip().lower()
         if target_name == "c":
             return "c"
 
@@ -188,7 +188,7 @@ def actions(ally, enemy_team, ally_team):
                 continue
             break
         else:
-            print("Invalid action. Please choose 1, 2, or 3.")
+            print(f"\t\t{bcolors.YELLOW}{bcolors.BOLD}Invalid action. Please choose 1, 2, or 3.{bcolors.ENDC}")
 
 
 def select_enemy_spell(enemy):
@@ -243,7 +243,7 @@ def prompt():
         This function displays a welcoming message and prompts the user for their characters.
     """
     print(
-        f"{bcolors.BOLD}{bcolors.PURPLE}\n\t\t\t\tWelcome to {bcolors.UNDERLINE}Dungeons and the Ur-Dragon!{bcolors.ENDC}\n\n")
+        f"{bcolors.BOLD}{bcolors.YELLOW}\n\t\t\t\tWelcome to {bcolors.UNDERLINE}Dungeons and the Ur-Dragon!{bcolors.ENDC}\n\n")
     print(
         f"\tAre you ready to embark on an {bcolors.BOLD}epic adventure{bcolors.ENDC}, defeat the forces of {bcolors.RED}evil{bcolors.ENDC},")
     print(f"\tand become a {bcolors.GREEN}legendary hero{bcolors.ENDC}?\n\n{bcolors.ENDC}")
@@ -268,7 +268,7 @@ def prompt():
             selected_hero = name_to_avatar[hero_choice]  # Now this is the object
             break
         else:
-            print(f"{bcolors.BOLD}{bcolors.RED}{hero_choice}{bcolors.ENDC} is not a playable character.\n")
+            print(f"{bcolors.BOLD}{bcolors.YELLOW}{hero_choice}{bcolors.ENDC} is not a playable character.\n")
 
     # Returns the name of the hero
     return selected_hero
@@ -335,9 +335,6 @@ def battle(ally_team, enemies_team):
     char_list = sorted(char_list, key=lambda chars: chars.speed if chars.hp > 0 else 0, reverse=True)
     for char in char_list:
         char_q.append(char)
-
-    print()
-    print(char_list[0].name, char_list[1].name, char_list[2].name)
     print()
     while running and char_q:
         print(
@@ -353,7 +350,7 @@ def battle(ally_team, enemies_team):
         turn += 1
 
         if all(enemy.hp <= 0 for enemy in enemies_team):
-            print("All enemies are defeated! You win!")
+            print(f"{bcolors.GREEN}{bcolors.BOLD} All enemies are defeated! You win! {bcolors.ENDC}")
             running = False
             break
         if all(allies.hp <= 0 for allies in ally_team):

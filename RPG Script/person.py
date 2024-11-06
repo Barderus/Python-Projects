@@ -49,32 +49,32 @@ class Person:
         is_critical = random.random() < critical_chance
         if is_critical:
             dmg *= critical_multiplier
-            print(bcolors.BOLD + bcolors.RED + "\nCritical hit! " + bcolors.ENDC)
+            print(bcolors.BOLD + bcolors.RED + "\nCRITICAL HIT! " + bcolors.ENDC)
 
         miss_messages = [
-            "{target} swiftly evades {attacker}'s attack!",
-            "{attacker} strikes, but {target} nimbly dodges!",
-            "{target} deflects the blow with a perfect parry!",
-            "{attacker}'s attack is met with a quick parry from {target}!",
-            "{target} braces, absorbing {attacker}'s strike!",
-            "{attacker}'s attack lands, but {target} blocks it with a solid defense!"
+            f"{target.name} {bcolors.BOLD}evades{bcolors.ENDC} {self.name}'s attack!",
+            f"{self.name} strikes, but {target.name} {bcolors.BOLD}dodges{bcolors.ENDC} it!",
+            f"{target.name} deflects the blow with a {bcolors.BOLD}perfect parry!{bcolors.ENDC}",
+            f"{self.name}'s attack is met with a {bcolors.BOLD}quick parry{bcolors.ENDC} from {target.name}!",
+            f"{target.name} braces for the attack, {bcolors.BOLD}absorbing{bcolors.ENDC} {self.name}'s strike!",
+            f"{self.name}'s attack, but {target.name} {bcolors.BOLD}blocks{bcolors.ENDC} it with a solid defense!"
         ]
         if dmg < 0:
-            message = random.choice(miss_messages).format(attacker=self.name, target=target.name)
+            message = random.choice(miss_messages)
             print(message)
         elif target.hp - dmg <= 0:
             target.hp = 0
 
             kill_messages = [
-                "{attacker} lands a devastating strike, finishing off {target}!",
-                "{target} falls as {attacker} delivers the final blow!",
-                "{attacker} defeats {target} with a powerful attack!",
-                "With a fierce attack, {attacker} vanquishes {target}!",
-                "{attacker}'s strike overwhelms {target}, leaving them defeated!"
+                f"{self.name} lands a devastating strike, {bcolors.RED}{bcolors.BOLD}finishing off{bcolors.ENDC} {target.name}!",
+                f"{target.name} falls as {self.name} delivers the {bcolors.RED}{bcolors.BOLD}final blow!{bcolors.ENDC}",
+                f"{self.name} {bcolors.RED}{bcolors.BOLD}defeats{bcolors.ENDC} {target.name} with a powerful attack!",
+                f"With a fierce attack, {self.name} {bcolors.RED}{bcolors.BOLD}vanquishes{bcolors.ENDC} {target.name}!",
+                f"{self.name}'s strike overwhelms {target.name}, leaving them {bcolors.RED}{bcolors.BOLD}defeated!{bcolors.ENDC}",
             ]
 
-            message = random.choice(kill_messages).format(attacker=self.name, target=target.name)
-            print(f"{bcolors.BOLD}{message}{bcolors.ENDC}")
+            message = random.choice(kill_messages)
+            print(message)
 
         else:
             target.hp -= dmg
