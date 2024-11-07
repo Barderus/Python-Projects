@@ -127,8 +127,12 @@ def cast_spell(ally, enemy_team, ally_team):
         print("Spell not found.")
         return "c"
 
+    if chosen_spell.name == "Meteor" or chosen_spell.name == "Quake" or chosen_spell.name == "Ultima" or chosen_spell.name == "Flare":
+        ally.cast_magic(enemy_team, chosen_spell)
+        return
+
     # Create a list of valid targets (enemies and allies)
-    all_targets = [obj for obj in enemy_team if obj.hp > 0] + [obj for obj in ally_team if obj.hp > 0]
+    all_targets = [obj for obj in enemy_team if obj.hp > 0] + [obj for obj in ally_team]
 
     # Target selection loop
     while True:
@@ -181,7 +185,8 @@ def items(ally, enemy_team, ally_team):
 
         # Find target by name
         target = next((person for person in all_targets if person.name.lower() == target_name), None)
-        print(target.name)
+        for t in target:
+            print(t.name)
 
         if target:
             break
@@ -194,7 +199,6 @@ def items(ally, enemy_team, ally_team):
         print(f"\t{ally.name} uses {chosen_item.name} on {target.name}!")
     else:
         print(f"\t{bcolors.RED}{bcolors.BOLD}The item could not be used!{bcolors.ENDC}")
-
 
 
 def actions(ally, enemy_team, ally_team):
