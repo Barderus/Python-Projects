@@ -29,6 +29,35 @@ class Magic:
             critical_chance = 0.2  # 20% chance for a critical hit
             critical_multiplier = 2  # Critical hits deal double damage
 
+            if isinstance(target, (list, tuple)):
+                magic_dmg = self.dmg + caster.mgk_atk
+                is_critical = random.random() < critical_chance
+                if is_critical:
+                    magic_dmg *= critical_multiplier  # Apply critical damage multiplier
+                    print(bcolors.BOLD + bcolors.BLUE + "Arcane Surge! " + bcolors.ENDC)
+
+                if self.name == "Flare":
+                    rand_target = random.choice(target)
+                    ttl_dmg = (magic_dmg - rand_target.mgk_def)
+                    rand_target.hp -= ttl_dmg
+                    for char in target:
+                        print(f"Stats before flare: {char.atk}, {char.df}, {char.speed}, {char.mgk_atk}")
+                        char.atk -= 15
+                        char.df =- 15
+                        char.speed =- 15
+                        char.mgk_atk -= 15
+                        char.mgk_def -= 15
+                        print(f"Stats after flare: {char.atk}, {char.df}, {char.speed}, {char.mgk_atk}")
+
+                    print(f"{caster.name} casts {self.name} on {rand_target.name} dealing {ttl_dmg} damage. All enemies got their stats reduced.")
+
+                for char in target:
+                    char.hp -= magic_dmg
+                    if char.hp <= 0:
+                        char.hp = 0
+                print(f"{caster.name} casted {self.name} on all enemies dealing {bcolors.RED}{bcolors.BOLD}{magic_dmg}{bcolors.ENDC} points of damage.")
+                return
+
             magic_dmg = (caster.mgk_atk + self.dmg) - target.mgk_def
             # Determine if a critical hit occurs
             is_critical = random.random() < critical_chance
@@ -63,6 +92,9 @@ class Magic:
                     f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage. {caster.name} recovers {int(recovery)} HP.")
                 return
 
+            if self.name == "Meteor" or self.name == "Quake" or self.name == "Ultima":
+                pass
+
             # Update target's HP and ensure it doesn't go below zero
             target.hp = max(0, target.hp - magic_dmg)
 
@@ -74,7 +106,7 @@ class Magic:
                 print(f"{caster.name} casts {self.name} on {target.name}, dealing {bcolors.RED}{bcolors.BOLD}{int(magic_dmg)}{bcolors.ENDC} damage.")
 
         elif self.effect_type == "healing":
-            heal = self.heal + (caster.mgk_atk / 2)
+            heal = self.heal + caster.mgk_atk
             target.hp = min(target.maxhp, target.hp + heal)
             print(f"{caster.name} heals {target.name} for {bcolors.GREEN}{bcolors.BOLD}{int(heal)}{bcolors.ENDC} HP.")
 
@@ -88,7 +120,7 @@ class Magic:
             print(f"{caster.name} casts {self.name}, buffing {target.name}.")
 
         elif self.effect_type == "revive" and target.hp == 0:
-            target.hp = target.maxhp * 0.5
+            target.hp += target.maxhp * 0.5
             print(f"{caster.name} revives {target.name}.")
 
 
