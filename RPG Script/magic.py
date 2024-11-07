@@ -25,7 +25,6 @@ class Magic:
             return
 
         if self.effect_type == "damage":
-
             # Define critical hit parameters
             critical_chance = 0.2  # 20% chance for a critical hit
             critical_multiplier = 2  # Critical hits deal double damage

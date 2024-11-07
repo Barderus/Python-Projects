@@ -21,7 +21,7 @@ dark = Magic("Dark", "black", 30, 60, 0, "damage",
              "A shadowy force strikes the enemy, dealing damage and shrouding them in darkness.")
 bio = Magic("Bio", "black", 30, 50, 0, "damage",
             "A poisonous wind that deals damage over time to the target.")
-drain = Magic("Drain", "black", 25, 40, 0, "drain",
+drain = Magic("Drain", "black", 25, 40, 0, "damage",
               "A sinister spell that drains the target's life force, restoring a portion of health to the caster.")
 
 # White Spells
@@ -119,7 +119,7 @@ avatars = {
         descri="A dark and enigmatic sorcerer, this Black Mage conjures arcane forces to devastate foes with precision."
     ),
     "you": Person(
-        name="You", hp=125, mp=300, atk=150, df=65, speed=80, mgk_atk=155, mgk_def=80,
+        name="You", hp=1250, mp=350, atk=175, df=65, speed=80, mgk_atk=155, mgk_def=80,
         items=[hi_pot, hi_elixir, phoenix_down],
         spells=[fire, blizzard, thunder, dark, drain, quake, tornado, meteor, ultima],
         descri="The destined champion, the Hero embodies the player's choices, leading the charge against evil with courage and valor."
