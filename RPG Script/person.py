@@ -1,10 +1,11 @@
 import random
 
 from Colors import bcolors
+from inventory import Inventory
 
 
 class Person:
-    def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, items, spells, descri, ):
+    def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, spells, descri, ):
         self.name = name
         self.hp = hp
         self.maxhp = hp
@@ -15,7 +16,7 @@ class Person:
         self.speed = speed
         self.mgk_atk = mgk_atk
         self.mgk_def = mgk_def
-        self.items = items
+        self.inventory = Inventory()
         self.spells = spells
         self.descri = descri
 

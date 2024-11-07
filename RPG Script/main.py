@@ -40,7 +40,7 @@ def play_sound():
     # Loop to check if queue is empty
     while True:
         if not mixer.music.get_busy():
-            print("Queue empty, reloading songs...")
+            #print("Queue empty, reloading songs...")
             queue_songs(songs.copy())  # Reload the songs
         time.sleep(5)
 
@@ -53,13 +53,12 @@ def target_list(enemy_team):
 
 
 def treasure_table(main_team):
-    items_per_ally = 1
-    for ally in allies:
+    items_per_ally = 3
+    for ally in main_team:
         rewards = random.sample(all_items, items_per_ally)
-        for item in rewards:
-            ally.inventory.add_item(item)  # Use add_item to add each item
-        print(f"{ally.name} received: {[item.name for item in rewards]}")
-
+        for reward in rewards:
+            ally.inventory.add_item(reward)  # Add item to the inventory
+        print(f"{ally.name} received: {[item.name for reward in rewards]}")
 
 
 
@@ -151,27 +150,29 @@ def items(ally, enemy_team, ally_team):
     print(f"\n{bcolors.BOLD}{bcolors.BLUE}INVENTORY:{bcolors.ENDC}")
 
     # Display available items with their descriptions
-    for item in ally.items:
-        print(f"- {item.name}: {item.description} x{item.quantity}")  # Ensure to show item details
+    for item in ally.inventory.items.values():
+        print(f"- {item.name}: {item.description} x{item.quantity} ")
 
-    # Get user input for choosing an item
     choose_item = input(f"\n\t{bcolors.BLUE}{bcolors.BOLD}ITEM{bcolors.ENDC} (c to cancel): ").strip().lower()
 
-    # Check if the user wants to cancel
     if choose_item == "c":
         return "c"
 
     # Find the chosen item
-    chosen_item = next((item for item in ally.items if item.name.lower() == choose_item), None)
+    chosen_item = next((item for item in ally.inventory.items.values() if item.name.lower() == choose_item), None)
     if chosen_item is None:
         print(f"\t{bcolors.YELLOW}{bcolors.BOLD}You don't have this item. Try again.{bcolors.ENDC}")
         return "c"
+
+    print(chosen_item.effect)
+    print(chosen_item.description)
+    print(chosen_item.name)
+    print(chosen_item.quantity)
 
     # Create a list of valid targets (both allies and enemies)
     all_targets = [obj for obj in ally_team + enemy_team if obj.hp > 0]
 
     # Target selection loop
-
     while True:
         target_name = input(bcolors.RED + bcolors.BOLD + "    TARGET: " + bcolors.ENDC).strip().lower()
         if target_name == "c":
@@ -179,17 +180,20 @@ def items(ally, enemy_team, ally_team):
 
         # Find target by name
         target = next((person for person in all_targets if person.name.lower() == target_name), None)
+        print(target.name)
 
         if target:
             break
         else:
             print("\tThat's not a valid target. Please try again.")
 
-    # Use the item on the chosen target
-    result = chosen_item.use_item(chosen_item, target)  # Pass inventory
-    if not result:
-        return "c"
-    print(f"\t{ally.name} uses {chosen_item.name} on {target.name}!")
+    chosen_item.use_item(target)
+    if chosen_item.quantity == 0:
+        ally.inventory.remove_item(chosen_item.name, chosen_item.quantity)  # Remove item from inventory if quantity is 0
+        print(f"\t{ally.name} uses {chosen_item.name} on {target.name}!")
+    else:
+        print(f"\t{bcolors.RED}{bcolors.BOLD}The item could not be used!{bcolors.ENDC}")
+
 
 
 def actions(ally, enemy_team, ally_team):
@@ -364,8 +368,8 @@ def battle(ally_team, enemies_team):
     for char in char_list:
         char_q.append(char)
 
-    for char in char_q:
-       print(char.name)
+    #for char in char_q:
+      # print(char.name)
 
     print()
     while running and char_q:
@@ -392,13 +396,13 @@ def battle(ally_team, enemies_team):
             break
 
         if not char_q:
-            print("Refilling the queue...")
+            #print("Refilling the queue...")
             char_list = [char for char in ally_team + enemies_team if char.hp > 0]
             if char_list:  # Refill the queue if there are still characters alive
                 char_list = sorted(char_list, key=lambda chars: chars.speed if chars.hp > 0 else 0, reverse=True)
                 for char in char_list:
                     char_q.append(char)
-                    print(char.name)
+                    #print(char.name)
             else:
                 print("Battle is over!")
                 running = False
@@ -427,6 +431,9 @@ def main():
     treasure_table(main_team)
     battle(main_team, enemies_fight2)
     treasure_table(main_team)
+    for ally in main_team:
+        ally.hp += ally.maxhp
+        ally.mp = ally.maxmp
     battle(main_team, boss_fight)
 
 
