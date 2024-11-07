@@ -15,7 +15,7 @@ Doing at least one or two projects would be a good idea.
     - Something related to birding? ( For Fun )
     - Enrichment tracker (?) ( For Fun )
       - For Willowbrook
-    - RPG Script (** In Progress ** )
+    - RPG Script (** Finished (Nov 6) **  )
 
 - **Data Science:**
    - Picture identifier
