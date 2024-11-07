@@ -169,13 +169,8 @@ def items(ally, enemy_team, ally_team):
         print(f"\t{bcolors.YELLOW}{bcolors.BOLD}You don't have this item. Try again.{bcolors.ENDC}")
         return "c"
 
-    print(chosen_item.effect)
-    print(chosen_item.description)
-    print(chosen_item.name)
-    print(chosen_item.quantity)
-
     # Create a list of valid targets (both allies and enemies)
-    all_targets = [obj for obj in ally_team + enemy_team if obj.hp > 0]
+    all_targets = [obj for obj in enemy_team if obj.hp > 0] + [obj for obj in ally_team]
 
     # Target selection loop
     while True:
@@ -185,8 +180,6 @@ def items(ally, enemy_team, ally_team):
 
         # Find target by name
         target = next((person for person in all_targets if person.name.lower() == target_name), None)
-        for t in target:
-            print(t.name)
 
         if target:
             break

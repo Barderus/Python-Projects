@@ -113,5 +113,4 @@ class Person:
                 f"\nMP: {self.mp}"
                 f"\tMagic Attack: {self.mgk_atk}"
                 f"\tMagic Defence: {self.mgk_def}"
-                f"\nItems: {self.items}"
                 f"\nSpells: {self.spells}")

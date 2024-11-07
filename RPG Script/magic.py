@@ -119,7 +119,7 @@ class Magic:
                 target.speed += 5
             print(f"{caster.name} casts {self.name}, buffing {target.name}.")
 
-        elif self.effect_type == "revive" and target.hp == 0:
+        elif self.effect_type == "revival" and target.hp == 0:
             target.hp += target.maxhp * 0.5
             print(f"{caster.name} revives {target.name}.")
 
