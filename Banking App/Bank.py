@@ -72,15 +72,15 @@ class Customer():
         self.__acc_type = acc_type
         
     def __str__(self):
-        display_str = f"Account type: {self.__acc_type}\nAccount Number: {self.__acc_num}\nValid Thru: {self.__exp_date}\tSec code: {self.__cv}\n\t{self.__name}"
-        
+        display_str = (f"Account type: {self.__acc_type}\nAccount Number: {self.__acc_num}"
+                       f"\nValid Thru: {self.__exp_date}\tSec code: {self.__cv}\n\t{self.__name}")
         return display_str
 
 
 
 class Checkings(Customer):
     '''
-    Checkings class that allows the user to see their balance, deposit money on the account, 
+    Checkings class that allows the user to see their balance, deposit money on the account,
     withdraw money off the account. It is a subclass of Customer. 
     '''
     def __init__(self, name, acc_num, exp_date, cv, acc_type, balance = 0.0):
@@ -114,7 +114,7 @@ class Checkings(Customer):
         else:            
             self.__balance -= amount
        
-    # Allows the usert to transfer money between accounts if the account has enough funds
+    # Allows the user to transfer money between accounts if the account has enough funds
     def transfer(self, recipient, amount):
         if amount <= self.__balance:
             self.__balance -= amount
@@ -127,7 +127,7 @@ class Checkings(Customer):
     def get_balance(self):
         return self.__balance
     
-    # Displaythe bank account information
+    # Display the bank account information
     def __str__(self) -> str:
         display_str = Customer.acc_num + f"Balance: ${self.__balance}"
         return display_str
@@ -135,11 +135,11 @@ class Checkings(Customer):
 
   
 class Savings(Customer):
-    
-    '''
-        Savings class that allows the user to see their balance, deposit money on the account, 
+
+    """
+        Savings class that allows the user to see their balance, deposit money on the account,
         withdraw money off the account, and calculate the interest rate. It is a subclass of Customer.
-    '''
+    """
     def __init__(self, name, acc_num, exp_date, cv, acc_type, balance = 0.0, interest_rate = 0.0):
         '''
         Constructor class that have as arguments:
@@ -198,7 +198,6 @@ class Savings(Customer):
         display_str = Customer.acc_num + f"Balance: ${self.__balance}\nInterest rate: {self.__interest_rate * 100:.1f}%"
         
         return display_str
-
 
 
 class Transactions(Checkings):
