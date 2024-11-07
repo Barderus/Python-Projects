@@ -22,4 +22,5 @@ class Inventory:
 
     def view_inventory(self):
         # Show each item with its name, quantity, and description
-        return {item: self.items[item].__repr__() for item in self.items}
+        return {item: str(self.items[item]) for item in self.items}
+

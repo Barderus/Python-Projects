@@ -119,4 +119,5 @@ class Items:
         self.quantity = max(0, self.quantity - amount)
 
     def __str__(self):
-        return f"\t\t{self.name} : {self.quantity}: x{self.description}"
+        return f"    {self.name} : {self.description}: x{self.quantity}"
+

@@ -53,13 +53,14 @@ def target_list(enemy_team):
 
 
 def treasure_table(main_team):
+
     items_per_ally = 3
     for ally in main_team:
         rewards = random.sample(all_items, items_per_ally)
         for reward in rewards:
+            print(reward)
             ally.inventory.add_item(reward)  # Add item to the inventory
-        print(f"{ally.name} received: {[item.name for reward in rewards]}")
-
+        print(f"{ally.name} received: {[reward.name for reward in rewards]}")
 
 
 def battle_screen(ally_team, enemy_team):
@@ -426,11 +427,13 @@ def main():
     print(bcolors.BOLD + bcolors.PURPLE + "\nYour team roster: " + bcolors.ENDC)
     for ally in main_team:
         print(f"\t- {ally.name}")
+
     clear()
     battle(main_team, enemies_fight)
     treasure_table(main_team)
     battle(main_team, enemies_fight2)
     treasure_table(main_team)
+
     for ally in main_team:
         ally.hp += ally.maxhp
         ally.mp = ally.maxmp
