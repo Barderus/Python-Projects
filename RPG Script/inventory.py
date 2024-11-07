@@ -1,3 +1,5 @@
+from items import Items
+
 class Inventory:
     def __init__(self):
         self.items = {}
@@ -7,7 +9,7 @@ class Inventory:
         if item.name in self.items:
             self.items[item.name].increase_quantity(item.quantity)
         else:
-            self.items[item.name] = item
+            self.items[item.name] = Items(item.name, item.effect, item.quantity, item.description)
 
     def remove_item(self, item_name, quantity):
         # If the item exists and the quantity is sufficient
