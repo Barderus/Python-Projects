@@ -4,7 +4,7 @@
    - [x] White Spells 
    - [x] Blue Spells
    - [x] Green Spells
-   - [] Revive is not working
+   - [x] Revive is working
 
 2. Add magic selection to the battle and make sure spells can be casted properly [x]
    - [x] Proper magic selection
@@ -23,7 +23,7 @@
    - [x] Added items to the characters inventory
    - [x] Added function and methods to use the items
    - [x] Testing all the items
-   - [x] Revive is working now
+   - [x] Phoenix down is working now
 
 5. Add color and visuals [x]
 
