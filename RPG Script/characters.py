@@ -9,13 +9,13 @@ thunder = Magic("Thunder", "black", 25, 45, 25, "damage",
                 "Lightning jolts from the mage's hand towards the enemy")
 blizzard = Magic("Blizzard", "black", 25, 45, 0, "damage",
                  "A cold wind forms icicles that shoot towards the enemy")
-meteor = Magic("Meteor", "black", 120, 200, 0, "damage",
+meteor = Magic("Meteor", "black", 150, 150, 0, "damage",
                "A small meteor shower crashes down upon all enemies")
-quake = Magic("Quake", "black", 80, 150, 0, "damage",
+quake = Magic("Quake", "black", 100, 100, 0, "damage",
               "The ground trembles as fissures open beneath all enemies' feet")
 tornado = Magic("Tornado", "black", 75, 65, 0, "damage",
                 "A fierce whirlwind surrounds the enemy, slashing at them with violent winds")
-ultima = Magic("Ultima", "black", 150, 250, 0, "damage",
+ultima = Magic("Ultima", "black", 150, 150, 0, "damage",
                "The ultimate destructive spell, causing catastrophic damage to all enemies")
 dark = Magic("Dark", "black", 30, 60, 0, "damage",
              "A shadowy force strikes the enemy, dealing damage and shrouding them in darkness.")
@@ -47,6 +47,13 @@ holy = Magic("Holy", "blue", 100, 175, 0, "damage",
              "A blinding light descends from above, purging the enemy with divine power.")
 flare = Magic("Flare", "blue", 110, 100, 0, "damage",
               "A concentrated burst of flames descends from the sky, engulfing the enemy and weakening everyone else..")
+
+
+# Bosses spells
+firaga = Magic("Breath of Fire", "black", 50, 150, 0, "damage",
+             "Ur-Dragon breathes a wall of fire towards the enemies")
+pandemonium = Magic("Pandemonium", "black", 200, 300, 0, "damage",
+               "Orcus bring hell upon all his enemies. Cursing every single enemy.")
 
 # Healing items
 healing_pot = Items("Healing Potion", "heal", 1, "Restore 100 HP")
@@ -87,24 +94,27 @@ initial_items = {
 # Creating player avatar
 avatars = {
     "fighter": Person(
-        name="Aragorn", hp=900, mp=60, atk=2000, df=70, speed=70, mgk_atk=50, mgk_def=50,
+        name="Aragorn", hp=900, mp=60, atk=200, df=70, speed=70, mgk_atk=50, mgk_def=50,
         spells=[],
-        descri="A fearless and stalwart protector, the Warrior excels in close combat and defense."
+        descri="A fearless and stalwart protector, the Warrior excels in close combat and defense.",
     ),
     "bruiser": Person(
         name="Gimli", hp=1800, mp=30, atk=180, df=100, speed=30, mgk_atk=30, mgk_def=60,
         spells=[],
-        descri="A stout and resilient fighter, known for his unwavering strength and indomitable spirit"
+        descri="A stout and resilient fighter, known for his unwavering strength and indomitable spirit",
+
     ),
     "barbarian": Person(
         name="Conan", hp=950, mp=30, atk=220, df=50, speed=60, mgk_atk=40, mgk_def=50,
         spells=[],
-        descri="A fierce and untamed warrior, the Barbarian relies on raw power and savage attacks to overwhelm foes."
+        descri="A fierce and untamed warrior, the Barbarian relies on raw power and savage attacks to overwhelm foes.",
+
     ),
     "healer": Person(
         name="Aerith", hp=700, mp=360, atk=30, df=80, speed=45, mgk_atk=150, mgk_def=100,
         spells=[cura, curaga, revive, flare],
-        descri="A compassionate and wise protector, the Healer specializes in restoring hp and safeguarding allies."
+        descri="A compassionate and wise protector, the Healer specializes in restoring hp and safeguarding allies.",
+
     ),
     "green mage": Person(
         name="Gandalf", hp=750, mp=400, atk=80, df=75, speed=40, mgk_atk=200, mgk_def=90,
@@ -199,7 +209,6 @@ initial_items_enemies = {
     "knight": [hi_pot, protect_coat, hermes_shoes],
     "necro": [witch_hat, faerie_bless, ether, healing_pot],
     "troll": [red_fang],
-    # Add other enemies with their respective items as needed
 }
 
 # Creating enemies
@@ -284,22 +293,47 @@ enemies["necro"].spell_weights = {
 
 initial_items_bossess = {
     "lich": [hi_elixir, hi_pot, phoenix_down],
+    "demon": [hi_elixir, hi_pot, phoenix_down],
 }
 
 bosses = {
     "dragon": Person(
-        name="Ur-Dragon", hp=4000, mp=500, atk=250, df=100, speed=100, mgk_atk=200, mgk_def=100,
-        spells=[curaga, fire],
-        descri=""
-    ),
+        name="Ur-Dragon", hp=4000, mp=500, atk=300, df=100, speed=100, mgk_atk=200, mgk_def=100,
+        spells=[firaga],
+        descri="",
+        boss = True
+
+),
     "lich": Person(
-        name="Lich", hp=2000, mp=1000, atk=100, df=80, mgk_atk=250, speed=60, mgk_def=100,
-        spells=[meteor, dark, drain, quake, cura, revive],
-        descri=""
+        name="Lich", hp=2000, mp=1000, atk=100, df=100, mgk_atk=300, speed=100, mgk_def=120,
+        spells=[meteor, dark, drain, quake, ultima, curaga, revive, fire],
+        descri="",
+        boss=True
+
     ),
     "demon": Person(
-        name="Orcus", hp=6666, mp=666, atk=166, df=99, mgk_atk=99, speed=120, mgk_def=99,
-        spells=[],
-        descri=""
+        name="Orcus", hp=6666, mp=666, atk=333, df=99, mgk_atk=99, speed=120, mgk_def=99,
+        spells=[pandemonium ],
+        descri="",
+        boss=True
+
     )
+}
+
+bosses["lich"].spell_weights = {
+    meteor: 3,
+    dark: 4,  # High chance of using Dark
+    drain: 3,  # Medium chance
+    fire: 4,  # Lower chance
+    quake: 5,  # Highest likelihood
+    ultima:3,
+    curaga:0,
+    revive:0,
+}
+bosses["dragon"].spell_weights = {
+    firaga: 5
+}
+
+bosses["demon"].spell_weights = {
+    pandemonium: 5
 }
