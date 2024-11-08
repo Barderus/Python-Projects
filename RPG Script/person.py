@@ -5,7 +5,7 @@ from inventory import Inventory
 
 
 class Person:
-    def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, spells, descri, ):
+    def __init__(self, name, hp, mp, atk, df, speed, mgk_atk, mgk_def, spells, descri,boss=False ):
         self.name = name
         self.hp = hp
         self.maxhp = hp
@@ -19,6 +19,7 @@ class Person:
         self.inventory = Inventory()
         self.spells = spells
         self.descri = descri
+        self.boss = boss
 
         # For enemies: stores weights of each spell if needed
         self.spell_weights = {spell: 1 for spell in spells}
@@ -103,7 +104,7 @@ class Person:
         # Print the character stats line
         print("                     _________________________              __________ ")
         print(
-            f"{bcolors.BOLD}{self.name:<20}{(current_hp)} |{bcolors.GREEN}{hp_bar}{bcolors.ENDC}|    {current_mp} |{bcolors.BLUE}{mp_bar}{bcolors.ENDC}|")
+            f"{bcolors.BOLD}{self.name:<20}{current_hp} |{bcolors.GREEN}{hp_bar}{bcolors.ENDC}|    {current_mp} |{bcolors.BLUE}{mp_bar}{bcolors.ENDC}|")
 
     def __str__(self):
         return (f"Name: {self.name}"
