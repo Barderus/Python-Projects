@@ -15,7 +15,6 @@
 3. Add pep up (like DQ11) and range of damage for both physical and magical attacks
    - [x] Add attack and mgk_attack range
    - [x] Add critical hits
-   - [ ] Add Pep Up () ( Increase speed, atk, def, mgk_atk, mgk_def, critical_rate by 20%) Lasts 3 turns.
 
 4. Add items to the game. [x]
    - [x] Added healing items

@@ -425,7 +425,7 @@ def battle(ally_team, enemies_team):
         turn += 1
 
         if all(enemy.hp <= 0 for enemy in enemies_team):
-            print(f"{bcolors.GREEN}{bcolors.BOLD} All enemies are defeated! You win! {bcolors.ENDC}")
+            print(f"\n{bcolors.GREEN}{bcolors.BOLD} All enemies are defeated!{bcolors.ENDC}")
             running = False
             break
         if all(allies.hp <= 0 for allies in ally_team):
@@ -448,6 +448,7 @@ def battle(ally_team, enemies_team):
 
 
 def main():
+
     thread = Thread(target=play_sound)
     thread.start()
 
@@ -467,14 +468,32 @@ def main():
         print(f"\t- {ally.name}")
 
     clear()
-    battle(main_team, boss_fight)
     battle(main_team, enemies_fight)
-    treasure_table(main_team)
-    battle(main_team, enemies_fight2)
-    treasure_table(main_team)
-    clear()
-    print() # PRINT HERE MESSAGE
-    battle(main_team, boss_fight)
+    print("You stumble upon an ancient, dust-covered treasure chest hidden in the corner of the room. What secrets, or dangers, might lie within?")
+    user_choice = input("Do you wish to open the chest? [Yes] [No]").lower()
+
+    if user_choice == "yes":
+        treasure_table(main_team)
+    else:
+        battle(main_team, enemies_fight2)
+
+    print("You stumble upon an stylish, golden-covered treasure chest hidden in the corner of the room. What secrets, or dangers, might lie within?")
+    user_choice = input("Do you wish to open the chest? [Yes] [No]").lower()
+
+    if user_choice == "yes":
+        rand_num = random.randint(1, 2)
+        if rand_num == 1:
+            treasure_table(main_team)
+        elif rand_num == 2:
+            for ally in allies_team:
+                ally.hp = ally.maxhp
+                ally.mgk_def += 10
+    else:
+        clear()
+        print(
+            f"{bcolors.RED}{bcolors.BOLD}Prepare yourself, for this battle will test your strength, strategy, and resolve. "
+            f"\nThe fate of your party rests in your hands...{bcolors.ENDC}")
+        battle(main_team, boss_fight)
 
 
 if "__main__" == __name__:
