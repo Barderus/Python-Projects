@@ -228,7 +228,7 @@ def select_enemy_spell(enemy):
     return chosen_spell
 
 
-def enemy_attack(ally_team, enemy):
+def enemy_attack(ally_team, enemy, enemies_team):
     # Select only alive allies
     alive_allies = [ally for ally in ally_team if ally.hp > 0]
 
@@ -245,11 +245,54 @@ def enemy_attack(ally_team, enemy):
     low_hp_ally = sorted_by_hp[0]
     target_ally = low_hp_ally
 
-    # Check if enemy has spells and prioritizes magic
-    if enemy.spells and enemy.mgk_atk > enemy.atk:
-        spell = select_enemy_spell(enemy)
-        enemy.cast_magic(low_hp_ally, spell)
-        return
+    # Boss logic for AoE attack if any ally is at full HP
+    if enemy.boss:
+        if any(ally.hp == ally.maxhp for ally in ally_team):  # Check if any ally is at full HP
+            if enemy.name == "Lich":
+                meteor_spell = next((spell for spell in enemy.spells if spell.name == "Meteor"), None)
+                if meteor_spell:
+                    enemy.cast_magic(ally_team, meteor_spell)
+                    return  # After casting AoE, return to prevent further attacks
+            elif enemy.name == "Dragon":
+                firaga_spell = next((spell for spell in enemy.spells if spell.name == "Breath of Fire"), None)
+                if firaga_spell:
+                    enemy.cast_magic(ally_team, firaga_spell)
+                    return  # After casting AoE, return to prevent further attacks
+            elif enemy.name == "Orcus":
+                hell_spell = next((spell for spell in enemy.spells if spell.name == "Pandemonium"), None)
+                if hell_spell:
+                    enemy.cast_magic(ally_team, hell_spell)
+                    return  # After casting AoE, return to prevent further attacks
+
+        # Revive, Heal or Attack Logic (after AoE check)
+        for char in enemies_team:
+            if char.hp <= 0:
+                revive_spell = next((spell for spell in enemy.spells if spell.name == "Revive"), None)
+                if revive_spell:
+                    enemy.cast_magic(char, revive_spell)
+                else:
+                    chosen_item = next((i for i in enemy.inventory.items.values() if i.name.lower() == "phoenix down"), None)
+                    if chosen_item:
+                        chosen_item.use_item(char)
+
+            elif char.hp < (char.maxhp // 2):
+                curaga_spell = next((spell for spell in enemy.spells if spell.name == "Curaga"), None)
+                if curaga_spell:
+                    enemy.cast_magic(char, curaga_spell)
+                else:
+                    chosen_item = next((i for i in enemy.inventory.items.values() if i.name.lower() == "hi-potion"), None)
+                    if chosen_item:
+                        chosen_item.use_item(char)
+
+    # Check if enemy has spells and prioritize magic
+    if enemy.spells:
+        # Determine whether to cast magic or use physical attack
+        magic_priority = enemy.mgk_atk / (enemy.mgk_atk + enemy.atk)  # Calculate a magic priority ratio
+        if random.random() < magic_priority:  # Cast magic based on the priority ratio
+            spell = select_enemy_spell(enemy)
+            if spell:
+                enemy.cast_magic(low_hp_ally, spell)
+                return
 
     # Fallback to physical attack if no spells or insufficient MP
     if low_hp_ally.hp < (low_hp_ally.maxhp // 2) and low_hp_ally.mgk_def < low_hp_ally.df:
@@ -260,12 +303,13 @@ def enemy_attack(ally_team, enemy):
         random_high_atk = random.choice(sorted_by_atk)
 
         ally_list = [random_low_mgk] if random_low_mgk == random_high_atk else [random_low_mgk, random_high_atk]
-        target_ally = random.choice(ally_list)  # Select the final target for attack
+        target_ally = random.choice(ally_list)
 
     enemy.attacks(target_ally)
 
     if target_ally.hp == 0:
         print(f"{target_ally.name} is " + bcolors.BOLD + bcolors.RED + "dead" + bcolors.ENDC)
+
 
 
 def prompt():
@@ -329,7 +373,7 @@ def gen_enemies():
         enemy_fight_set2.add(random.choice(enemy_list))
 
     # Select the enemies for the boss fight
-    for x in range(1, 3):
+    for x in range(1, 4):
         boss_fight_set.add(random.choice(enemy_list))
     boss_fight_set.add(random.choice(boss_list))
 
@@ -366,9 +410,6 @@ def battle(ally_team, enemies_team):
     for char in char_list:
         char_q.append(char)
 
-    #for char in char_q:
-      # print(char.name)
-
     print()
     while running and char_q:
         print(
@@ -380,7 +421,7 @@ def battle(ally_team, enemies_team):
             if current_char in ally_team:
                 actions(current_char, enemies_team, ally_team)
             elif current_char in enemies_team:
-                enemy_attack(ally_team, current_char)
+                enemy_attack(ally_team, current_char, enemies_team)
         turn += 1
 
         if all(enemy.hp <= 0 for enemy in enemies_team):
@@ -426,14 +467,13 @@ def main():
         print(f"\t- {ally.name}")
 
     clear()
+    battle(main_team, boss_fight)
     battle(main_team, enemies_fight)
     treasure_table(main_team)
     battle(main_team, enemies_fight2)
     treasure_table(main_team)
-
-    for ally in main_team:
-        ally.hp += ally.maxhp
-        ally.mp = ally.maxmp
+    clear()
+    print() # PRINT HERE MESSAGE
     battle(main_team, boss_fight)
 
 
