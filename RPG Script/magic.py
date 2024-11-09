@@ -86,7 +86,7 @@ class Magic:
             # Check for Drain spell
             if self.name == "Drain":
                 target.hp = max(0, target.hp - magic_dmg)
-                recovery = magic_dmg * 0.25
+                recovery = magic_dmg // 2
                 caster.hp += recovery
                 print(
                     f"{caster.name} casts {self.name} on {target.name}, dealing {int(magic_dmg)} damage. {caster.name} recovers {int(recovery)} HP.")

@@ -474,8 +474,12 @@ def main():
 
     if user_choice == "yes":
         treasure_table(main_team)
-    else:
-        battle(main_team, enemies_fight2)
+
+    for char in enemies_fight2:
+        char.hp=char.maxhp
+        char.mp=char.maxmp
+
+    battle(main_team, enemies_fight2)
 
     print("You stumble upon an stylish, golden-covered treasure chest hidden in the corner of the room. What secrets, or dangers, might lie within?")
     user_choice = input("Do you wish to open the chest? [Yes] [No]").lower()
@@ -488,12 +492,14 @@ def main():
             for ally in allies_team:
                 ally.hp = ally.maxhp
                 ally.mgk_def += 10
-    else:
-        clear()
-        print(
-            f"{bcolors.RED}{bcolors.BOLD}Prepare yourself, for this battle will test your strength, strategy, and resolve. "
-            f"\nThe fate of your party rests in your hands...{bcolors.ENDC}")
-        battle(main_team, boss_fight)
+    clear()
+    print(
+        f"{bcolors.RED}{bcolors.BOLD}Prepare yourself, for this battle will test your strength, strategy, and resolve. "
+        f"\nThe fate of your party rests in your hands...{bcolors.ENDC}")
+    for char in boss_fight:
+        char.hp=char.maxhp
+        char.mp=char.maxmp
+    battle(main_team, boss_fight)
 
 
 if "__main__" == __name__:
