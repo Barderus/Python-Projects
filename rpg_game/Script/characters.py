@@ -141,7 +141,7 @@ initial_items_allies = {
 allies = {
     "liora": Person(
         name="Liora the Healer", hp=600, mp=360, atk=55, df=50, speed=35, mgk_atk=180, mgk_def=100,
-        spells=[cure, cura, curaga, revive, protect, shell],
+        spells=[blizzard, cure, cura, curaga, revive, protect, shell],
         descri="A compassionate healer from the White Lotus Order. Liora is known for her ability to mend even the most grievous wounds."
     ),
     "zarek": Person(
@@ -243,6 +243,22 @@ enemies = {
         spells=[],
         descri=""
     ),
+
+    "hydra": Person(
+        name="Hydra", hp=1700, mp= 10, atk=200, df=100, speed=50, mgk_atk = 0, mgk_def= 50,
+        spells=[],
+        descri=""
+    ),
+    "worm":Person(
+        name="Fire Worm", hp=870, mp=200, atk=100, df=90, speed=70, mgk_atk=175, mgk_def=50,
+        spells=[fire],
+        descri=""
+    ),
+    "floating_wizard":Person(
+        name="Floating Wizard", hp=630, mp=800, atk=50, df=45, speed=70, mgk_atk=250, mgk_def=150,
+        spells=[fire, blizzard, thunder, tornado, meteor, bio],
+        descri=""
+    )
 }
 
 # Populate each enemy's inventory from the initial_items_enemies dictionary
