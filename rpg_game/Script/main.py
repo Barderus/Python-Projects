@@ -11,16 +11,16 @@ from characters import *
 def play_sound():
     # List of songs
     songs = [
-        "Music/AudioCoffee Band - Cinematic Galactic.mp3",
-        "Music/ArcSound - Dark Horror Nightmare.mp3",
-        "Music/BlackTrendMusic - Epic.mp3",
-        "Music/Lowtone Music - Cinematic Soundtrack.mp3",
-        "Music/Lowtone Music - Dark Trailer.mp3",
-        "Music/Lowtone Music - Epic Action.mp3",
-        "Music/Lowtone Music - Fantasy Teaser.mp3",
-        "Music/Lowtone Music - Get Up & Fight.mp3",
-        "Music/Lowtone Music - This is War - Cinematic Epic.mp3",
-        "Music/UNIVERSFIELD - Gloomy Depths.mp3"
+        "../Music/AudioCoffee Band - Cinematic Galactic.mp3",
+        "../Music/ArcSound - Dark Horror Nightmare.mp3",
+        "../Music/BlackTrendMusic - Epic.mp3",
+        "../Music/Lowtone Music - Cinematic Soundtrack.mp3",
+        "../Music/Lowtone Music - Dark Trailer.mp3",
+        "../Music/Lowtone Music - Epic Action.mp3",
+        "../Music/Lowtone Music - Fantasy Teaser.mp3",
+        "../Music/Lowtone Music - Get Up & Fight.mp3",
+        "../Music/Lowtone Music - This is War - Cinematic Epic.mp3",
+        "../Music/UNIVERSFIELD - Gloomy Depths.mp3"
     ]
 
     mixer.init()
@@ -316,8 +316,27 @@ def prompt():
     """
         This function displays a welcoming message and prompts the user for their characters.
     """
-    print(
-        f"{bcolors.BOLD}{bcolors.YELLOW}\n\t\t\t\tWelcome to {bcolors.UNDERLINE}Dungeons and the Ur-Dragon!{bcolors.ENDC}\n\n")
+    print(f"""
+                                {bcolors.YELLOW}{bcolors.BOLD}Dungeons and the Ur-Dragon{bcolors.ENDC}
+                                ~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                               __====-_  _-====__
+                          _--^^^#####//      \\#####^^^--_
+                       _-^##########// (    ) \\##########^-_
+                      -############//  |\^^/|  \\############-
+                    _/############//   (@::@)   \\############\_
+                   /#############((     \\//     ))#############\
+                   
+                  -###############\\    (oo)    //###############-
+                 -#################\\  / ** \  //#################-
+                -###################\\/      \//###################-
+               _#/|##########/\######(   /\   )######/\##########|\#_
+               |/ |#/\#/\#/\/  \#/\#\ \ |  | / /\#/\#/\  \/\#/\#| \|
+               |/   |/   |/      |/     |||     |/      |/   |/  \|
+                \_____________________|||_____________________/
+                  |_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|_|
+
+    """)
     print(
         f"\tAre you ready to embark on an {bcolors.BOLD}epic adventure{bcolors.ENDC}, defeat the forces of {bcolors.RED}evil{bcolors.ENDC},")
     print(f"\tand become a {bcolors.GREEN}legendary hero{bcolors.ENDC}?\n\n{bcolors.ENDC}")
