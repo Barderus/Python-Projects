@@ -1,6 +1,5 @@
 import pygame
 from spritesheet import SpriteSheet
-from fighter import *
 
 pygame.init()
 clock = pygame.time.Clock()
@@ -24,18 +23,56 @@ background_img = pygame.transform.scale(background_img, (SCREEN_WIDTH, SCREEN_HE
 panel_img = pygame.image.load("../Images/Background/panel.png").convert_alpha()
 panel_img = pygame.transform.scale(panel_img, (SCREEN_WIDTH, BOTTOM_PANEL))
 
+# Ghoul animation
 ghoul_atk_img = pygame.image.load("../Images/Characters/2 - Row/Ghoul/Attack/Attack1.png").convert_alpha()
-sprite_sheet = SpriteSheet(ghoul_atk_img)
+ghoul_sprite_sheet = SpriteSheet(ghoul_atk_img)
 
-# Animation list
-animation_list = []
-animation_steps = 11
+# Wraith animation
+wraith_atk_img = pygame.image.load("../Images/Characters/2 - Row/Wraith/Attack/Attack3.png").convert_alpha()
+wraith_sprite_sheet = SpriteSheet(wraith_atk_img)
+
+# Dark Wizard
+dark_wizard_atk_img = pygame.image.load("../Images/Characters/2 - Row/Dark Wizard/Attack1.png")
+dark_wizard_sprite_sheet = SpriteSheet(dark_wizard_atk_img)
+
+# Fire worm
+fire_worm_atk_img = pygame.image.load("../Images/Characters/2 - Row/Fire Worm/Attack/Attack.png")
+fire_worm_sprite_sheet = SpriteSheet(fire_worm_atk_img)
+
 last_update = pygame.time.get_ticks()
-animation_cooldown = 75 # 75ms
-frame = 0
+animation_cooldown = 75# 75ms
+ghoul_frame = 0
+wraith_frame = 0
+d_wizard_frame = 0
+fire_worm_frame = 0
 
-for x in range(animation_steps):
-    animation_list.append(sprite_sheet.get_image( x, 144, 110, 2, BLACK))
+
+# Animation list for ghoul
+ghoul_animation_list = []
+ghoul_animation_steps = 11
+for x in range(ghoul_animation_steps):
+    ghoul_animation_list.append(ghoul_sprite_sheet.get_image( x, 144, 110, 2, BLACK))
+
+# Animation list for wraith
+wraith_animation_list = []
+wraith_animation_steps = 14
+for x in range(wraith_animation_steps):
+     wraith_animation_list.append(wraith_sprite_sheet.get_image( x, 200, 190, 2, BLACK, True))
+
+# Animation list for dark wizard
+dark_wizard_animation_list = []
+dark_wizard_animation_steps = 8
+for x in range(dark_wizard_animation_steps):
+     dark_wizard_animation_list.append(dark_wizard_sprite_sheet.get_image( x, 250, 190, 2, BLACK, True))
+
+
+# Animation list for fire worm
+fire_worm_animation_list = []
+fire_worm_animation_steps = 16
+for x in range(fire_worm_animation_steps):
+     fire_worm_animation_list.append(fire_worm_sprite_sheet.get_image( x, 90, 190, 2, BLACK, True))
+
+
 
 
 def draw_bg():
@@ -45,7 +82,6 @@ def draw_bg():
 def draw_panel():
     #draw panel rectangle
     screen.blit(panel_img, (0, SCREEN_HEIGHT - BOTTOM_PANEL))
-    #show knight stats
 
 
 def draw_menu_action():
@@ -69,14 +105,25 @@ while running:
     # Update animation
     current_time = pygame.time.get_ticks()
     if current_time - last_update >= animation_cooldown:
-        frame += 1
+        ghoul_frame += 1
+        wraith_frame += 1
+        d_wizard_frame += 1
+        fire_worm_frame += 1
+
         last_update = current_time
-        if frame >= len(animation_list):
-            frame = 0
+        if ghoul_frame >= len(ghoul_animation_list):
+            ghoul_frame = 0
+        if wraith_frame >= len(wraith_animation_list):
+            wraith_frame = 0
+        if d_wizard_frame >= len(dark_wizard_animation_list):
+            d_wizard_frame = 0
+        if fire_worm_frame >= len(fire_worm_animation_list):
+            fire_worm_frame = 0
 
-
-    screen.blit(animation_list[frame], (550, 330))
-    pygame.display.update()
+    screen.blit(wraith_animation_list[wraith_frame], (550, 120))
+    screen.blit(ghoul_animation_list[ghoul_frame], (550, 330))
+    screen.blit(dark_wizard_animation_list[d_wizard_frame], (750, 150))
+    screen.blit(fire_worm_animation_list[fire_worm_frame], (800, 150))
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
