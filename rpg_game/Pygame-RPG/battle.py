@@ -1,5 +1,5 @@
 import pygame
-
+from Fighter import *
 pygame.init()
 
 clock = pygame.time.Clock()
@@ -40,6 +40,9 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
 
+hero = Fighter("Aerith", 100, 100, 100, 100, 100, 100, 100, None, 64, 64)
+
+
 def draw_bg():
     screen.blit(background_img, (0, 0))
 
@@ -69,19 +72,14 @@ while run:
 
     # draw panel
     draw_panel()
-    # control player actions
-    # reset action variables
-    attack = False
-    potion = False
-    target = None
+
+    # Update and draw the fighter
+    hero.update()
+    hero.draw(screen)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             run = False
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            clicked = True
-        else:
-            clicked = False
 
     pygame.display.update()
 
