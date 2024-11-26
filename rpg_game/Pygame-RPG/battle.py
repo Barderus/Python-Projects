@@ -40,7 +40,7 @@ RED = (255, 0, 0)
 GREEN = (0, 255, 0)
 
 
-hero = Fighter("Aerith", 100, 100, 100, 100, 100, 100, 100, None, 64, 64)
+hero = Fighter("Fire Worm", 100, 100, 100, 100, 100, 100, 100, None, 64, 64)
 
 
 def draw_bg():
@@ -81,6 +81,34 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    pygame.display.update()
+    # 0 = Idle
+    # 1 = Attack
+    # 2 = Hurt
+    # 3 = Death
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_UP:   # Idle
+                hero.action = 0
+                hero.frame_index = 0
+            elif event.key == pygame.K_RIGHT:
+                hero.action = 1
+                hero.frame_index = 0
+            elif event.key == pygame.K_DOWN:
+                hero.action = 2
+                hero.frame_index = 0
+            elif event.key == pygame.K_LEFT:
+                hero.action = 3
+                hero.frame_index = 0
 
+        # Update the Fighter's animation
+        hero.frame_index += 1
+        if hero.frame_index >= len(hero.animation_list[hero.action]):
+            hero.frame_index = 0  # Loop the animation
+
+        # Draw the current frame of the hero
+        current_frame = hero.animation_list[hero.action][hero.frame_index]
+        screen.blit(current_frame, (hero.xcoord, hero.ycoord))
+
+    pygame.display.update()
 pygame.quit()
+
+

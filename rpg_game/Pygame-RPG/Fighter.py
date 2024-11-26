@@ -61,7 +61,7 @@ class Fighter:
         color = (0, 0, 0)  # Black background to be transparent
 
         # Load and store each character sprites
-        #                                       Images\Characters\Aerith\Idle
+        #                                       Images\Characters\{}\Idle
         idle_sheet = SpriteSheet(images_folder=f'../Images/Characters/{self.name}/Idle')
         attack_sheet = SpriteSheet(images_folder=f'../Images/Characters/{self.name}/Attack')
         hurt_sheet = SpriteSheet(images_folder=f'../Images/Characters/{self.name}/Hurt')
