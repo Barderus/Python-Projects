@@ -15,48 +15,42 @@ pygame.init()
         self.frames: An empty list intended to store individual frames extracted from the sprite sheet.
 """
 class SpriteSheet:
-    def __init__(self, image = None, images_folder=None):
-        self.sheet = image
+    def __init__(self, images_folder):
+        """
+                Initialize the SpriteSheet class.
+                :param images_folder: Folder containing individual frames for animations.
+        """
         self.images_folder = images_folder
-        self.is_sprite_sheet = image is not None
-        self.frames = []
+        if not os.path.exists(self.images_folder):
+            raise FileNotFoundError(f"Folder '{self.images_folder}' does not exist.")
 
-    """
-    Parameters:
-        frame: The index of the frame to extract (starting from 0).
-        width: The width of each frame in the sprite sheet.
-        height: The height of each frame in the sprite sheet.
-        scale: A scaling factor to resize the frame.
-        color: A color that should be treated as transparent in the frame (set as the "colorkey").
-        flip: A boolean indicating whether the frame should be flipped horizontally.
-    """
-    # Get frames out of a single spreadsheet
-    def get_image(self, frame, width, height, scale, color, flip=False):
-        image = pygame.Surface((width, height)).convert_alpha()
-        image.blit(self.sheet, (0, 0), ((frame * width), 0, width, height))
-
-        image = pygame.transform.scale(image, (width * scale, height * scale))
-
-        if flip:
-            image = pygame.transform.flip(image, True, False)
-        image.set_colorkey(color)
-
-        return image
-
-    def get_frames(self, file_path, width, height, scale, color, flip=False):
+    def get_frames(self, scale, color, flip=False):
+        """
+        Load all frames from the folder.
+        :param scale: Scaling factor for resizing.
+        :param color: Transparency color (colorkey).
+        :param flip: Whether to flip the frame horizontally.
+        :return: List of pygame.Surface frames.
+        """
         frames = []
-        images = sorted(os.listdir(self.images_folder))  # Removed file_path; using self.images_folder directly
+        images = os.listdir(self.images_folder)
 
         if not images:
             print(f"No images found in {self.images_folder}")
             return frames
 
+        # Load each image
         for image_file in images:
-            img = pygame.image.load(os.path.join(self.images_folder, image_file)).convert_alpha()
-            img = pygame.transform.scale(img, (width * scale, height * scale))
-            img.set_colorkey(color)
-            if flip:
-                img = pygame.transform.flip(img, True, False)
-            frames.append(img)
+            try:
+                img_path = os.path.join(self.images_folder, image_file)
+                img = pygame.image.load(img_path).convert_alpha()
+                width, height = img.get_size()
+                img = pygame.transform.scale(img, (int(width * scale), int(height * scale)))
+                img.set_colorkey(color)
+                if flip:
+                    img = pygame.transform.flip(img, True, False)
+                frames.append(img)
+            except Exception as e:
+                print(f"Error loading image '{image_file}': {e}")
 
         return frames
